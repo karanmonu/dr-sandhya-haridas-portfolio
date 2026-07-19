@@ -6,16 +6,19 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Focus = "default" | "delivery" | "ai" | "certs";
+type Focus = "default" | "delivery" | "aerospace" | "engineering" | "credentials";
 
 const NARRATION: Record<Focus, string> = {
   default:
-    "System online. I am Dr. Sandhya's digital twin interface. Explore her professional delivery matrix below to audit 23+ years of enterprise technology leadership.",
+    "System online. I am Dr. Sandhya's digital twin interface layer. Auditing a verified history spanning 23+ years of global technology delivery and digital transformation.",
   delivery:
-    "Analyzing delivery tracking tracks: Agile and Lean management parameters verified. Directing multi-tier application roadmaps to support global corporate strategy.",
-  ai: "Analyzing intelligent automation matrices: Deploying predictive modeling, computer vision layers, and enterprise risk analytics frameworks.",
-  certs:
-    "Credentials authenticated: Certified Data Scientist (CDS) and Artificial Intelligence Expert matrices actively mapped to layout infrastructure.",
+    "Analyzing Global Delivery tracks: Industry X.0 robotics, MES software pipelines, and AI-led monetization channels are fully operational.",
+  aerospace:
+    "Analyzing aerospace systems: SAFe Agile frameworks deployed. Core Edge aircraft communication data protocols and structural stress dossiers successfully verified.",
+  engineering:
+    "Accessing early core research parameters: Thermal algorithms for vacuum environments mapped. Six-Sigma verification metrics validated.",
+  credentials:
+    "Credentials authenticated: Google Cybersecurity, Azure, AWS, Certified Data Scientist and AI Expert matrices actively mapped to layout infrastructure.",
 };
 
 function useTypewriter(text: string, speed = 18) {
