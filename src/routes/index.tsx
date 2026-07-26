@@ -90,6 +90,7 @@ type Job = {
   company: string;
   role: string;
   logoUrl: string;
+  fallback?: string;
   location?: string;
   abstract: string;
   pillars?: { title: string; body: string }[];
@@ -271,6 +272,7 @@ const AEROSPACE_JOBS: Job[] = [
     company: "Creative Synergies Group",
     role: "Senior Manager — Aerospace",
     logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
+    fallback: "CS",
     abstract:
       "Managed strategic planning and account profitability for onsite/offshore aerospace accounts. Ramped up offshore teams for Ferchau Engineering and Diehl Aircabin (A350/A380), achieving an outstanding 4.8/5 delivery scorecard rating.",
     domains: ["Account Management", "Offshore Delivery", "AIRBUS Programs"],
@@ -306,6 +308,27 @@ const ENGINEERING_JOBS: Job[] = [
     domains: ["Thermal Algorithms", "X-Ray Systems", "Six-Sigma"],
   },
 ];
+
+function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallback: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !src) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-[color:var(--gold)]/15 font-mono-tech text-[10px] font-bold text-[color:var(--gold-strong)] uppercase tracking-tight">
+        {fallback}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setHasError(true)}
+      className="h-full w-full object-contain p-0.5"
+    />
+  );
+}
 
 function Index() {
   const [focus, setFocus] = useState<Focus>("default");
@@ -460,7 +483,6 @@ function Index() {
           />
 
           {/* EXECUTIVE SEAL BADGE (Replaces AI Twin) */}
-          {/* EXECUTIVE SEAL BADGE (Mobile Responsive & Repositioned) */}
           <div className="absolute -top-6 -right-2 z-20 md:-right-20 md:top-6">
             <div className="relative h-28 w-28 md:h-40 md:w-40">
               <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
@@ -497,7 +519,6 @@ function Index() {
           </div>
 
           {/* Desktop Live Narration Box */}
-          {/* Dynamic Executive Brief Box */}
           <div className="absolute left-[-8px] bottom-4 hidden w-[300px] md:block lg:left-[-40px] lg:w-[320px]">
             <div className="rounded-lg border border-border/70 bg-card/85 p-4 shadow-xl backdrop-blur-md">
               <div className="mb-2 flex items-center gap-2">
@@ -599,32 +620,33 @@ function Index() {
             </button>
           </div>
 
-          {/* TAB 1: POWER LIST 2026 */}
+          {/* TAB 1: FEATURED POWER LIST 2026 (RESPONSIVE TEXT FIX) */}
           {activeTab === "powerlist" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-6 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn">
-              <div className="col-span-12 md:col-span-4 flex flex-col gap-3">
-                <div className="inline-flex w-fit items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono-tech text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
-                  <Award className="w-3.5 h-3.5" /> Top IT Leader Attestation
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden">
+              <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
+                <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono-tech text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
+                  <Award className="w-3.5 h-3.5 shrink-0" />
+                  <span className="truncate">Top IT Leader Attestation</span>
                 </div>
-                <h3 className="font-sans-display text-3xl font-black tracking-tight uppercase mt-2">
+                <h3 className="font-sans-display text-2xl sm:text-3xl font-black tracking-tight uppercase mt-2 break-words">
                   The Power List{" "}
                   <span className="font-editorial italic font-normal text-[color:var(--gold-strong)]">
                     2026
                   </span>
                 </h3>
-                <span className="font-mono-tech text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+                <span className="font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                   Issued by CXO Lanes
                 </span>
               </div>
 
-              <div className="col-span-12 md:col-span-8 space-y-4">
-                <p className="font-editorial text-xl italic leading-relaxed text-foreground/90">
+              <div className="col-span-12 md:col-span-8 space-y-4 min-w-0">
+                <p className="font-editorial text-lg md:text-xl italic leading-relaxed text-foreground/90 break-words">
                   "Proud to be recognized among India’s Top IT Leaders – The Power List 2026 by CXO
                   Lanes for contributions to AI-driven transformation, digital innovation, and
                   industry leadership."
                 </p>
                 <div className="h-px w-16 bg-[color:var(--gold)]/60" />
-                <p className="text-sm leading-relaxed text-muted-foreground font-light">
+                <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light break-words">
                   Nominated for outstanding deployment tracks across Process Automation,
                   Reliability, Intelligent Systems scaling, and sustainable digital industrial
                   setups across Schneider Electric, Honeywell Aerospace, UTC Aerospace, and GE
@@ -1031,19 +1053,11 @@ function TimelineCard({ job }: { job: Job }) {
         </div>
 
         {/* Company Logo in Gold Ring Circle */}
-        <div className="mt-3 h-10 w-10 rounded-full border border-[color:var(--gold)] bg-white p-1.5 shadow-sm overflow-hidden flex items-center justify-center transition-transform group-hover:scale-110 shrink-0">
-          <img
+        <div className="h-8 w-8 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0 shadow-sm">
+          <CompanyLogo
             src={job.logoUrl}
-            alt={`${job.company} logo`}
-            className="h-full w-full object-contain"
-            onError={(e) => {
-              // Fallback to stylized monogram if logo image fails
-              const target = e.currentTarget;
-              target.style.display = "none";
-              if (target.parentElement) {
-                target.parentElement.innerHTML = `<span class="font-mono-tech text-[10px] font-bold text-zinc-900">${job.company.slice(0, 2).toUpperCase()}</span>`;
-              }
-            }}
+            alt={job.company}
+            fallback={job.fallback || job.company.substring(0, 2).toUpperCase()}
           />
         </div>
 
