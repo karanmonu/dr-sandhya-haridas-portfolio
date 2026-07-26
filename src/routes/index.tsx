@@ -1,6 +1,17 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
-import portrait from "@/assets/sandhya-portrait.asset.json";
+import {
+  BookOpen,
+  Briefcase,
+  MapPin,
+  ShieldAlert,
+  GraduationCap,
+  Award,
+  Linkedin,
+  Mail,
+  ArrowUpRight,
+} from "lucide-react";
+import portraitImg from "@/assets/portrait.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -9,36 +20,38 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Executive portfolio of Dr. Sandhya Haridas — 23+ years leading global delivery, AI strategy, and digital transformation across L&T Technology Services, Schneider Electric, Honeywell Aerospace, and more.",
+          "Executive portfolio of Dr. Sandhya Haridas — 23+ years leading global delivery, AI strategy, and digital transformation.",
       },
       { property: "og:title", content: "Dr. Sandhya Haridas — Executive Portfolio" },
-      {
-        property: "og:description",
-        content:
-          "23+ years of global technology delivery, AI-led transformation, and enterprise operations leadership.",
-      },
       { property: "og:type", content: "website" },
     ],
   }),
   component: Index,
 });
 
-type Focus = "default" | "delivery" | "aerospace" | "engineering" | "credentials";
+type Focus = "default" | "accolades" | "delivery" | "aerospace" | "engineering" | "credentials";
 
 const NARRATION: Record<Focus, string> = {
   default:
-    "System online. I am Dr. Sandhya's digital twin interface layer. Auditing a verified history spanning 23+ years of global technology delivery and digital transformation.",
+    "System online. Auditing a verified history spanning 23+ years of global technology delivery, Industry 4.0 adoption, and enterprise digital transformation.",
+
+  accolades:
+    "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation and leadership awards.",
+
   delivery:
-    "Analyzing Global Delivery tracks: Industry X.0 robotics, MES software pipelines, and AI-led monetization channels are fully operational.",
+    "Global Delivery tracks active: Directing P&L operations across Industry X.0 robotics, MES software pipelines, and AI-led recurring monetization frameworks.",
+
   aerospace:
-    "Analyzing aerospace systems: SAFe Agile frameworks deployed. Core Edge aircraft communication data protocols and structural stress dossiers successfully verified.",
+    "Aerospace systems verified: Deployed SAFe Agile Release Trains, core edge flight-to-ground communication protocols, and A350XWB structural stress dossiers.",
+
   engineering:
-    "Accessing early core research parameters: Thermal algorithms for vacuum environments mapped. Six-Sigma verification metrics validated.",
+    "Core engineering research mapped: Developed thermal algorithms for vacuum chambers at GE. Six-Sigma Green Belt & Best Kaizen Award recipient.",
+
   credentials:
-    "Credentials authenticated: Google Cybersecurity, Azure, AWS, Certified Data Scientist and AI Expert matrices actively mapped to layout infrastructure.",
+    "Academic credentials verified: Swiss School of Business (DBA in AI), Harvard Business School (Disruptive Strategy), and Bangalore University Engineering.",
 };
 
-function useTypewriter(text: string, speed = 14) {
+function useTypewriter(text: string, speed = 12) {
   const [out, setOut] = useState("");
   useEffect(() => {
     setOut("");
@@ -58,21 +71,16 @@ function useFocusOnScroll<T extends HTMLElement>(focus: Focus, set: (f: Focus) =
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const enter = () => set(focus);
     const io = new IntersectionObserver(
       (entries) => {
         entries.forEach((e) => {
-          if (e.isIntersecting && e.intersectionRatio > 0.35) set(focus);
+          if (e.isIntersecting && e.intersectionRatio > 0.2) set(focus);
         });
       },
-      { threshold: [0.35] },
+      { threshold: [0.2] },
     );
-    el.addEventListener("mouseenter", enter);
     io.observe(el);
-    return () => {
-      el.removeEventListener("mouseenter", enter);
-      io.disconnect();
-    };
+    return () => io.disconnect();
   }, [focus, set]);
   return ref;
 }
@@ -81,6 +89,7 @@ type Job = {
   year: string;
   company: string;
   role: string;
+  logoUrl: string;
   location?: string;
   abstract: string;
   pillars?: { title: string; body: string }[];
@@ -88,11 +97,120 @@ type Job = {
   domains: string[];
 };
 
+// 1. ENTERPRISE AWARDS DATA (7 Awards)
+const ENTERPRISE_AWARDS = [
+  {
+    title: "BU VP Choice Award",
+    issuer: "Schneider Electric",
+    date: "Apr 2025",
+    logoUrl: "https://unavatar.io/schneider-electric.com",
+    body: "Awarded for bringing up a world-class state-of-the-art facility for One Automation in Mahape, Mumbai, featuring a digitally optimized manufacturing setup and sustainable campus.",
+  },
+  {
+    title: "Global Digital Disruption Award",
+    issuer: "Schneider Electric",
+    date: "Mar 2024",
+    logoUrl: "https://unavatar.io/schneider-electric.com",
+    body: "Recognized for driving enterprise-wide digital transformation and embedding AI across industrial automation pipelines.",
+  },
+  {
+    title: "Program Management Excellence — Go Beyond",
+    issuer: "Honeywell Connected Enterprise",
+    date: "Dec 2020",
+    logoUrl: "https://unavatar.io/honeywell.com",
+    body: "Recognized for dedication and perseverance in driving the 131-9 HEM encryption key project to successful, on-time completion.",
+  },
+  {
+    title: "Go Beyond — STAR Award",
+    issuer: "Honeywell Aerospace",
+    date: "Jan 2018",
+    logoUrl: "https://unavatar.io/honeywell.com",
+    body: "Led the Aerospace stall during Employee Day 2017 in Bangalore, winning the event's Science and Technology Award.",
+  },
+  {
+    title: "Bronze Award — Be a Zealot for Growth",
+    issuer: "Honeywell Aerospace",
+    date: "Aug 2017",
+    logoUrl: "https://unavatar.io/honeywell.com",
+    body: "Contributed to idea evaluations during Blitz Week, driving business case analysis for Fuel Analytics and SOP Monitoring apps.",
+  },
+  {
+    title: "STAR Award — Connected World & IoT",
+    issuer: "Honeywell Aerospace",
+    date: "Mar 2017",
+    logoUrl: "https://unavatar.io/honeywell.com",
+    body: "Delivered an insightful competitive analysis covering 10 major operating companies in Connected Aircraft and IoT services.",
+  },
+  {
+    title: "Early Bird & Best Kaizen Awards",
+    issuer: "UTC Aerospace & GE Healthcare",
+    date: "2008 — 2009",
+    logoUrl: "https://unavatar.io/gehealthcare.com",
+    body: "Honored with the UTC Early Bird Award (Goodrich) and GE Healthcare Best Kaizen Award for thermal engineering process improvements.",
+  },
+];
+
+// 2. PUBLICATIONS & PROJECTS DATA
+const ARTIFACTS = {
+  publication: {
+    title: "Thermal Behaviour of Variable Conductance Heat Pipes in Vacuum Chambers",
+    publisher: "GE Patenting Forum / GE Healthcare",
+    date: "Oct 11, 2004",
+    logoUrl: "https://unavatar.io/gehealthcare.com",
+    body: "Published technical research evaluating thermal algorithms, heat sinks, and variable conductance pipe behavior inside vacuum environments for high-reliability medical equipment.",
+  },
+  projects: [
+    {
+      title: "Concessions — Premium Aerotech Augsburg Germany",
+      client: "Creative Synergies / AIRBUS",
+      date: "Oct 2011 – Feb 2012",
+      logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
+      body: "Stress focal for Sec 16/18 CDS/PDS and Sec 13/14 RPB on A350XWB. Cleared primary and secondary structures (frames, stringers, rear pressure bulkhead) according to Airbus SAP and quality guidelines.",
+    },
+    {
+      title: "A380 Fixed Trailing Edge Panel & B777 Damage Tolerance",
+      client: "Singapore Airlines / Zodiac Aerospace",
+      date: "Oct 2010 – Jul 2011",
+      logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
+      body: "Engineered temporary 3mm aluminium panel replacement solutions for A380 wing layouts (22 panels) and conducted fatigue/damage tolerance analysis for B777 fleets.",
+    },
+  ],
+};
+
+// 3. VOLUNTEERING & ADVOCACY DATA
+const VOLUNTEERING = [
+  {
+    role: "Director of Operations & Keynote Speaker",
+    organization: "UC Irvine",
+    period: "Apr 2026 – Present",
+    domain: "Science & Technology",
+    logoUrl: "https://unavatar.io/uci.edu",
+    body: "Keynote speaker bridging academic research and industrial execution across IIoT, Responsible AI, and Industry 4.0/5.0 transformation models.",
+  },
+  {
+    role: "Value Plus Education for Children",
+    organization: "ISKCON, Bangalore",
+    period: "Apr 2014 – Present",
+    domain: "Education & Human Values",
+    logoUrl: "https://unavatar.io/iskconbangalore.org",
+    body: "Content planning and weekend session delivery focused on building value-based education, moral values, and human character for youth programs.",
+  },
+  {
+    role: "Community Social Services Lead",
+    organization: "GE Volunteers",
+    period: "Apr 2003 – Oct 2005",
+    domain: "Social Services",
+    logoUrl: "https://unavatar.io/gehealthcare.com",
+    body: "Active participant in community upliftment, educational outreach, and social service initiatives during tenure at GE.",
+  },
+];
+
 const DELIVERY_JOBS: Job[] = [
   {
-    year: "2026 —",
+    year: "2026 — Present",
     company: "L&T Technology Services",
     role: "Vice President — Global Delivery Unit Head",
+    logoUrl: "https://unavatar.io/ltts.com",
     location: "Bangalore, India · On-site",
     abstract:
       "Directing the Global Delivery Unit for Industry X.0, Robotics, MES, and advanced Digital Manufacturing Services across North America, Europe, and India.",
@@ -101,24 +219,21 @@ const DELIVERY_JOBS: Job[] = [
   {
     year: "2022 — 2026",
     company: "Schneider Electric",
-    role: "BU Head · Director India-Delivery Operations — One Automation | Digitization",
+    role: "BU Head · Director India-Delivery Operations",
+    logoUrl: "https://unavatar.io/schneider-electric.com",
     abstract:
       "Full P&L accountability for the India Process Automation, Control, and Industrial Automation business lines.",
     pillars: [
       {
-        title: "Strategic & Growth Leadership",
+        title: "Strategic Growth Leadership",
         body: "Defining long-term vision, market expansion configurations, and disciplined capital allocation models.",
       },
       {
-        title: "Digital & AI-Led Transformation",
-        body: "Championing enterprise-wide digital initiatives embedding AI across Reliability & Predictive Maintenance, Process Optimization, Intelligent Automation, and AI-driven Sustainability / ESG metrics.",
-      },
-      {
-        title: "Operational Excellence",
-        body: "Leading integrated operations across Engineering, Manufacturing, Finance, Supply Chain, and Customer Service to optimize delivery lifecycle windows.",
+        title: "Digital & AI Transformation",
+        body: "Championing enterprise-wide digital initiatives embedding AI across Reliability & Predictive Maintenance, Process Optimization, and Sustainability metrics.",
       },
     ],
-    domains: ["P&L", "AI Transformation", "Industrial Automation", "ESG"],
+    domains: ["P&L Operations", "AI Transformation", "Industrial Automation"],
   },
 ];
 
@@ -126,7 +241,8 @@ const AEROSPACE_JOBS: Job[] = [
   {
     year: "2015 — 2022",
     company: "Honeywell Aerospace",
-    role: "Senior Manager — Next Gen Software Solutions, NPIs, Connected Enterprise Solutions",
+    role: "Senior Manager — Next Gen Software Solutions",
+    logoUrl: "https://unavatar.io/honeywell.com",
     abstract:
       "Overseeing global delivery operations for E-Commerce, SaaS offerings, and Next Generation Software Applications.",
     pillars: [
@@ -138,36 +254,26 @@ const AEROSPACE_JOBS: Job[] = [
         title: "Core Edge Frameworks",
         body: "Built Core Edge frameworks executing real-time data transmission profiles from aircraft to ground communication systems.",
       },
-      {
-        title: "AIoT & Predictive Maintenance",
-        body: "Headed AIoT programs, Connected Engines, and Data Analytics configurations for Predictive Maintenance and Condition-Based Advisors.",
-      },
-      {
-        title: "Industry Speaker",
-        body: "Official invited speaker for competitive forums including Women In Technology and the Aerowomen's Council on AI.",
-      },
     ],
-    domains: ["SAFe Agile", "AIoT", "Connected Engines", "SaaS"],
+    domains: ["SAFe Agile", "AIoT Systems", "Connected Engines"],
   },
   {
     year: "2012 — 2015",
     company: "AXISCADES",
     role: "Senior Manager Sales & Senior Technical Manager",
+    logoUrl: "https://unavatar.io/axiscades.com",
     abstract:
-      "Managed regional aerospace business sales and delivery targets for the APAC zone. Handled legal contract signing, confidentiality agreements, and gross margin optimization tracks.",
-    bullets: [
-      "Program Manager for A350XWB (Korean Airlines) overseeing Aft and Forward Cargo Door installations.",
-      "Delivery In-Charge for the Driessen Galley Project (B-737-900) managing static test plans and stress dossiers for Zodiac Aerospace.",
-    ],
-    domains: ["APAC Sales", "A350XWB", "B-737-900", "Contracts"],
+      "Directed APAC aerospace sales and delivery roadmaps to meet AOP revenue targets. Led confidential legal contract sign-offs, gross margin calculations, and program management for A350XWB (Korean Airlines) cargo doors and B-737-900 static test plans.",
+    domains: ["APAC Sales", "Gross Margins", "A350XWB", "Contracts"],
   },
   {
     year: "2011 — 2012",
     company: "Creative Synergies Group",
     role: "Senior Manager — Aerospace",
+    logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
     abstract:
-      "Handled strategic planning for onsite and offshore aerospace accounts, account management, and quality process implementations. Maintained an excellent 4.8/5 delivery scorecard rating.",
-    domains: ["Account Management", "Quality", "Offshore Delivery"],
+      "Managed strategic planning and account profitability for onsite/offshore aerospace accounts. Ramped up offshore teams for Ferchau Engineering and Diehl Aircabin (A350/A380), achieving an outstanding 4.8/5 delivery scorecard rating.",
+    domains: ["Account Management", "Offshore Delivery", "AIRBUS Programs"],
   },
 ];
 
@@ -176,92 +282,154 @@ const ENGINEERING_JOBS: Job[] = [
     year: "2008 — 2010",
     company: "UTC Aerospace Systems",
     role: "Senior Engineer",
+    logoUrl: "https://unavatar.io/collinsaerospace.com",
     abstract:
-      "Handled Finite Element Analysis (FEA) and Stress Analysis routines for B787 Aerostructures Group, fan cowl composites, and cargo handling configurations.",
-    domains: ["FEA", "Stress Analysis", "B787", "Composites"],
+      "Executed Finite Element Analysis (FEA) and stress calculations for B787 Aerostructures nacelle fan cowls (GE/Rolls-Royce) and cargo handling systems. Coordinated with USA and Singapore strategy units for PDR/CDR milestones.",
+    domains: ["FEA", "Stress Analysis", "B787 Aerostructures", "Composites"],
   },
   {
     year: "2005 — 2008",
-    company: "CADES Digitech",
+    company: "CADES Digitech Private Limited",
     role: "Senior Engineer & Gas Turbine Project Lead",
+    logoUrl: "https://unavatar.io/axiscades.com",
     abstract:
-      "Directed thermal analysis models for Ultraviolet Imaging Telescopes and led gas turbine scheduling loops managing a team of 13 engineers.",
-    domains: ["Thermal Analysis", "UV Imaging", "Gas Turbines", "Team Lead"],
+      "Performed thermal analysis for Ultraviolet Imaging Telescopes in orbit and compact fuel cell heat exchangers. Led gas turbine project scheduling and resource allocation managing a team of 13 engineers.",
+    domains: ["Thermal Analysis", "Gas Turbines", "Team Leadership"],
   },
   {
     year: "2003 — 2005",
     company: "GE Healthcare",
     role: "Design Engineer",
+    logoUrl: "https://unavatar.io/gehealthcare.com",
     abstract:
-      "Developed thermal algorithms monitoring X-ray tube configurations. Published a recognized technical paper at the GE Patenting Forum titled \"Thermal Management in Vacuum Environment using Variable Conductance Heat Pipes\". Recipient of the Best Kaizen Award and certified Six-Sigma Green Belt.",
-    domains: ["Thermal Algorithms", "X-Ray", "Kaizen", "Six-Sigma"],
+      'Developed thermal algorithms monitoring X-ray tube configurations. Published a recognized technical paper at the GE Patenting Forum titled "Thermal Management in Vacuum Environment using Variable Conductance Heat Pipes". Recipient of the Best Kaizen Award and certified Six-Sigma Green Belt.',
+    domains: ["Thermal Algorithms", "X-Ray Systems", "Six-Sigma"],
   },
 ];
 
 function Index() {
   const [focus, setFocus] = useState<Focus>("default");
+  const [activeTab, setActiveTab] = useState<"powerlist" | "awards" | "artifacts" | "impact">(
+    "powerlist",
+  );
   const typed = useTypewriter(NARRATION[focus]);
 
   const deliveryRef = useFocusOnScroll<HTMLDivElement>("delivery", setFocus);
   const aerospaceRef = useFocusOnScroll<HTMLDivElement>("aerospace", setFocus);
   const engineeringRef = useFocusOnScroll<HTMLDivElement>("engineering", setFocus);
+  const accoladesRef = useFocusOnScroll<HTMLDivElement>("accolades", setFocus);
   const credentialsRef = useFocusOnScroll<HTMLDivElement>("credentials", setFocus);
 
+  // Bulletproof Programmatic Anchor Scrolling to completely bypass TanStack Router overrides
+  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    const targetElement = document.getElementById(targetId);
+    if (targetElement) {
+      targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   return (
-    <main className="paper-grain relative min-h-screen overflow-hidden text-foreground">
-      {/* Ambient glow layers */}
+    <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden">
+      {/* BACKGROUND EFFECTS */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -left-40 -top-40 h-[560px] w-[560px] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, oklch(0.86 0.09 78 / 0.55), transparent 70%)" }}
+        className="pointer-events-none absolute -left-40 -top-40 h-[560px] w-[560px] rounded-full blur-3xl opacity-40"
+        style={{ background: "radial-gradient(circle, oklch(0.86 0.09 78), transparent 70%)" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute top-40 right-[-160px] h-[520px] w-[520px] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, oklch(0.82 0.08 30 / 0.35), transparent 70%)" }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -bottom-40 left-1/3 h-[600px] w-[600px] rounded-full blur-3xl"
-        style={{ background: "radial-gradient(circle, oklch(0.55 0.09 300 / 0.22), transparent 70%)" }}
+        className="pointer-events-none absolute top-40 right-[-160px] h-[520px] w-[520px] rounded-full blur-3xl opacity-30"
+        style={{ background: "radial-gradient(circle, oklch(0.82 0.08 30), transparent 70%)" }}
       />
 
-      {/* Top nav ribbon */}
-      <header className="relative z-10 flex items-center justify-between px-8 py-6 md:px-14">
-        <div className="font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground">
-          SH · Executive Portfolio / v2026
+      {/* PREMIUM STICKY GLASSMORPHIC HEADBAR */}
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-14 bg-background/80 backdrop-blur-md border-b border-border/40 shadow-sm">
+        {/* Circled Index Logo Stamp */}
+        <div className="flex items-center gap-3 font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground select-none">
+          <div className="w-8 h-8 rounded-full border-2 border-foreground/60 flex items-center justify-center font-sans text-[11px] font-black tracking-normal text-foreground bg-background shadow-sm">
+            SH
+          </div>
+          <span className="hidden sm:inline">
+            Dossier <span className="text-muted-foreground/30 mx-1">/</span> v2026
+          </span>
         </div>
-        <div className="hidden font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground md:flex md:gap-8">
-          <span>01 — Identity</span>
-          <span>02 — Timeline</span>
-          <span>03 — Capabilities</span>
-          <span>04 — Credentials</span>
-        </div>
-        <div className="font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground">
-          Bengaluru · IN
+
+        {/* Functional Router-Safe Links */}
+        <nav className="hidden font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground md:flex md:gap-8">
+          <a
+            href="#identity"
+            onClick={(e) => handleScrollTo(e, "identity")}
+            className="hover:text-foreground transition-colors"
+          >
+            01 — Profile
+          </a>
+          <a
+            href="#accolades"
+            onClick={(e) => handleScrollTo(e, "accolades")}
+            className="hover:text-foreground transition-colors"
+          >
+            02 — Laurels
+          </a>
+          <a
+            href="#timeline"
+            onClick={(e) => handleScrollTo(e, "timeline")}
+            className="hover:text-foreground transition-colors"
+          >
+            03 — Experience
+          </a>
+          <a
+            href="#credentials"
+            onClick={(e) => handleScrollTo(e, "credentials")}
+            className="hover:text-foreground transition-colors"
+          >
+            04 — Education
+          </a>
+        </nav>
+
+        {/* Minimal Social Connect Action Bar */}
+        <div className="flex items-center gap-4">
+          <a
+            href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all bg-card/40"
+            aria-label="LinkedIn"
+          >
+            <Linkedin className="w-3.5 h-3.5" />
+          </a>
+          <a
+            href="mailto:sharidas783@gmail.com"
+            className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all bg-card/40"
+            aria-label="Email"
+          >
+            <Mail className="w-3.5 h-3.5" />
+          </a>
         </div>
       </header>
 
-      {/* HERO — centered portrait */}
-      <section className="relative z-10 mx-auto max-w-6xl px-6 pb-10 pt-10 md:px-14">
+      {/* SECTION 01: IDENTITY HERO */}
+      <section
+        id="identity"
+        className="relative z-10 mx-auto max-w-6xl px-6 pb-10 pt-16 md:px-14 scroll-mt-24"
+      >
         <div className="relative mx-auto aspect-[4/5] w-full max-w-[560px]">
-          {/* Arch backdrop */}
           <svg
             aria-hidden
             viewBox="0 0 400 500"
             className="absolute inset-0 h-full w-full"
             preserveAspectRatio="none"
           >
+            <path d="M30,500 L30,190 A170,170 0 0 1 370,190 L370,500 Z" fill="url(#arch)" />
             <defs>
               <linearGradient id="arch" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="oklch(0.94 0.03 85)" />
                 <stop offset="100%" stopColor="oklch(0.88 0.05 78)" />
               </linearGradient>
             </defs>
-            <path d="M30,500 L30,190 A170,170 0 0 1 370,190 L370,500 Z" fill="url(#arch)" />
           </svg>
 
-          {/* Gold vector flow wrapping the torso */}
+          {/* Bound Vector Wrap */}
           <svg
             aria-hidden
             viewBox="0 0 400 500"
@@ -284,61 +452,65 @@ function Index() {
             />
           </svg>
 
-          {/* Portrait */}
+          {/* Portrait Image Block */}
           <img
-            src={portrait.url}
+            src={portraitImg}
             alt="Dr. Sandhya Haridas portrait"
             className="absolute inset-x-0 bottom-0 mx-auto h-[98%] w-auto max-w-full object-contain drop-shadow-[0_40px_50px_rgba(30,20,10,0.22)]"
           />
 
-          {/* AI Twin Advisor circular badge */}
+          {/* EXECUTIVE SEAL BADGE (Replaces AI Twin) */}
           <div className="absolute -right-6 top-10 md:-right-24 md:top-6">
             <div className="relative h-32 w-32 md:h-40 md:w-40">
-              <div
-                className="absolute inset-0 rounded-full border border-[color:var(--gold)]"
-                style={{ animation: "pulse-ring 3s ease-in-out infinite" }}
-              />
-              <div className="absolute inset-2 rounded-full border border-[color:var(--gold)]/60" />
-              <svg viewBox="0 0 160 160" className="absolute inset-0 h-full w-full animate-[spin_22s_linear_infinite]">
+              <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
+              <svg
+                viewBox="0 0 160 160"
+                className="absolute inset-0 h-full w-full animate-[spin_32s_linear_infinite]"
+              >
                 <defs>
-                  <path id="twinPath" d="M80,80 m-64,0 a64,64 0 1,1 128,0 a64,64 0 1,1 -128,0" />
+                  <path id="sealPath" d="M80,80 m-64,0 a64,64 0 1,1 128,0 a64,64 0 1,1 -128,0" />
                 </defs>
-                <text className="font-mono-tech" fontSize="9" fill="oklch(0.35 0.05 260)" letterSpacing="4">
-                  <textPath href="#twinPath">
-                    LIVE AI TWIN ADVISOR · MONITORING · LIVE AI TWIN ADVISOR ·
+                <text
+                  className="font-mono-tech"
+                  fontSize="8.5"
+                  fill="oklch(0.35 0.05 260)"
+                  letterSpacing="3.6"
+                >
+                  <textPath href="#sealPath">
+                    EXECUTIVE DOSSIER · GLOBAL DELIVERY · AI STRATEGY · LEADERSHIP ·
                   </textPath>
                 </text>
               </svg>
               <div className="absolute inset-6 flex flex-col items-center justify-center rounded-full bg-background/85 backdrop-blur-md md:inset-8">
                 <span className="font-mono-tech text-[8px] uppercase tracking-[0.3em] text-muted-foreground">
-                  Twin · v2.4
+                  Ledger
                 </span>
-                <span className="font-editorial text-3xl italic leading-none text-foreground">
-                  Live
+                <span className="font-editorial text-2xl italic leading-none text-foreground my-0.5">
+                  23+ Yrs
                 </span>
-                <span className="font-mono-tech text-[8px] uppercase tracking-[0.3em] text-[color:var(--gold-strong)]">
-                  ● ONLINE
+                <span className="font-mono-tech text-[8px] uppercase tracking-[0.3em] text-[color:var(--gold-strong)] font-bold">
+                  ● VERIFIED
                 </span>
               </div>
             </div>
           </div>
 
-          {/* Narration box adjacent to badge */}
+          {/* Desktop Live Narration Box */}
+          {/* Dynamic Executive Brief Box */}
           <div className="absolute left-[-8px] bottom-4 hidden w-[300px] md:block lg:left-[-40px] lg:w-[320px]">
-            <div className="rounded-lg border border-border/70 bg-card/70 p-4 shadow-[0_20px_60px_-30px_rgba(30,20,10,0.35)] backdrop-blur-md">
+            <div className="rounded-lg border border-border/70 bg-card/85 p-4 shadow-xl backdrop-blur-md">
               <div className="mb-2 flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-60" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
                 </span>
                 <span className="font-mono-tech text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-                  Signal · {focus}
+                  Brief · {focus}
                 </span>
               </div>
               <p
                 key={focus}
-                className="font-mono-tech text-[12px] leading-relaxed text-foreground/90"
-                style={{ animation: "fade-in-up 400ms ease-out both" }}
+                className="font-mono-tech text-[11px] leading-relaxed text-foreground/90"
               >
                 {typed}
                 <span className="ml-0.5 inline-block h-3 w-1.5 translate-y-[2px] animate-pulse bg-[color:var(--gold-strong)]" />
@@ -347,13 +519,16 @@ function Index() {
           </div>
         </div>
 
-        {/* Name anchor */}
+        {/* Text Presentation Frame */}
         <div className="mt-12 text-center">
           <div className="font-mono-tech text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
             Executive Profile · 01
           </div>
-          <h1 className="mt-4 font-sans-display text-6xl font-black leading-[0.9] tracking-tight text-foreground md:text-8xl">
-            Dr. Sandhya <span className="font-editorial italic font-normal">Haridas</span>
+          <h1 className="mt-4 font-sans-display text-6xl font-black leading-[0.9] tracking-tight text-foreground md:text-8xl uppercase">
+            Dr. Sandhya{" "}
+            <span className="font-editorial italic font-normal text-muted-foreground lowercase">
+              Haridas
+            </span>
           </h1>
           <p className="mx-auto mt-6 max-w-3xl font-mono-tech text-[11px] uppercase tracking-[0.28em] text-muted-foreground md:text-[12px]">
             Vice President &amp; Global Delivery Unit Head
@@ -361,46 +536,256 @@ function Index() {
             AI Strategy &amp; Digital Transformation
           </p>
         </div>
-
-        {/* Mobile narration */}
-        <div className="mt-8 md:hidden">
-          <div className="rounded-lg border border-border/70 bg-card/70 p-4 backdrop-blur-md">
-            <div className="mb-2 font-mono-tech text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-              Twin Signal · {focus}
-            </div>
-            <p key={focus} className="font-mono-tech text-[12px] leading-relaxed text-foreground/90">
-              {typed}
-            </p>
-          </div>
-        </div>
       </section>
 
-      {/* Company ribbon */}
-      <section className="relative z-10 border-y border-border/70 bg-card/30 backdrop-blur-sm">
-        <div className="mx-auto grid max-w-7xl grid-cols-2 gap-8 px-6 py-6 md:grid-cols-4 md:px-14 lg:grid-cols-8">
-          {[
-            "L&T Technology",
-            "Schneider Electric",
-            "Honeywell",
-            "AXISCADES",
-            "Creative Synergies",
-            "UTC Aerospace",
-            "CADES Digitech",
-            "GE Healthcare",
-          ].map((l) => (
-            <div
-              key={l}
-              className="text-center font-sans-display text-xs font-semibold uppercase tracking-[0.22em] text-foreground/70"
+      {/* SECTION 02: DYNAMIC LAURELS, ARTIFACTS & ADVOCACY HUB (UNIFIED LUXURY DESIGN) */}
+      <section
+        ref={accoladesRef}
+        id="accolades"
+        className="relative z-10 border-t border-border/70 bg-card/20 backdrop-blur-sm scroll-mt-24"
+      >
+        <div className="mx-auto max-w-7xl px-6 py-20 md:px-14">
+          <SectionHeader
+            index="02"
+            kicker="Executive Laurels, Artifacts & Impact"
+            title="Recognition & Advocacy"
+          />
+
+          {/* TAB CONTROLS HEADER */}
+          <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono-tech text-[10px] uppercase tracking-[0.2em]">
+            <button
+              onClick={() => setActiveTab("powerlist")}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+                activeTab === "powerlist"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
             >
-              {l}
+              <Award className="w-3.5 h-3.5" /> 🏆 Power List 2026
+            </button>
+
+            <button
+              onClick={() => setActiveTab("awards")}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+                activeTab === "awards"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
+            >
+              <Award className="w-3.5 h-3.5" /> Enterprise Honors (7)
+            </button>
+
+            <button
+              onClick={() => setActiveTab("artifacts")}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+                activeTab === "artifacts"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" /> Research &amp; Projects
+            </button>
+
+            <button
+              onClick={() => setActiveTab("impact")}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+                activeTab === "impact"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
+            >
+              <GraduationCap className="w-3.5 h-3.5" /> Advocacy &amp; Volunteering
+            </button>
+          </div>
+
+          {/* TAB 1: POWER LIST 2026 */}
+          {activeTab === "powerlist" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-6 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn">
+              <div className="col-span-12 md:col-span-4 flex flex-col gap-3">
+                <div className="inline-flex w-fit items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono-tech text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
+                  <Award className="w-3.5 h-3.5" /> Top IT Leader Attestation
+                </div>
+                <h3 className="font-sans-display text-3xl font-black tracking-tight uppercase mt-2">
+                  The Power List{" "}
+                  <span className="font-editorial italic font-normal text-[color:var(--gold-strong)]">
+                    2026
+                  </span>
+                </h3>
+                <span className="font-mono-tech text-[11px] uppercase tracking-[0.25em] text-muted-foreground">
+                  Issued by CXO Lanes
+                </span>
+              </div>
+
+              <div className="col-span-12 md:col-span-8 space-y-4">
+                <p className="font-editorial text-xl italic leading-relaxed text-foreground/90">
+                  "Proud to be recognized among India’s Top IT Leaders – The Power List 2026 by CXO
+                  Lanes for contributions to AI-driven transformation, digital innovation, and
+                  industry leadership."
+                </p>
+                <div className="h-px w-16 bg-[color:var(--gold)]/60" />
+                <p className="text-sm leading-relaxed text-muted-foreground font-light">
+                  Nominated for outstanding deployment tracks across Process Automation,
+                  Reliability, Intelligent Systems scaling, and sustainable digital industrial
+                  setups across Schneider Electric, Honeywell Aerospace, UTC Aerospace, and GE
+                  HealthCare.
+                </p>
+              </div>
             </div>
-          ))}
+          )}
+
+          {/* TAB 2: ENTERPRISE AWARDS (MATCHING POWER LIST UI) */}
+          {activeTab === "awards" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+              {ENTERPRISE_AWARDS.map((award) => (
+                <div
+                  key={award.title}
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between hover:border-[color:var(--gold)]/60 transition-all group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                        Issued by {award.issuer}
+                      </span>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                          {award.date}
+                        </span>
+                        <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-1 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                          <img
+                            src={award.logoUrl}
+                            alt={award.issuer}
+                            className="h-full w-full object-contain"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    <h4 className="font-sans-display text-2xl font-black uppercase text-foreground mt-4 leading-tight">
+                      {award.title}
+                    </h4>
+
+                    <p className="font-editorial text-lg italic text-foreground/90 mt-3 leading-relaxed">
+                      "{award.body.split(".")[0]}."
+                    </p>
+
+                    <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
+
+                    {award.body.split(".").slice(1).join(".").trim() && (
+                      <p className="text-xs text-muted-foreground font-light leading-relaxed mt-3">
+                        {award.body.split(".").slice(1).join(".").trim()}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* TAB 3: RESEARCH & PROJECTS (MATCHING POWER LIST UI) */}
+          {activeTab === "artifacts" && (
+            <div className="mt-8 space-y-6 animate-fadeIn">
+              {/* Featured Research Publication Card */}
+              <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-8 backdrop-blur-sm shadow-md">
+                <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                  <div className="inline-flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                    <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
+                  </div>
+                  <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                    {ARTIFACTS.publication.date}
+                  </span>
+                </div>
+
+                <h4 className="font-sans-display text-2xl md:text-3xl font-black uppercase text-foreground mt-4">
+                  {ARTIFACTS.publication.title}
+                </h4>
+
+                <span className="font-mono-tech text-[11px] uppercase tracking-[0.25em] text-muted-foreground block mt-1">
+                  Publisher // {ARTIFACTS.publication.publisher}
+                </span>
+
+                <p className="font-editorial text-xl italic text-foreground/90 mt-4 leading-relaxed">
+                  "{ARTIFACTS.publication.body}"
+                </p>
+              </div>
+
+              {/* Major Projects Row Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {ARTIFACTS.projects.map((proj) => (
+                  <div
+                    key={proj.title}
+                    className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between"
+                  >
+                    <div>
+                      <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                        <span className="font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                          Client // {proj.client}
+                        </span>
+                        <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                          {proj.date}
+                        </span>
+                      </div>
+
+                      <h5 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                        {proj.title}
+                      </h5>
+
+                      <p className="font-editorial text-lg italic text-foreground/90 mt-3 leading-relaxed">
+                        "{proj.body}"
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: ADVOCACY & VOLUNTEERING (MATCHING POWER LIST UI) */}
+          {activeTab === "impact" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
+              {VOLUNTEERING.map((vol) => (
+                <div
+                  key={vol.organization}
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
+                        {vol.domain}
+                      </span>
+                      <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-1 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                        <img
+                          src={vol.logoUrl}
+                          alt={vol.organization}
+                          className="h-full w-full object-contain"
+                        />
+                      </div>
+                    </div>
+
+                    <h4 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                      {vol.role}
+                    </h4>
+
+                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
+                      {vol.organization} · {vol.period}
+                    </span>
+
+                    <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
+                      "{vol.body}"
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
-      {/* TIMELINE — Block A */}
-      <section className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-14">
-        <SectionHeader index="02" kicker="Executive enterprise tracks" title="Delivery ledger" />
+      {/* SECTION 03: EXPERIENCE TIMELINE */}
+      <section
+        id="timeline"
+        className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-14 border-t border-border/70 scroll-mt-24"
+      >
+        <SectionHeader index="03" kicker="Executive enterprise tracks" title="Delivery ledger" />
 
         <div ref={deliveryRef} className="mt-16 space-y-4">
           <TrackLabel label="Global Delivery · AI Transformation" />
@@ -424,133 +809,199 @@ function Index() {
         </div>
       </section>
 
-      {/* CAPABILITIES — Block B */}
-      <section className="relative z-10 border-t border-border/70 bg-card/20 backdrop-blur-sm">
+      {/* SECTION 04: REAL EDUCATIONAL TIMELINE LEDGER */}
+      <section
+        ref={credentialsRef}
+        id="credentials"
+        className="relative z-10 border-t border-border/70 bg-card/10 backdrop-blur-sm scroll-mt-24"
+      >
         <div className="mx-auto max-w-7xl px-6 py-24 md:px-14">
           <SectionHeader
-            index="03"
-            kicker="Capabilities mapping"
-            title="Architecture matrix"
+            index="04"
+            kicker="Academic &amp; verified credentials"
+            title="Education ledger"
           />
-          <div className="mt-16 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-border/70 bg-border/70 md:grid-cols-3">
-            <CapabilityCard
-              tag="01"
-              title="Portfolio Strategy"
-              items={[
-                "Strategic Planning",
-                "Full P&L Accountability",
-                "Global Delivery Operations",
-                "Gross Margin Optimization",
-                "Enterprise Growth Architecture",
-              ]}
-            />
-            <CapabilityCard
-              tag="02"
-              title="Digital Innovation"
-              items={[
-                "Artificial Intelligence Monetization",
-                "Computer Vision Architectures",
-                "AIoT Connected Engines",
-                "Process & Product Optimization",
-                "Predictive Maintenance Analytics",
-              ]}
-            />
-            <CapabilityCard
-              tag="03"
-              title="Methodologies & Tools"
-              items={[
-                "SAFe Agile Framework",
-                "Scrum Master Management",
-                "Lean System Governance",
-                "Finite Element Analysis (FEA)",
-                "Splunk · Tableau Dashboards",
-              ]}
-            />
-          </div>
-        </div>
-      </section>
 
-      {/* CREDENTIALS — Block C */}
-      <section ref={credentialsRef} className="relative z-10 border-t border-border/70">
-        <div className="mx-auto grid max-w-7xl grid-cols-1 gap-10 px-6 py-24 md:grid-cols-12 md:px-14">
-          <div className="md:col-span-4">
-            <SectionHeader
-              index="04"
-              kicker="Academic & verified credentials"
-              title="Signals"
-            />
-          </div>
-          <div className="md:col-span-8 space-y-10">
-            <div className="rounded-xl border border-border/70 bg-card/40 p-8 backdrop-blur-sm">
-              <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                Education
-              </div>
-              <h3 className="mt-3 font-sans-display text-3xl font-bold leading-tight text-foreground">
-                Manipal Institute of Technology (MIT)
-              </h3>
-              <p className="mt-2 font-mono-tech text-[11px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)]">
-                B.Tech · Computer Science
-              </p>
-              <p className="mt-4 font-editorial text-lg italic leading-snug text-foreground/80">
-                Specialized in modern web technologies, user interface design, interactive
-                systems, and application security.
-              </p>
-            </div>
-
-            <div>
-              <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-                Certifications array
-              </div>
-              <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {[
-                  "Google Cybersecurity Professional Certificate",
-                  "Azure Professional Certificate",
-                  "AWS Certified Cloud Practitioner",
-                  "Certified Data Scientist (CDS)",
-                  "Certified Artificial Intelligence Expert",
-                  "Computer Vision Specialist",
-                  "Six-Sigma Green Belt",
-                ].map((c) => (
-                  <div
-                    key={c}
-                    className="flex items-center gap-3 rounded-md border border-border/70 bg-background/60 px-4 py-3 font-mono-tech text-[11px] uppercase tracking-[0.18em] text-foreground/85"
-                  >
-                    <span className="text-[color:var(--gold-strong)]">◆</span>
-                    {c}
+          <div className="mt-16 space-y-4">
+            {[
+              {
+                year: "2021 — 2025",
+                institution: "Swiss School of Business and Management",
+                degree: "Doctor's Degree, Artificial Intelligence (DBA)",
+                logoUrl: "https://unavatar.io/ssbm.ch",
+                meta: "Grade: DBA · Global GDBA Integration Track",
+                abstract:
+                  "Building synergies between technology, innovation, disruption and business opportunities in the niche area of Artificial Intelligence and Digital Transformation.",
+                pillars: [
+                  {
+                    title: "Explainable AI Research (XAI)",
+                    body: "Thesis focus: Implementation of Explainable AI framework layers to solve operational transparency, analytical accuracy, and human trust configurations inside high-vulnerability data systems.",
+                  },
+                ],
+                domains: ["Artificial Intelligence", "DBA", "XAI Systems", "Disruption Frameworks"],
+              },
+              {
+                year: "2016",
+                institution: "Harvard Business School Online",
+                degree: "Disruptive Strategy Innovation with Clayton Christensen",
+                logoUrl: "https://unavatar.io/hbs.edu",
+                meta: "Grade: Pass · Certificate Program",
+                abstract:
+                  "HBX intensive core development track centered on corporate disruption models, market ecosystem evolution tracking, strategic capital deployments, and structural uncertainty governance.",
+                domains: ["Disruption Theory", "Harvard Online", "Strategy Mapping"],
+              },
+              {
+                year: "2007 — 2009",
+                institution: "Annamalai University",
+                degree: "MBA, International Business",
+                logoUrl: "https://unavatar.io/annamalaiuniversity.ac.in",
+                meta: "Grade: Distinction",
+                abstract:
+                  "Advanced validation curves exploring multinational organizational alignment mechanics, international market trade metrics, and global logistics value chain architectures.",
+                domains: ["MBA", "International Business", "Value Chains"],
+              },
+              {
+                year: "1996 — 2000",
+                institution: "Bangalore University",
+                degree: "B.E, Mechanical Engineering",
+                logoUrl: "https://unavatar.io/bangaloreuniversity.ac.in",
+                meta: "Grade: First Class",
+                abstract:
+                  "Core structural computations, macro fluid dynamics dynamics, thermodynamics matrix planning, and manufacturing asset engineering parameters.",
+                pillars: [
+                  {
+                    title: "NCC Airwing Frameworks",
+                    body: "Active operational leader trained in high-altitude Paragliding, Scale Aircraft Static Model Construction, formal debate dynamics, and impromptu leadership panels.",
+                  },
+                  {
+                    title: "Athletic Distinctions",
+                    body: "Decorated institutional athlete winning consecutive university medals across Interclass Badminton and Table Tennis competitive brackets.",
+                  },
+                ],
+                domains: ["Mechanical Eng", "NCC Airwing", "Thermodynamics", "Scale Modeling"],
+              },
+            ].map((edu) => (
+              <article
+                key={edu.institution}
+                className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-colors hover:bg-card/70 md:p-8"
+              >
+                <div className="col-span-12 md:col-span-3">
+                  <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                    {edu.year}
                   </div>
-                ))}
-              </div>
-            </div>
+
+                  {/* Institution Logo Badge */}
+                  <div className="mt-3 h-10 w-10 rounded-full border border-[color:var(--gold)] bg-white p-1.5 shadow-sm overflow-hidden flex items-center justify-center transition-transform group-hover:scale-110 shrink-0">
+                    <img
+                      src={edu.logoUrl}
+                      alt={`${edu.institution} logo`}
+                      className="h-full w-full object-contain"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.style.display = "none";
+                        if (target.parentElement) {
+                          target.parentElement.innerHTML = `<span class="font-mono-tech text-[10px] font-bold text-zinc-900">${edu.institution
+                            .slice(0, 2)
+                            .toUpperCase()}</span>`;
+                        }
+                      }}
+                    />
+                  </div>
+
+                  <div className="mt-4 font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                    {edu.meta}
+                  </div>
+                </div>
+
+                <div className="col-span-12 md:col-span-9">
+                  <div className="font-mono-tech text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
+                    {edu.institution}
+                  </div>
+                  <h3 className="mt-2 font-sans-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
+                    {edu.degree}
+                  </h3>
+                  <p className="mt-4 font-editorial text-lg italic leading-snug text-foreground/80 md:text-xl">
+                    {edu.abstract}
+                  </p>
+
+                  {edu.pillars && (
+                    <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+                      {edu.pillars.map((p) => (
+                        <div
+                          key={p.title}
+                          className="rounded-md border border-border/70 bg-background/60 p-4 shadow-sm"
+                        >
+                          <div className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
+                            ● {p.title}
+                          </div>
+                          <p className="mt-2 text-sm leading-relaxed text-foreground/80 font-light">
+                            {p.body}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="mt-6 flex flex-wrap gap-2">
+                    {edu.domains.map((d) => (
+                      <span
+                        key={d}
+                        className="rounded-full border border-border px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.24em] text-muted-foreground bg-background/40"
+                      >
+                        {d}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
           </div>
         </div>
       </section>
 
-      <footer className="relative z-10 border-t border-border/70">
-        <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-8 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
-          <span>© 2026 · Dr. Sandhya Haridas</span>
-          <span>Twin Interface · v2.4.0 · secure</span>
+      {/* PRESTIGE FOOTER ACCENT */}
+      <footer className="relative z-10 border-t border-border/70 bg-card/40 backdrop-blur-sm">
+        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
+          <div className="flex flex-col gap-1 items-center md:items-start">
+            <span>© 2026 · Dr. Sandhya Haridas</span>
+            <span className="text-[8px] text-muted-foreground/50 tracking-widest">
+              Executive Workspace Interface · Secure
+            </span>
+          </div>
+
+          {/* Expanded Footer Social Mappings */}
+          <div className="flex items-center gap-6 text-[11px] font-mono-tech text-muted-foreground tracking-widest lowercase">
+            <a
+              href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1 hover:text-foreground transition-colors group"
+            >
+              linkedin{" "}
+              <ArrowUpRight className="w-3 h-3 text-muted-foreground/60 group-hover:text-foreground transition-colors" />
+            </a>
+            <a
+              href="mailto:sharidas783@gmail.com"
+              className="flex items-center gap-1 hover:text-foreground transition-colors group"
+            >
+              email{" "}
+              <ArrowUpRight className="w-3 h-3 text-muted-foreground/60 group-hover:text-foreground transition-colors" />
+            </a>
+          </div>
         </div>
       </footer>
     </main>
   );
 }
 
-function SectionHeader({
-  index,
-  kicker,
-  title,
-}: {
-  index: string;
-  kicker: string;
-  title: string;
-}) {
+function SectionHeader({ index, kicker, title }: { index: string; kicker: string; title: string }) {
   return (
     <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
       <div>
         <div className="font-mono-tech text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
           § {index} — {kicker}
         </div>
-        <h2 className="mt-3 font-sans-display text-4xl font-black tracking-tight text-foreground md:text-6xl">
+        <h2 className="mt-3 font-sans-display text-4xl font-black tracking-tight text-foreground md:text-6xl uppercase">
           {title}
         </h2>
       </div>
@@ -577,13 +1028,31 @@ function TimelineCard({ job }: { job: Job }) {
         <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
           {job.year}
         </div>
-        <div className="mt-3 h-8 w-8 rounded-full border border-[color:var(--gold)] transition-transform group-hover:scale-110" />
+
+        {/* Company Logo in Gold Ring Circle */}
+        <div className="mt-3 h-10 w-10 rounded-full border border-[color:var(--gold)] bg-white p-1.5 shadow-sm overflow-hidden flex items-center justify-center transition-transform group-hover:scale-110 shrink-0">
+          <img
+            src={job.logoUrl}
+            alt={`${job.company} logo`}
+            className="h-full w-full object-contain"
+            onError={(e) => {
+              // Fallback to stylized monogram if logo image fails
+              const target = e.currentTarget;
+              target.style.display = "none";
+              if (target.parentElement) {
+                target.parentElement.innerHTML = `<span class="font-mono-tech text-[10px] font-bold text-zinc-900">${job.company.slice(0, 2).toUpperCase()}</span>`;
+              }
+            }}
+          />
+        </div>
+
         {job.location && (
           <div className="mt-4 font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             {job.location}
           </div>
         )}
       </div>
+
       <div className="col-span-12 md:col-span-9">
         <div className="font-mono-tech text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
           {job.company}
@@ -602,24 +1071,13 @@ function TimelineCard({ job }: { job: Job }) {
                 key={p.title}
                 className="rounded-md border border-border/70 bg-background/60 p-4"
               >
-                <div className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)]">
+                <div className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
                   ● {p.title}
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-foreground/80">{p.body}</p>
               </div>
             ))}
           </div>
-        )}
-
-        {job.bullets && (
-          <ul className="mt-6 space-y-3">
-            {job.bullets.map((b, i) => (
-              <li key={i} className="flex gap-3 text-sm leading-relaxed text-foreground/80">
-                <span className="mt-2 h-px w-4 flex-shrink-0 bg-[color:var(--gold-strong)]" />
-                <span>{b}</span>
-              </li>
-            ))}
-          </ul>
         )}
 
         <div className="mt-6 flex flex-wrap gap-2">
@@ -634,40 +1092,5 @@ function TimelineCard({ job }: { job: Job }) {
         </div>
       </div>
     </article>
-  );
-}
-
-function CapabilityCard({
-  tag,
-  title,
-  items,
-}: {
-  tag: string;
-  title: string;
-  items: string[];
-}) {
-  return (
-    <div className="bg-background/80 p-8 backdrop-blur-sm transition-colors hover:bg-background">
-      <div className="flex items-baseline justify-between">
-        <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
-          Track {tag}
-        </div>
-        <div className="h-1 w-8 bg-[color:var(--gold-strong)]" />
-      </div>
-      <h3 className="mt-6 font-sans-display text-3xl font-black leading-tight text-foreground">
-        {title}
-      </h3>
-      <ul className="mt-8 space-y-4">
-        {items.map((it) => (
-          <li
-            key={it}
-            className="flex items-start gap-3 border-t border-border/60 pt-4 font-mono-tech text-[12px] uppercase tracking-[0.18em] text-foreground/80"
-          >
-            <span className="text-[color:var(--gold-strong)]">◆</span>
-            {it}
-          </li>
-        ))}
-      </ul>
-    </div>
   );
 }

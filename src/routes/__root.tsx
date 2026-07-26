@@ -78,10 +78,17 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "Dr. Sandhya Haridas — Director of Delivery Operations" },
-      { name: "description", content: "Executive portfolio of Dr. Sandhya Haridas — 23+ years in enterprise delivery, digital manufacturing, AI strategy and predictive analytics." },
+      {
+        name: "description",
+        content:
+          "Executive portfolio of Dr. Sandhya Haridas — 23+ years in enterprise delivery, digital manufacturing, AI strategy and predictive analytics.",
+      },
       { name: "author", content: "Dr. Sandhya Haridas" },
       { property: "og:title", content: "Dr. Sandhya Haridas — Executive Portfolio" },
-      { property: "og:description", content: "Director of Delivery Operations // AI Strategy & Digital Transformation." },
+      {
+        property: "og:description",
+        content: "Director of Delivery Operations // AI Strategy & Digital Transformation.",
+      },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -90,10 +97,18 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      // Premium Inline Monogram SVG Favicon (Wipes out Lovable icon)
+      {
+        rel: "icon",
+        type: "image/svg+xml",
+        href: "data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22><circle cx=%2216%22 cy=%2216%22 r=%2216%22 fill=%22%2318181b%22/><text x=%2216%22 y=%2220%22 fill=%22%23fbfaf7%22 font-family=%22sans-serif%22 font-size=%2211%22 font-weight=%22900%22 text-anchor=%22middle%22 letter-spacing=%22-0.5%22>SH</text></svg>",
+      },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800;900&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap",
+      },
     ],
   }),
   shellComponent: RootShell,
