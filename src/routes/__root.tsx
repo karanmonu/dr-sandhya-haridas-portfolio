@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "Executive portfolio of Dr. Sandhya Haridas — 23+ years in enterprise delivery, digital manufacturing, AI strategy and predictive analytics.",
+          "Executive portfolio of Dr. Sandhya Haridas — 26+ years in enterprise delivery, digital manufacturing, AI strategy and predictive analytics.",
       },
       { name: "author", content: "Dr. Sandhya Haridas" },
       { property: "og:title", content: "Dr. Sandhya Haridas — Executive Portfolio" },
@@ -97,7 +97,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      // Premium Inline Monogram SVG Favicon (Wipes out Lovable icon)
+      // Premium Inline Monogram SVG Favicon
       {
         rel: "icon",
         type: "image/svg+xml",
@@ -136,7 +136,6 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
     </QueryClientProvider>
   );

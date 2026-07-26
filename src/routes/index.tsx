@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Executive portfolio of Dr. Sandhya Haridas — 23+ years leading global delivery, AI strategy, and digital transformation.",
+          "Executive portfolio of Dr. Sandhya Haridas — 26+ years leading global delivery, AI strategy, and digital transformation.",
       },
       { property: "og:title", content: "Dr. Sandhya Haridas — Executive Portfolio" },
       { property: "og:type", content: "website" },
@@ -33,7 +33,7 @@ type Focus = "default" | "accolades" | "delivery" | "aerospace" | "engineering" 
 
 const NARRATION: Record<Focus, string> = {
   default:
-    "System online. Auditing a verified history spanning 23+ years of global technology delivery, Industry 4.0 adoption, and enterprise digital transformation.",
+    "System online. Auditing a verified history spanning 26+ years of global technology delivery, Industry 4.0 adoption, and enterprise digital transformation.",
 
   accolades:
     "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation and leadership awards.",
@@ -460,8 +460,9 @@ function Index() {
           />
 
           {/* EXECUTIVE SEAL BADGE (Replaces AI Twin) */}
-          <div className="absolute -right-6 top-10 md:-right-24 md:top-6">
-            <div className="relative h-32 w-32 md:h-40 md:w-40">
+          {/* EXECUTIVE SEAL BADGE (Mobile Responsive & Repositioned) */}
+          <div className="absolute -top-6 -right-2 z-20 md:-right-20 md:top-6">
+            <div className="relative h-28 w-28 md:h-40 md:w-40">
               <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
               <svg
                 viewBox="0 0 160 160"
@@ -481,14 +482,14 @@ function Index() {
                   </textPath>
                 </text>
               </svg>
-              <div className="absolute inset-6 flex flex-col items-center justify-center rounded-full bg-background/85 backdrop-blur-md md:inset-8">
-                <span className="font-mono-tech text-[8px] uppercase tracking-[0.3em] text-muted-foreground">
+              <div className="absolute inset-4 flex flex-col items-center justify-center rounded-full bg-background/90 backdrop-blur-md md:inset-8">
+                <span className="font-mono-tech text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
                   Ledger
                 </span>
-                <span className="font-editorial text-2xl italic leading-none text-foreground my-0.5">
-                  23+ Yrs
+                <span className="font-editorial text-xl md:text-2xl italic leading-none text-foreground my-0.5">
+                  26+ Yrs
                 </span>
-                <span className="font-mono-tech text-[8px] uppercase tracking-[0.3em] text-[color:var(--gold-strong)] font-bold">
+                <span className="font-mono-tech text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
                   ● VERIFIED
                 </span>
               </div>
