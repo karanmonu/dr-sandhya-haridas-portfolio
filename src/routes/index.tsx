@@ -615,6 +615,36 @@ function Index() {
             <span className="mx-2 text-[color:var(--gold-strong)]">//</span>
             AI Strategy &amp; Digital Transformation
           </p>
+
+          <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-center gap-6 border-y border-[color:var(--gold)]/30 py-4 font-mono-tech text-[10px] uppercase tracking-[0.25em] text-foreground/80">
+            <div className="flex items-center gap-2">
+              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+                26+
+              </span>{" "}
+              Yrs Industry Leadership
+            </div>
+            <span className="hidden text-border md:inline">•</span>
+            <div className="flex items-center gap-2">
+              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+                DBA
+              </span>{" "}
+              Artificial Intelligence
+            </div>
+            <span className="hidden text-border md:inline">•</span>
+            <div className="flex items-center gap-2">
+              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+                7x
+              </span>{" "}
+              Enterprise Awards
+            </div>
+            <span className="hidden text-border md:inline">•</span>
+            <div className="flex items-center gap-2">
+              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+                Global
+              </span>{" "}
+              P&amp;L Operations
+            </div>
+          </div>
         </div>
       </section>
 
