@@ -10,6 +10,8 @@ import {
   Linkedin,
   Mail,
   ArrowUpRight,
+  Radio,
+  ExternalLink,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
@@ -98,6 +100,10 @@ type Job = {
   domains: string[];
 };
 
+// Official CXO Declaration Link from LinkedIn nomination poster
+const CXO_DECLARATION_URL =
+  "https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/";
+
 // 1. ENTERPRISE AWARDS DATA (7 Awards)
 const ENTERPRISE_AWARDS = [
   {
@@ -151,7 +157,42 @@ const ENTERPRISE_AWARDS = [
   },
 ];
 
-// 2. PUBLICATIONS & PROJECTS DATA
+// 2. KEYNOTES, PODCASTS & PANEL DISCUSSIONS DATA (WITH CERTIFICATE IMAGES & YOUTUBE LINK)
+const MEDIA_AND_TALKS = [
+  {
+    type: "PODCAST FEATURE",
+    title: "Will AI Replace Your Job? Future of Work, Skills & Responsible AI",
+    platform: "Pivot Podcast · Hosted by Pushpa Latha (CEO, PropLilly)",
+    date: "2024",
+    link: "https://www.youtube.com/watch?v=tIklWsbiTCs",
+    body: "Featured guest discussing Industry 4.0/5.0, smart manufacturing in India, Responsible AI governance, and Women in Tech leadership. Key takeaway: 'The future is not about fearing AI, but learning how humans and intelligent technology work better together.'",
+  },
+  {
+    type: "INTERNATIONAL KEYNOTE",
+    title: "Sustainable & Innovative Practices in Business and Academia",
+    platform: "JAIN (Deemed-to-be University) · CMS",
+    date: "Dec 13–14, 2024",
+    certificateUrl: "/certificates/jain-keynote.png",
+    body: "Awarded Certificate of Appreciation as Keynote Speaker for the Two-Day International Conference on Sustainable, Innovative Practices in Business and Academia.",
+  },
+  {
+    type: "EXPERT WEBINAR",
+    title: "Smart Flying and XAI (Explainable AI) Applications",
+    platform: "IABAC (International Association of Business Analytics Certification)",
+    date: "Aug 30, 2023",
+    certificateUrl: "/certificates/iabac-xai.jpeg",
+    body: "Invited speaker for the 'Experts Speak' Webinar Series, presenting Explainable AI (XAI) models in aerospace, predictive maintenance, and flight analytics.",
+  },
+  {
+    type: "ACADEMIC & INDUSTRY PANEL",
+    title: "Responsible AI, Digitization & STEM Leadership",
+    platform: "UC Irvine & Industry Summits",
+    date: "2023 – Present",
+    body: "Keynote speaker bridging academic research and industrial execution across IIoT, STEM advocacy, Industry X.0 transformation, and AI ethics.",
+  },
+];
+
+// 3. PUBLICATIONS & PROJECTS DATA
 const ARTIFACTS = {
   publication: {
     title: "Thermal Behaviour of Variable Conductance Heat Pipes in Vacuum Chambers",
@@ -178,7 +219,7 @@ const ARTIFACTS = {
   ],
 };
 
-// 3. VOLUNTEERING & ADVOCACY DATA
+// 4. VOLUNTEERING & ADVOCACY DATA
 const VOLUNTEERING = [
   {
     role: "Director of Operations & Keynote Speaker",
@@ -332,9 +373,10 @@ function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallba
 
 function Index() {
   const [focus, setFocus] = useState<Focus>("default");
-  const [activeTab, setActiveTab] = useState<"powerlist" | "awards" | "artifacts" | "impact">(
-    "powerlist",
-  );
+  const [activeTab, setActiveTab] = useState<
+    "powerlist" | "awards" | "talks" | "artifacts" | "impact"
+  >("powerlist");
+  const [selectedCert, setSelectedCert] = useState<{ title: string; url: string } | null>(null);
   const typed = useTypewriter(NARRATION[focus]);
 
   const deliveryRef = useFocusOnScroll<HTMLDivElement>("delivery", setFocus);
@@ -343,7 +385,15 @@ function Index() {
   const accoladesRef = useFocusOnScroll<HTMLDivElement>("accolades", setFocus);
   const credentialsRef = useFocusOnScroll<HTMLDivElement>("credentials", setFocus);
 
-  // Bulletproof Programmatic Anchor Scrolling to completely bypass TanStack Router overrides
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSelectedCert(null);
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
     e.preventDefault();
     const targetElement = document.getElementById(targetId);
@@ -368,7 +418,6 @@ function Index() {
 
       {/* PREMIUM STICKY GLASSMORPHIC HEADBAR */}
       <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-14 bg-background/80 backdrop-blur-md border-b border-border/40 shadow-sm">
-        {/* Circled Index Logo Stamp */}
         <div className="flex items-center gap-3 font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground select-none">
           <div className="w-8 h-8 rounded-full border-2 border-foreground/60 flex items-center justify-center font-sans text-[11px] font-black tracking-normal text-foreground bg-background shadow-sm">
             SH
@@ -378,7 +427,6 @@ function Index() {
           </span>
         </div>
 
-        {/* Functional Router-Safe Links */}
         <nav className="hidden font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground md:flex md:gap-8">
           <a
             href="#identity"
@@ -410,7 +458,6 @@ function Index() {
           </a>
         </nav>
 
-        {/* Minimal Social Connect Action Bar */}
         <div className="flex items-center gap-4">
           <a
             href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
@@ -452,7 +499,6 @@ function Index() {
             </defs>
           </svg>
 
-          {/* Bound Vector Wrap */}
           <svg
             aria-hidden
             viewBox="0 0 400 500"
@@ -475,14 +521,13 @@ function Index() {
             />
           </svg>
 
-          {/* Portrait Image Block */}
           <img
             src={portraitImg}
             alt="Dr. Sandhya Haridas portrait"
             className="absolute inset-x-0 bottom-0 mx-auto h-[98%] w-auto max-w-full object-contain drop-shadow-[0_40px_50px_rgba(30,20,10,0.22)]"
           />
 
-          {/* EXECUTIVE SEAL BADGE (Replaces AI Twin) */}
+          {/* EXECUTIVE SEAL BADGE */}
           <div className="absolute -top-6 -right-2 z-20 md:-right-20 md:top-6">
             <div className="relative h-28 w-28 md:h-40 md:w-40">
               <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
@@ -518,7 +563,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Desktop Live Narration Box */}
           <div className="absolute left-[-8px] bottom-4 hidden w-[300px] md:block lg:left-[-40px] lg:w-[320px]">
             <div className="rounded-lg border border-border/70 bg-card/85 p-4 shadow-xl backdrop-blur-md">
               <div className="mb-2 flex items-center gap-2">
@@ -541,7 +585,6 @@ function Index() {
           </div>
         </div>
 
-        {/* Text Presentation Frame */}
         <div className="mt-12 text-center">
           <div className="font-mono-tech text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
             Executive Profile · 01
@@ -560,7 +603,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 02: DYNAMIC LAURELS, ARTIFACTS & ADVOCACY HUB (UNIFIED LUXURY DESIGN) */}
+      {/* SECTION 02: DYNAMIC LAURELS, MEDIA & ADVOCACY HUB */}
       <section
         ref={accoladesRef}
         id="accolades"
@@ -569,7 +612,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-6 py-20 md:px-14">
           <SectionHeader
             index="02"
-            kicker="Executive Laurels, Artifacts & Impact"
+            kicker="Executive Laurels, Media & Impact"
             title="Recognition & Advocacy"
           />
 
@@ -598,6 +641,17 @@ function Index() {
             </button>
 
             <button
+              onClick={() => setActiveTab("talks")}
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+                activeTab === "talks"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+              }`}
+            >
+              <Radio className="w-3.5 h-3.5" /> 🎙️ Keynotes &amp; Podcasts
+            </button>
+
+            <button
               onClick={() => setActiveTab("artifacts")}
               className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
                 activeTab === "artifacts"
@@ -616,11 +670,11 @@ function Index() {
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
-              <GraduationCap className="w-3.5 h-3.5" /> Advocacy &amp; Volunteering
+              <GraduationCap className="w-3.5 h-3.5" /> STEM &amp; Volunteering
             </button>
           </div>
 
-          {/* TAB 1: FEATURED POWER LIST 2026 (RESPONSIVE TEXT FIX) */}
+          {/* TAB 1: POWER LIST 2026 WITH HYPERLINK */}
           {activeTab === "powerlist" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden">
               <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
@@ -637,6 +691,18 @@ function Index() {
                 <span className="font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                   Issued by CXO Lanes
                 </span>
+
+                <div className="mt-4">
+                  <a
+                    href={CXO_DECLARATION_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--gold)]/60 bg-[color:var(--gold)]/15 px-4 py-2.5 font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[color:var(--gold-strong)] hover:bg-[color:var(--gold)]/30 transition-all shadow-sm group"
+                  >
+                    <span>View Official Declaration ↗</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </a>
+                </div>
               </div>
 
               <div className="col-span-12 md:col-span-8 space-y-4 min-w-0">
@@ -656,7 +722,7 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 2: ENTERPRISE AWARDS (MATCHING POWER LIST UI) */}
+          {/* TAB 2: ENTERPRISE AWARDS */}
           {activeTab === "awards" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
               {ENTERPRISE_AWARDS.map((award) => (
@@ -673,17 +739,17 @@ function Index() {
                         <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
                           {award.date}
                         </span>
-                        <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-1 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                          <img
+                        <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0">
+                          <CompanyLogo
                             src={award.logoUrl}
                             alt={award.issuer}
-                            className="h-full w-full object-contain"
+                            fallback={award.issuer.substring(0, 2).toUpperCase()}
                           />
                         </div>
                       </div>
                     </div>
 
-                    <h4 className="font-sans-display text-2xl font-black uppercase text-foreground mt-4 leading-tight">
+                    <h4 className="font-sans-display text-xl sm:text-2xl font-black uppercase text-foreground mt-4 leading-tight">
                       {award.title}
                     </h4>
 
@@ -704,11 +770,71 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 3: RESEARCH & PROJECTS (MATCHING POWER LIST UI) */}
+          {/* TAB 3: KEYNOTES, PODCASTS & CONFERENCES (WITH WORKING MODAL & LINKS) */}
+          {activeTab === "talks" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+              {MEDIA_AND_TALKS.map((talk) => (
+                <div
+                  key={talk.title}
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between hover:border-[color:var(--gold)]/60 transition-all"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
+                        {talk.type}
+                      </span>
+                      <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                        {talk.date}
+                      </span>
+                    </div>
+
+                    <h4 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                      {talk.title}
+                    </h4>
+
+                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
+                      {talk.platform}
+                    </span>
+
+                    <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
+                      "{talk.body}"
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-3 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
+                    {talk.link && (
+                      <a
+                        href={talk.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline"
+                      >
+                        <span>Watch Podcast Feature</span>
+                        <ArrowUpRight className="w-3 h-3" />
+                      </a>
+                    )}
+
+                    {talk.certificateUrl && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedCert({ title: talk.title, url: talk.certificateUrl! })
+                        }
+                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
+                      >
+                        <span>View Verified Certificate 📄</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* TAB 4: RESEARCH & PROJECTS */}
           {activeTab === "artifacts" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
-              {/* Featured Research Publication Card */}
-              <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-8 backdrop-blur-sm shadow-md">
+              <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md">
                 <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
                   <div className="inline-flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
                     <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
@@ -718,7 +844,7 @@ function Index() {
                   </span>
                 </div>
 
-                <h4 className="font-sans-display text-2xl md:text-3xl font-black uppercase text-foreground mt-4">
+                <h4 className="font-sans-display text-xl sm:text-2xl md:text-3xl font-black uppercase text-foreground mt-4">
                   {ARTIFACTS.publication.title}
                 </h4>
 
@@ -726,12 +852,11 @@ function Index() {
                   Publisher // {ARTIFACTS.publication.publisher}
                 </span>
 
-                <p className="font-editorial text-xl italic text-foreground/90 mt-4 leading-relaxed">
+                <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
                   "{ARTIFACTS.publication.body}"
                 </p>
               </div>
 
-              {/* Major Projects Row Cards */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {ARTIFACTS.projects.map((proj) => (
                   <div
@@ -748,7 +873,7 @@ function Index() {
                         </span>
                       </div>
 
-                      <h5 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                      <h5 className="font-sans-display text-lg sm:text-xl font-bold uppercase text-foreground mt-4 leading-snug">
                         {proj.title}
                       </h5>
 
@@ -762,7 +887,7 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 4: ADVOCACY & VOLUNTEERING (MATCHING POWER LIST UI) */}
+          {/* TAB 5: ADVOCACY & VOLUNTEERING */}
           {activeTab === "impact" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
               {VOLUNTEERING.map((vol) => (
@@ -775,11 +900,11 @@ function Index() {
                       <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
                         {vol.domain}
                       </span>
-                      <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-1 overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
-                        <img
+                      <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0">
+                        <CompanyLogo
                           src={vol.logoUrl}
                           alt={vol.organization}
-                          className="h-full w-full object-contain"
+                          fallback={vol.organization.substring(0, 2).toUpperCase()}
                         />
                       </div>
                     </div>
@@ -913,21 +1038,11 @@ function Index() {
                     {edu.year}
                   </div>
 
-                  {/* Institution Logo Badge */}
-                  <div className="mt-3 h-10 w-10 rounded-full border border-[color:var(--gold)] bg-white p-1.5 shadow-sm overflow-hidden flex items-center justify-center transition-transform group-hover:scale-110 shrink-0">
-                    <img
+                  <div className="mt-3 h-10 w-10 rounded-full border border-[color:var(--gold)] bg-white p-0.5 shadow-sm overflow-hidden flex items-center justify-center transition-transform group-hover:scale-110 shrink-0">
+                    <CompanyLogo
                       src={edu.logoUrl}
                       alt={`${edu.institution} logo`}
-                      className="h-full w-full object-contain"
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        target.style.display = "none";
-                        if (target.parentElement) {
-                          target.parentElement.innerHTML = `<span class="font-mono-tech text-[10px] font-bold text-zinc-900">${edu.institution
-                            .slice(0, 2)
-                            .toUpperCase()}</span>`;
-                        }
-                      }}
+                      fallback={edu.institution.slice(0, 2).toUpperCase()}
                     />
                   </div>
 
@@ -992,7 +1107,6 @@ function Index() {
             </span>
           </div>
 
-          {/* Expanded Footer Social Mappings */}
           <div className="flex items-center gap-6 text-[11px] font-mono-tech text-muted-foreground tracking-widest lowercase">
             <a
               href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
@@ -1013,6 +1127,40 @@ function Index() {
           </div>
         </div>
       </footer>
+
+      {/* CERTIFICATE LIGHTBOX MODAL */}
+      {selectedCert && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn"
+          onClick={() => setSelectedCert(null)}
+        >
+          <div
+            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-xl p-4 md:p-6 shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-border/60">
+              <span className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
+                Verified Certificate Attestation
+              </span>
+              <button
+                type="button"
+                onClick={() => setSelectedCert(null)}
+                className="text-muted-foreground hover:text-foreground font-mono-tech text-xs uppercase tracking-widest px-2.5 py-1 rounded bg-background/60 border border-border transition-colors cursor-pointer"
+              >
+                Close [ESC]
+              </button>
+            </div>
+
+            <div className="mt-4 max-h-[75vh] overflow-y-auto rounded-lg border border-border/40 bg-black/40 flex items-center justify-center p-2">
+              <img
+                src={selectedCert.url}
+                alt={selectedCert.title}
+                className="w-full h-auto max-h-[70vh] object-contain rounded"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </main>
   );
 }
@@ -1052,8 +1200,7 @@ function TimelineCard({ job }: { job: Job }) {
           {job.year}
         </div>
 
-        {/* Company Logo in Gold Ring Circle */}
-        <div className="h-8 w-8 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0 shadow-sm">
+        <div className="h-8 w-8 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0 shadow-sm mt-2">
           <CompanyLogo
             src={job.logoUrl}
             alt={job.company}
