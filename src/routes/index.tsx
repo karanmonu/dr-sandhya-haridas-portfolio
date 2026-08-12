@@ -12,6 +12,7 @@ import {
   ArrowUpRight,
   Radio,
   ExternalLink,
+  ArrowUp,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
@@ -100,7 +101,7 @@ type Job = {
   domains: string[];
 };
 
-// Official CXO Declaration Link from LinkedIn nomination poster
+// Official CXO Declaration Link (Direct LinkedIn Verification Post)
 const CXO_DECLARATION_URL =
   "https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/";
 
@@ -157,7 +158,7 @@ const ENTERPRISE_AWARDS = [
   },
 ];
 
-// 2. KEYNOTES, PODCASTS & PANEL DISCUSSIONS DATA (WITH CERTIFICATE IMAGES & YOUTUBE LINK)
+// 2. KEYNOTES, PODCASTS & PANEL DISCUSSIONS DATA
 const MEDIA_AND_TALKS = [
   {
     type: "PODCAST FEATURE",
@@ -377,6 +378,7 @@ function Index() {
     "powerlist" | "awards" | "talks" | "artifacts" | "impact"
   >("powerlist");
   const [selectedCert, setSelectedCert] = useState<{ title: string; url: string } | null>(null);
+  const [showBackToTop, setShowBackToTop] = useState(false);
   const typed = useTypewriter(NARRATION[focus]);
 
   const deliveryRef = useFocusOnScroll<HTMLDivElement>("delivery", setFocus);
@@ -384,6 +386,15 @@ function Index() {
   const engineeringRef = useFocusOnScroll<HTMLDivElement>("engineering", setFocus);
   const accoladesRef = useFocusOnScroll<HTMLDivElement>("accolades", setFocus);
   const credentialsRef = useFocusOnScroll<HTMLDivElement>("credentials", setFocus);
+
+  // Monitor scroll for Floating Back-To-Top Dossier Button
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close modal on ESC key
   useEffect(() => {
@@ -400,6 +411,10 @@ function Index() {
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -620,7 +635,7 @@ function Index() {
           <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono-tech text-[10px] uppercase tracking-[0.2em]">
             <button
               onClick={() => setActiveTab("powerlist")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
                 activeTab === "powerlist"
                   ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -631,7 +646,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("awards")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
                 activeTab === "awards"
                   ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -642,7 +657,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("talks")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
                 activeTab === "talks"
                   ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -653,7 +668,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("artifacts")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
                 activeTab === "artifacts"
                   ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -664,7 +679,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("impact")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all ${
+              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
                 activeTab === "impact"
                   ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
                   : "text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -676,7 +691,7 @@ function Index() {
 
           {/* TAB 1: POWER LIST 2026 WITH HYPERLINK */}
           {activeTab === "powerlist" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
               <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
                 <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono-tech text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
                   <Award className="w-3.5 h-3.5 shrink-0" />
@@ -728,7 +743,7 @@ function Index() {
               {ENTERPRISE_AWARDS.map((award) => (
                 <div
                   key={award.title}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between hover:border-[color:var(--gold)]/60 transition-all group"
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -770,13 +785,13 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 3: KEYNOTES, PODCASTS & CONFERENCES (WITH WORKING MODAL & LINKS) */}
+          {/* TAB 3: KEYNOTES, PODCASTS & CONFERENCES */}
           {activeTab === "talks" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
               {MEDIA_AND_TALKS.map((talk) => (
                 <div
                   key={talk.title}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between hover:border-[color:var(--gold)]/60 transition-all"
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -834,7 +849,7 @@ function Index() {
           {/* TAB 4: RESEARCH & PROJECTS */}
           {activeTab === "artifacts" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
-              <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md">
+              <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
                 <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
                   <div className="inline-flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
                     <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
@@ -861,7 +876,7 @@ function Index() {
                 {ARTIFACTS.projects.map((proj) => (
                   <div
                     key={proj.title}
-                    className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between"
+                    className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -893,7 +908,7 @@ function Index() {
               {VOLUNTEERING.map((vol) => (
                 <div
                   key={vol.organization}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between group"
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -1031,7 +1046,7 @@ function Index() {
             ].map((edu) => (
               <article
                 key={edu.institution}
-                className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-colors hover:bg-card/70 md:p-8"
+                className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8"
               >
                 <div className="col-span-12 md:col-span-3">
                   <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
@@ -1128,6 +1143,19 @@ function Index() {
         </div>
       </footer>
 
+      {/* FLOATING BACK TO TOP DOSSIER ACTION */}
+      {showBackToTop && (
+        <button
+          type="button"
+          onClick={scrollToTop}
+          aria-label="Back to top"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border border-[color:var(--gold)]/60 bg-background/85 px-4 py-2.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-[color:var(--gold)]/20 cursor-pointer animate-fadeIn"
+        >
+          <ArrowUp className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Top</span>
+        </button>
+      )}
+
       {/* CERTIFICATE LIGHTBOX MODAL */}
       {selectedCert && (
         <div
@@ -1194,7 +1222,7 @@ function TrackLabel({ label }: { label: string }) {
 
 function TimelineCard({ job }: { job: Job }) {
   return (
-    <article className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-colors hover:bg-card/70 md:p-8">
+    <article className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8">
       <div className="col-span-12 md:col-span-3">
         <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
           {job.year}
