@@ -174,7 +174,7 @@ const MEDIA_AND_TALKS = [
     platform: "JAIN (Deemed-to-be University) · CMS",
     date: "Dec 13–14, 2024",
     certificateUrl: "/certificates/jain-keynote.png",
-    body: "Awarded Certificate of Appreciation as Keynote Speaker for the Two-Day International Conference on Sustainable, Innovative Practices in Business and Academia.",
+    body: "Awarded Certificate of Appreciation as Keynote Speaker for the Two-Day International Conference on Sustainable, Innovative Practices in Business and Academia[cite: 1].",
   },
   {
     type: "EXPERT WEBINAR",
@@ -419,17 +419,54 @@ function Index() {
 
   return (
     <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden">
-      {/* BACKGROUND EFFECTS */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -left-40 -top-40 h-[560px] w-[560px] rounded-full blur-3xl opacity-40"
-        style={{ background: "radial-gradient(circle, oklch(0.86 0.09 78), transparent 70%)" }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute top-40 right-[-160px] h-[520px] w-[520px] rounded-full blur-3xl opacity-30"
-        style={{ background: "radial-gradient(circle, oklch(0.82 0.08 30), transparent 70%)" }}
-      />
+      {/* HAIKEI-INSPIRED PARAMETRIC VECTOR CONTOUR UNDERLAYS & AMBIENT GLOWS */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-35">
+        <svg
+          className="absolute -left-32 -top-24 h-[750px] w-[750px] text-[color:var(--gold)]"
+          viewBox="0 0 800 800"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M750 400C750 593.3 593.3 750 400 750C206.7 750 50 593.3 50 400C50 206.7 206.7 50 400 50C593.3 50 750 206.7 750 400Z"
+            stroke="currentColor"
+            strokeWidth="0.75"
+            strokeDasharray="4 8"
+            opacity="0.25"
+          />
+          <path
+            d="M680 400C680 554.64 554.64 680 400 680C245.36 680 120 554.64 120 400C120 245.36 245.36 120 400 120C554.64 120 680 245.36 680 400Z"
+            stroke="currentColor"
+            strokeWidth="0.75"
+            opacity="0.35"
+          />
+          <path
+            d="M600 400C600 510.46 510.46 600 400 600C289.54 600 200 510.46 200 400C200 289.54 289.54 200 400 200C510.46 200 600 289.54 600 400Z"
+            stroke="currentColor"
+            strokeWidth="1"
+            strokeDasharray="6 12"
+            opacity="0.45"
+          />
+          <path
+            d="M500 400C500 455.23 455.23 500 400 500C344.77 500 300 455.23 300 400C300 344.77 344.77 300 400 300C455.23 300 500 344.77 500 400Z"
+            stroke="currentColor"
+            strokeWidth="1.2"
+            opacity="0.55"
+          />
+        </svg>
+
+        {/* Ambient Warm Floor Gradients */}
+        <div
+          aria-hidden
+          className="absolute -left-40 -top-40 h-[560px] w-[560px] rounded-full blur-3xl opacity-40"
+          style={{ background: "radial-gradient(circle, oklch(0.86 0.09 78), transparent 70%)" }}
+        />
+        <div
+          aria-hidden
+          className="absolute top-40 right-[-160px] h-[520px] w-[520px] rounded-full blur-3xl opacity-30"
+          style={{ background: "radial-gradient(circle, oklch(0.82 0.08 30), transparent 70%)" }}
+        />
+      </div>
 
       {/* PREMIUM STICKY GLASSMORPHIC HEADBAR */}
       <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-14 bg-background/80 backdrop-blur-md border-b border-border/40 shadow-sm">
@@ -616,30 +653,31 @@ function Index() {
             AI Strategy &amp; Digital Transformation
           </p>
 
-          <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-center gap-6 border-y border-[color:var(--gold)]/30 py-4 font-mono-tech text-[10px] uppercase tracking-[0.25em] text-foreground/80">
+          {/* TACTICAL METRICS STAT STRIP (UPGRADE 3) */}
+          <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-center gap-3 sm:gap-6 border-y border-[color:var(--gold)]/30 py-3.5 px-4 font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-foreground/85 bg-card/20 backdrop-blur-sm rounded-lg sm:rounded-none">
             <div className="flex items-center gap-2">
-              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
                 26+
               </span>{" "}
-              Yrs Industry Leadership
+              Yrs Leadership
             </div>
-            <span className="hidden text-border md:inline">•</span>
+            <span className="hidden text-[color:var(--gold)]/40 sm:inline">•</span>
             <div className="flex items-center gap-2">
-              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
                 DBA
               </span>{" "}
               Artificial Intelligence
             </div>
-            <span className="hidden text-border md:inline">•</span>
+            <span className="hidden text-[color:var(--gold)]/40 sm:inline">•</span>
             <div className="flex items-center gap-2">
-              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
                 7x
               </span>{" "}
               Enterprise Awards
             </div>
-            <span className="hidden text-border md:inline">•</span>
+            <span className="hidden text-[color:var(--gold)]/40 sm:inline">•</span>
             <div className="flex items-center gap-2">
-              <span className="font-editorial text-base italic text-[color:var(--gold-strong)]">
+              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
                 Global
               </span>{" "}
               P&amp;L Operations
@@ -661,14 +699,14 @@ function Index() {
             title="Recognition & Advocacy"
           />
 
-          {/* TAB CONTROLS HEADER */}
+          {/* MOTION PRIMITIVES FLUID TAB CONTROLS (UPGRADE 1) */}
           <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono-tech text-[10px] uppercase tracking-[0.2em]">
             <button
               onClick={() => setActiveTab("powerlist")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
                 activeTab === "powerlist"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
               }`}
             >
               <Award className="w-3.5 h-3.5" /> 🏆 Power List 2026
@@ -676,10 +714,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("awards")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
                 activeTab === "awards"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
               }`}
             >
               <Award className="w-3.5 h-3.5" /> Enterprise Honors (7)
@@ -687,10 +725,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("talks")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
                 activeTab === "talks"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
               }`}
             >
               <Radio className="w-3.5 h-3.5" /> 🎙️ Keynotes &amp; Podcasts
@@ -698,10 +736,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("artifacts")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
                 activeTab === "artifacts"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" /> Research &amp; Projects
@@ -709,10 +747,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("impact")}
-              className={`flex items-center gap-2 rounded-lg px-4 py-2 transition-all cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
                 activeTab === "impact"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/40 font-bold"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
               }`}
             >
               <GraduationCap className="w-3.5 h-3.5" /> STEM &amp; Volunteering
