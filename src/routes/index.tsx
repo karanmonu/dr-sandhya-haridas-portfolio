@@ -17,6 +17,12 @@ import {
   Terminal,
   Activity,
   Layers,
+  Home,
+  Trophy,
+  History,
+  Send,
+  User,
+  Globe,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
@@ -57,6 +63,13 @@ const NARRATION: Record<Focus, string> = {
   credentials:
     "Academic credentials verified: Swiss School of Business (DBA in AI), Harvard Business School (Disruptive Strategy), and Bangalore University Engineering.",
 };
+
+const NAV_ITEMS = [
+  { id: "identity", label: "Profile", icon: User },
+  { id: "accolades", label: "Laurels", icon: Trophy },
+  { id: "timeline", label: "Experience", icon: History },
+  { id: "credentials", label: "Education", icon: GraduationCap },
+];
 
 function useTypewriter(text: string, speed = 12) {
   const [out, setOut] = useState("");
@@ -105,11 +118,9 @@ type Job = {
   domains: string[];
 };
 
-// Official CXO Declaration Link
 const CXO_DECLARATION_URL =
   "https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/";
 
-// 1. ENTERPRISE AWARDS DATA (7 Awards)
 const ENTERPRISE_AWARDS = [
   {
     title: "BU VP Choice Award",
@@ -162,7 +173,6 @@ const ENTERPRISE_AWARDS = [
   },
 ];
 
-// 2. KEYNOTES, PODCASTS & PANEL DISCUSSIONS DATA (Updated with New Content)
 const MEDIA_AND_TALKS = [
   {
     type: "FEATURED INTERVIEW // PODCAST",
@@ -213,7 +223,6 @@ const MEDIA_AND_TALKS = [
   },
 ];
 
-// 3. PUBLICATIONS & PROJECTS DATA
 const ARTIFACTS = {
   publication: {
     title: "Thermal Behaviour of Variable Conductance Heat Pipes in Vacuum Chambers",
@@ -240,7 +249,6 @@ const ARTIFACTS = {
   ],
 };
 
-// 4. VOLUNTEERING & ADVOCACY DATA
 const VOLUNTEERING = [
   {
     role: "Director of Operations & Keynote Speaker",
@@ -394,6 +402,9 @@ function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallba
 
 function Index() {
   const [focus, setFocus] = useState<Focus>("default");
+  const [activeNav, setActiveNav] = useState("identity");
+  const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
+
   const [activeTab, setActiveTab] = useState<
     "powerlist" | "awards" | "talks" | "artifacts" | "impact"
   >("powerlist");
@@ -416,6 +427,26 @@ function Index() {
   }, []);
 
   useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveNav(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-25% 0px -65% 0px" },
+    );
+
+    NAV_ITEMS.forEach((item) => {
+      const el = document.getElementById(item.id);
+      if (el) observer.observe(el);
+    });
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedCert(null);
     };
@@ -423,8 +454,7 @@ function Index() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
-  const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
-    e.preventDefault();
+  const handleScrollTo = (targetId: string) => {
     const targetElement = document.getElementById(targetId);
     if (targetElement) {
       targetElement.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -437,7 +467,6 @@ function Index() {
 
   return (
     <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden font-sans">
-      {/* AMBIENT BACKGROUND GLOWS & PRECISION MESH */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-30">
         <div
           className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full blur-3xl opacity-50"
@@ -449,75 +478,79 @@ function Index() {
         />
       </div>
 
-      {/* STICKY GLASSMORPHIC HEADBAR */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-14 bg-background/85 backdrop-blur-md border-b border-border/40 shadow-sm">
-        <div className="flex items-center gap-3 font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground select-none">
-          <div className="w-8 h-8 rounded-full border-2 border-foreground/60 flex items-center justify-center font-sans text-[11px] font-black tracking-normal text-foreground bg-background shadow-sm">
-            SH
+      <header className="sticky top-3 z-50 mx-auto max-w-5xl px-4 sm:px-6">
+        <div className="flex items-center justify-between rounded-2xl border border-border/80 bg-background/85 px-3.5 sm:px-5 py-2.5 backdrop-blur-xl shadow-md">
+          <button
+            onClick={() => handleScrollTo("identity")}
+            className="flex items-center gap-2.5 group cursor-pointer border-0 bg-transparent p-0"
+            aria-label="Profile"
+          >
+            <div className="w-8 h-8 rounded-xl border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 flex items-center justify-center font-sans text-xs font-black text-foreground group-hover:border-[color:var(--gold)] transition-colors shadow-sm">
+              SH
+            </div>
+            <span className="font-mono-tech text-xs font-bold tracking-widest text-foreground/80 group-hover:text-foreground transition-colors uppercase hidden sm:inline">
+              Dr. Sandhya Haridas
+            </span>
+          </button>
+
+          <nav className="flex items-center gap-1.5 bg-card/60 border border-border/60 rounded-xl p-1 shadow-inner">
+            {NAV_ITEMS.map((item) => {
+              const Icon = item.icon;
+              const isExpanded = hoveredNavId ? hoveredNavId === item.id : activeNav === item.id;
+
+              return (
+                <button
+                  key={item.id}
+                  onMouseEnter={() => setHoveredNavId(item.id)}
+                  onMouseLeave={() => setHoveredNavId(null)}
+                  onClick={() => handleScrollTo(item.id)}
+                  className={`relative flex items-center gap-2 h-8 px-2.5 sm:px-3 rounded-lg font-mono-tech text-xs transition-all duration-300 ease-out cursor-pointer overflow-hidden border-0 ${
+                    isExpanded
+                      ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                      : "text-muted-foreground hover:text-foreground hover:bg-card/80 bg-transparent"
+                  }`}
+                >
+                  <Icon className="h-3.5 w-3.5 shrink-0" />
+                  <span
+                    className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap text-[11px] uppercase tracking-wider ${
+                      isExpanded
+                        ? "max-w-[90px] opacity-100 translate-x-0"
+                        : "max-w-0 opacity-0 -translate-x-2"
+                    }`}
+                  >
+                    {item.label}
+                  </span>
+                </button>
+              );
+            })}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <a
+              href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-1.5 rounded-xl border border-border/70 text-muted-foreground hover:text-foreground hover:border-[color:var(--gold)]/50 transition-all bg-card/40 shadow-sm"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="w-3.5 h-3.5" />
+            </a>
+            <a
+              href="mailto:sharidas783@gmail.com"
+              className="p-1.5 rounded-xl border border-border/70 text-muted-foreground hover:text-foreground hover:border-[color:var(--gold)]/50 transition-all bg-card/40 shadow-sm"
+              aria-label="Email"
+            >
+              <Mail className="w-3.5 h-3.5" />
+            </a>
           </div>
-          <span className="hidden sm:inline">
-            Dossier <span className="text-muted-foreground/30 mx-1">/</span> v2026
-          </span>
-        </div>
-
-        <nav className="hidden font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground md:flex md:gap-8">
-          <a
-            href="#identity"
-            onClick={(e) => handleScrollTo(e, "identity")}
-            className="hover:text-foreground transition-colors"
-          >
-            01 — Profile
-          </a>
-          <a
-            href="#accolades"
-            onClick={(e) => handleScrollTo(e, "accolades")}
-            className="hover:text-foreground transition-colors"
-          >
-            02 — Laurels
-          </a>
-          <a
-            href="#timeline"
-            onClick={(e) => handleScrollTo(e, "timeline")}
-            className="hover:text-foreground transition-colors"
-          >
-            03 — Experience
-          </a>
-          <a
-            href="#credentials"
-            onClick={(e) => handleScrollTo(e, "credentials")}
-            className="hover:text-foreground transition-colors"
-          >
-            04 — Education
-          </a>
-        </nav>
-
-        <div className="flex items-center gap-4">
-          <a
-            href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all bg-card/40"
-            aria-label="LinkedIn"
-          >
-            <Linkedin className="w-3.5 h-3.5" />
-          </a>
-          <a
-            href="mailto:sharidas783@gmail.com"
-            className="p-1.5 rounded-full border border-border text-muted-foreground hover:text-foreground hover:border-foreground/30 transition-all bg-card/40"
-            aria-label="Email"
-          >
-            <Mail className="w-3.5 h-3.5" />
-          </a>
         </div>
       </header>
 
-      {/* SECTION 01: IDENTITY HERO (REFINED EDITORIAL CANVAS) */}
       <section
         id="identity"
-        className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-12 md:px-14 scroll-mt-24"
+        className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-10 md:px-14 scroll-mt-24"
       >
         <div className="relative mx-auto aspect-[4/5] w-full max-w-[540px] flex items-center justify-center">
-          {/* Subtle Precision Engineering Back-Grid Mesh (Replaced Faint Circle) */}
           <div
             aria-hidden
             className="absolute inset-0 -m-8 opacity-25 pointer-events-none flex items-center justify-center overflow-hidden"
@@ -532,7 +565,6 @@ function Index() {
             />
           </div>
 
-          {/* Architectural Arch Backdrop */}
           <svg
             aria-hidden
             viewBox="0 0 400 500"
@@ -548,14 +580,12 @@ function Index() {
             </defs>
           </svg>
 
-          {/* Portrait Image */}
           <img
             src={portraitImg}
             alt="Dr. Sandhya Haridas portrait"
             className="relative z-10 mx-auto h-[96%] w-auto max-w-full object-contain drop-shadow-[0_30px_45px_rgba(30,20,10,0.18)]"
           />
 
-          {/* EXECUTIVE SEAL BADGE */}
           <div className="absolute -top-4 -right-2 z-20 md:-right-16 md:top-4">
             <div className="relative h-28 w-28 md:h-36 md:w-36">
               <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
@@ -591,7 +621,6 @@ function Index() {
             </div>
           </div>
 
-          {/* Brief Typewriter Terminal */}
           <div className="absolute left-[-10px] bottom-3 z-20 hidden w-[310px] md:block lg:left-[-35px] lg:w-[330px]">
             <div className="rounded-xl border border-border/80 bg-card/90 p-4 shadow-xl backdrop-blur-md">
               <div className="mb-2 flex items-center gap-2">
@@ -630,40 +659,56 @@ function Index() {
             AI Strategy &amp; Digital Transformation
           </p>
 
-          {/* TACTICAL STAT STRIP */}
-          <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-center gap-3 sm:gap-6 border-y border-[color:var(--gold)]/30 py-3.5 px-4 font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-foreground/85 bg-card/20 backdrop-blur-sm rounded-lg sm:rounded-none">
-            <div className="flex items-center gap-2">
-              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
-                26+
-              </span>{" "}
-              Yrs Leadership
+          <div className="mx-auto mt-10 grid grid-cols-2 md:grid-cols-4 gap-3.5 max-w-4xl font-mono-tech text-xs">
+            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-[10px] uppercase tracking-wider">TENURE</span>
+                <Activity className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+              </div>
+              <div className="mt-2 text-2xl font-black text-foreground">
+                26+ <span className="text-xs font-normal text-muted-foreground">Yrs</span>
+              </div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
+                Global Leadership
+              </div>
             </div>
-            <span className="hidden text-[color:var(--gold)]/40 sm:inline">•</span>
-            <div className="flex items-center gap-2">
-              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
-                DBA
-              </span>{" "}
-              Artificial Intelligence
+
+            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-[10px] uppercase tracking-wider">DOCTORATE</span>
+                <GraduationCap className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+              </div>
+              <div className="mt-2 text-2xl font-black text-foreground">DBA</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
+                Artificial Intelligence
+              </div>
             </div>
-            <span className="hidden text-[color:var(--gold)]/40 sm:inline">•</span>
-            <div className="flex items-center gap-2">
-              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
-                7x
-              </span>{" "}
-              Enterprise Awards
+
+            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-[10px] uppercase tracking-wider">RECOGNITION</span>
+                <Award className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+              </div>
+              <div className="mt-2 text-2xl font-black text-foreground">7x</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
+                Enterprise Awards
+              </div>
             </div>
-            <span className="hidden text-[color:var(--gold)]/40 sm:inline">•</span>
-            <div className="flex items-center gap-2">
-              <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
-                Global
-              </span>{" "}
-              P&amp;L Operations
+
+            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
+              <div className="flex items-center justify-between text-muted-foreground">
+                <span className="text-[10px] uppercase tracking-wider">SCOPE</span>
+                <Globe className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+              </div>
+              <div className="mt-2 text-2xl font-black text-foreground">Global</div>
+              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
+                P&amp;L Operations
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* SECTION 02: RECOGNITION, MEDIA & KEYNOTES */}
       <section
         ref={accoladesRef}
         id="accolades"
@@ -676,14 +721,13 @@ function Index() {
             title="Recognition & Advocacy"
           />
 
-          {/* Fluid Tab Bar */}
           <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono-tech text-[10px] uppercase tracking-[0.2em]">
             <button
               onClick={() => setActiveTab("powerlist")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
                 activeTab === "powerlist"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
               }`}
             >
               <Award className="w-3.5 h-3.5" /> 🏆 Power List 2026
@@ -691,10 +735,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("talks")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
                 activeTab === "talks"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
               }`}
             >
               <Radio className="w-3.5 h-3.5" /> 🎙️ Keynotes &amp; Podcasts ({MEDIA_AND_TALKS.length}
@@ -703,10 +747,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("awards")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
                 activeTab === "awards"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
               }`}
             >
               <Award className="w-3.5 h-3.5" /> Enterprise Honors (7)
@@ -714,10 +758,10 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("artifacts")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
                 activeTab === "artifacts"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
               }`}
             >
               <BookOpen className="w-3.5 h-3.5" /> Research &amp; Projects
@@ -725,17 +769,16 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("impact")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
                 activeTab === "impact"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
               }`}
             >
               <GraduationCap className="w-3.5 h-3.5" /> STEM &amp; Volunteering
             </button>
           </div>
 
-          {/* TAB 1: POWER LIST 2026 */}
           {activeTab === "powerlist" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
               <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
@@ -783,7 +826,6 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 2: KEYNOTES & PODCASTS (Updated with INDEA-2026 & Business Standard) */}
           {activeTab === "talks" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
               {MEDIA_AND_TALKS.map((talk) => (
@@ -844,7 +886,6 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 3: ENTERPRISE AWARDS */}
           {activeTab === "awards" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
               {ENTERPRISE_AWARDS.map((award) => (
@@ -892,7 +933,6 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 4: RESEARCH & PROJECTS */}
           {activeTab === "artifacts" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
               <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
@@ -948,7 +988,6 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 5: ADVOCACY & VOLUNTEERING */}
           {activeTab === "impact" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
               {VOLUNTEERING.map((vol) => (
@@ -989,7 +1028,6 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 03: EXPERIENCE TIMELINE */}
       <section
         id="timeline"
         className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-14 border-t border-border/70 scroll-mt-24"
@@ -1018,7 +1056,6 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 04: EDUCATIONAL TIMELINE LEDGER */}
       <section
         ref={credentialsRef}
         id="credentials"
@@ -1158,7 +1195,6 @@ function Index() {
         </div>
       </section>
 
-      {/* FOOTER */}
       <footer className="relative z-10 border-t border-border/70 bg-card/40 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
           <div className="flex flex-col gap-1 items-center md:items-start">
@@ -1189,7 +1225,6 @@ function Index() {
         </div>
       </footer>
 
-      {/* FLOATING BACK TO TOP BUTTON */}
       {showBackToTop && (
         <button
           type="button"
@@ -1202,7 +1237,6 @@ function Index() {
         </button>
       )}
 
-      {/* CERTIFICATE LIGHTBOX MODAL */}
       {selectedCert && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn"
