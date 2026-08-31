@@ -384,7 +384,7 @@ function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallba
 
   if (hasError || !src) {
     return (
-      <div className="flex h-full w-full items-center justify-center bg-[color:var(--gold)]/15 font-mono-tech text-[10px] font-bold text-[color:var(--gold-strong)] uppercase tracking-tight">
+      <div className="flex h-full w-full items-center justify-center bg-[color:var(--gold)]/15 font-mono text-[10px] font-bold text-[color:var(--gold-strong)] uppercase tracking-tight">
         {fallback}
       </div>
     );
@@ -478,22 +478,29 @@ function Index() {
         />
       </div>
 
-      <header className="sticky top-3 z-50 mx-auto max-w-5xl px-4 sm:px-6">
-        <div className="flex items-center justify-between rounded-2xl border border-border/80 bg-background/85 px-3.5 sm:px-5 py-2.5 backdrop-blur-xl shadow-md">
+      {/* EXPANDING ICON DOCK NAVIGATION (BALANCED WIDTH & PADDING) */}
+      <header className="sticky top-3.5 z-50 mx-auto max-w-6xl px-4 sm:px-8">
+        <div className="flex items-center justify-between rounded-2xl border border-border/70 bg-background/85 px-4 sm:px-6 py-2.5 backdrop-blur-xl shadow-lg">
           <button
             onClick={() => handleScrollTo("identity")}
-            className="flex items-center gap-2.5 group cursor-pointer border-0 bg-transparent p-0"
+            className="flex items-center gap-3 group cursor-pointer border-0 bg-transparent p-0"
             aria-label="Profile"
           >
-            <div className="w-8 h-8 rounded-xl border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 flex items-center justify-center font-sans text-xs font-black text-foreground group-hover:border-[color:var(--gold)] transition-colors shadow-sm">
+            <div className="w-8 h-8 rounded-xl border border-[color:var(--gold)]/50 bg-[color:var(--gold)]/10 flex items-center justify-center font-sans text-xs font-black text-foreground group-hover:border-[color:var(--gold)] transition-colors shadow-sm">
               SH
             </div>
-            <span className="font-mono-tech text-xs font-bold tracking-widest text-foreground/80 group-hover:text-foreground transition-colors uppercase hidden sm:inline">
-              Dr. Sandhya Haridas
-            </span>
+            <div className="text-left hidden sm:block">
+              <span className="font-sans text-xs font-bold tracking-tight text-foreground group-hover:text-[color:var(--gold-strong)] transition-colors block">
+                Dr. Sandhya Haridas
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground block -mt-0.5">
+                Executive Dossier
+              </span>
+            </div>
           </button>
 
-          <nav className="flex items-center gap-1.5 bg-card/60 border border-border/60 rounded-xl p-1 shadow-inner">
+          {/* Morphing Expanding Icon Dock */}
+          <nav className="flex items-center gap-1.5 bg-card/60 border border-border/70 rounded-xl p-1 shadow-inner">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isExpanded = hoveredNavId ? hoveredNavId === item.id : activeNav === item.id;
@@ -504,15 +511,15 @@ function Index() {
                   onMouseEnter={() => setHoveredNavId(item.id)}
                   onMouseLeave={() => setHoveredNavId(null)}
                   onClick={() => handleScrollTo(item.id)}
-                  className={`relative flex items-center gap-2 h-8 px-2.5 sm:px-3 rounded-lg font-mono-tech text-xs transition-all duration-300 ease-out cursor-pointer overflow-hidden border-0 ${
+                  className={`relative flex items-center gap-2 h-9 px-3 rounded-lg font-sans text-xs font-medium transition-all duration-300 ease-out cursor-pointer overflow-hidden border-0 ${
                     isExpanded
                       ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-card/80 bg-transparent"
                   }`}
                 >
-                  <Icon className="h-3.5 w-3.5 shrink-0" />
+                  <Icon className="h-4 w-4 shrink-0" />
                   <span
-                    className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap text-[11px] uppercase tracking-wider ${
+                    className={`transition-all duration-300 ease-out overflow-hidden whitespace-nowrap text-xs ${
                       isExpanded
                         ? "max-w-[90px] opacity-100 translate-x-0"
                         : "max-w-0 opacity-0 -translate-x-2"
@@ -530,22 +537,23 @@ function Index() {
               href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-1.5 rounded-xl border border-border/70 text-muted-foreground hover:text-foreground hover:border-[color:var(--gold)]/50 transition-all bg-card/40 shadow-sm"
+              className="p-2 rounded-xl border border-border/70 text-muted-foreground hover:text-foreground hover:border-[color:var(--gold)]/50 transition-all bg-card/40 shadow-sm"
               aria-label="LinkedIn"
             >
-              <Linkedin className="w-3.5 h-3.5" />
+              <Linkedin className="w-4 h-4" />
             </a>
             <a
               href="mailto:sharidas783@gmail.com"
-              className="p-1.5 rounded-xl border border-border/70 text-muted-foreground hover:text-foreground hover:border-[color:var(--gold)]/50 transition-all bg-card/40 shadow-sm"
+              className="p-2 rounded-xl border border-border/70 text-muted-foreground hover:text-foreground hover:border-[color:var(--gold)]/50 transition-all bg-card/40 shadow-sm"
               aria-label="Email"
             >
-              <Mail className="w-3.5 h-3.5" />
+              <Mail className="w-4 h-4" />
             </a>
           </div>
         </div>
       </header>
 
+      {/* SECTION 01: IDENTITY HERO */}
       <section
         id="identity"
         className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-10 md:px-14 scroll-mt-24"
@@ -597,8 +605,7 @@ function Index() {
                   <path id="sealPath" d="M80,80 m-64,0 a64,64 0 1,1 128,0 a64,64 0 1,1 -128,0" />
                 </defs>
                 <text
-                  className="font-mono-tech"
-                  fontSize="8.5"
+                  className="font-mono text-[8.5px]"
                   fill="oklch(0.35 0.05 260)"
                   letterSpacing="3.6"
                 >
@@ -608,13 +615,13 @@ function Index() {
                 </text>
               </svg>
               <div className="absolute inset-3.5 flex flex-col items-center justify-center rounded-full bg-background/95 backdrop-blur-md md:inset-7 shadow-lg">
-                <span className="font-mono-tech text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
+                <span className="font-mono text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
                   Ledger
                 </span>
                 <span className="font-editorial text-xl md:text-2xl italic leading-none text-foreground my-0.5">
                   26+ Yrs
                 </span>
-                <span className="font-mono-tech text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
+                <span className="font-mono text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
                   ● VERIFIED
                 </span>
               </div>
@@ -628,14 +635,11 @@ function Index() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-60" />
                   <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
                 </span>
-                <span className="font-mono-tech text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
+                <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
                   Brief · {focus}
                 </span>
               </div>
-              <p
-                key={focus}
-                className="font-mono-tech text-[11px] leading-relaxed text-foreground/90"
-              >
+              <p key={focus} className="font-mono text-[11px] leading-relaxed text-foreground/90">
                 {typed}
                 <span className="ml-0.5 inline-block h-3 w-1.5 translate-y-[2px] animate-pulse bg-[color:var(--gold-strong)]" />
               </p>
@@ -644,7 +648,7 @@ function Index() {
         </div>
 
         <div className="mt-12 text-center">
-          <div className="font-mono-tech text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
+          <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
             Executive Profile · 01
           </div>
           <h1 className="mt-4 font-sans-display text-5xl font-black leading-[0.9] tracking-tight text-foreground md:text-7xl lg:text-8xl uppercase">
@@ -653,62 +657,80 @@ function Index() {
               Haridas
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl font-mono-tech text-[11px] uppercase tracking-[0.28em] text-muted-foreground md:text-[12px]">
+          <p className="mx-auto mt-6 max-w-3xl font-mono text-[11px] uppercase tracking-[0.28em] text-muted-foreground md:text-[12px]">
             Vice President &amp; Global Delivery Unit Head
             <span className="mx-2 text-[color:var(--gold-strong)]">//</span>
             AI Strategy &amp; Digital Transformation
           </p>
 
-          <div className="mx-auto mt-10 grid grid-cols-2 md:grid-cols-4 gap-3.5 max-w-4xl font-mono-tech text-xs">
-            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-[10px] uppercase tracking-wider">TENURE</span>
-                <Activity className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+          {/* EDITORIAL STAT LEDGER (REDESIGNED STRIP) */}
+          <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-border/70 bg-card/40 backdrop-blur-md shadow-sm overflow-hidden">
+            <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-border/60">
+              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span className="font-mono text-[10px] uppercase tracking-widest">
+                    Leadership
+                  </span>
+                  <Activity className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+                </div>
+                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                  26
+                  <span className="font-editorial italic font-normal text-xl text-[color:var(--gold-strong)]">
+                    +
+                  </span>
+                </div>
+                <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
+                  Years Global Delivery
+                </div>
               </div>
-              <div className="mt-2 text-2xl font-black text-foreground">
-                26+ <span className="text-xs font-normal text-muted-foreground">Yrs</span>
-              </div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
-                Global Leadership
-              </div>
-            </div>
 
-            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-[10px] uppercase tracking-wider">DOCTORATE</span>
-                <GraduationCap className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span className="font-mono text-[10px] uppercase tracking-widest">Doctorate</span>
+                  <GraduationCap className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+                </div>
+                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                  DBA
+                </div>
+                <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
+                  Artificial Intelligence
+                </div>
               </div>
-              <div className="mt-2 text-2xl font-black text-foreground">DBA</div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
-                Artificial Intelligence
-              </div>
-            </div>
 
-            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-[10px] uppercase tracking-wider">RECOGNITION</span>
-                <Award className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span className="font-mono text-[10px] uppercase tracking-widest">Laurels</span>
+                  <Award className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+                </div>
+                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                  7
+                  <span className="font-editorial italic font-normal text-xl text-[color:var(--gold-strong)]">
+                    x
+                  </span>
+                </div>
+                <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
+                  Enterprise Awards
+                </div>
               </div>
-              <div className="mt-2 text-2xl font-black text-foreground">7x</div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
-                Enterprise Awards
-              </div>
-            </div>
 
-            <div className="rounded-xl border border-border/80 bg-card/40 p-3.5 backdrop-blur-sm shadow-sm text-left flex flex-col justify-between">
-              <div className="flex items-center justify-between text-muted-foreground">
-                <span className="text-[10px] uppercase tracking-wider">SCOPE</span>
-                <Globe className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
-              </div>
-              <div className="mt-2 text-2xl font-black text-foreground">Global</div>
-              <div className="text-[10px] text-muted-foreground uppercase tracking-widest mt-0.5">
-                P&amp;L Operations
+              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+                <div className="flex items-center justify-between text-muted-foreground">
+                  <span className="font-mono text-[10px] uppercase tracking-widest">Scope</span>
+                  <Globe className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
+                </div>
+                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                  P&amp;L
+                </div>
+                <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
+                  Global Operations
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* SECTION 02: RECOGNITION, MEDIA & KEYNOTES */}
       <section
         ref={accoladesRef}
         id="accolades"
@@ -721,7 +743,7 @@ function Index() {
             title="Recognition & Advocacy"
           />
 
-          <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono-tech text-[10px] uppercase tracking-[0.2em]">
+          <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono text-[10px] uppercase tracking-[0.2em]">
             <button
               onClick={() => setActiveTab("powerlist")}
               className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
@@ -782,7 +804,7 @@ function Index() {
           {activeTab === "powerlist" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
               <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
-                <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono-tech text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
+                <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
                   <Award className="w-3.5 h-3.5 shrink-0" />
                   <span className="truncate">Top IT Leader Attestation</span>
                 </div>
@@ -792,7 +814,7 @@ function Index() {
                     2026
                   </span>
                 </h3>
-                <span className="font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
                   Issued by CXO Lanes
                 </span>
 
@@ -801,7 +823,7 @@ function Index() {
                     href={CXO_DECLARATION_URL}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--gold)]/60 bg-[color:var(--gold)]/15 px-4 py-2.5 font-mono-tech text-[10px] uppercase tracking-[0.18em] text-[color:var(--gold-strong)] hover:bg-[color:var(--gold)]/30 transition-all shadow-sm group"
+                    className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--gold)]/60 bg-[color:var(--gold)]/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--gold-strong)] hover:bg-[color:var(--gold)]/30 transition-all shadow-sm group"
                   >
                     <span>View Official Declaration ↗</span>
                     <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -835,10 +857,10 @@ function Index() {
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
                         {talk.type}
                       </span>
-                      <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                         {talk.date}
                       </span>
                     </div>
@@ -847,7 +869,7 @@ function Index() {
                       {talk.title}
                     </h4>
 
-                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
                       {talk.platform}
                     </span>
 
@@ -862,7 +884,7 @@ function Index() {
                         href={talk.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline"
+                        className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline"
                       >
                         <span>Access Media Feature</span>
                         <ArrowUpRight className="w-3.5 h-3.5" />
@@ -875,7 +897,7 @@ function Index() {
                         onClick={() =>
                           setSelectedCert({ title: talk.title, url: talk.certificateUrl! })
                         }
-                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
+                        className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
                       >
                         <span>View Certificate 📄</span>
                       </button>
@@ -895,11 +917,11 @@ function Index() {
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
                         Issued by {award.issuer}
                       </span>
                       <div className="flex items-center gap-2">
-                        <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                           {award.date}
                         </span>
                         <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0">
@@ -937,10 +959,10 @@ function Index() {
             <div className="mt-8 space-y-6 animate-fadeIn">
               <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
                 <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                  <div className="inline-flex items-center gap-2 font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                  <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
                     <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
                   </div>
-                  <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     {ARTIFACTS.publication.date}
                   </span>
                 </div>
@@ -949,7 +971,7 @@ function Index() {
                   {ARTIFACTS.publication.title}
                 </h4>
 
-                <span className="font-mono-tech text-[11px] uppercase tracking-[0.25em] text-muted-foreground block mt-1">
+                <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground block mt-1">
                   Publisher // {ARTIFACTS.publication.publisher}
                 </span>
 
@@ -966,10 +988,10 @@ function Index() {
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                        <span className="font-mono-tech text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                        <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
                           Client // {proj.client}
                         </span>
-                        <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                           {proj.date}
                         </span>
                       </div>
@@ -997,7 +1019,7 @@ function Index() {
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
+                      <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
                         {vol.domain}
                       </span>
                       <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0">
@@ -1013,7 +1035,7 @@ function Index() {
                       {vol.role}
                     </h4>
 
-                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
+                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
                       {vol.organization} · {vol.period}
                     </span>
 
@@ -1028,6 +1050,7 @@ function Index() {
         </div>
       </section>
 
+      {/* SECTION 03: EXPERIENCE TIMELINE */}
       <section
         id="timeline"
         className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-14 border-t border-border/70 scroll-mt-24"
@@ -1056,6 +1079,7 @@ function Index() {
         </div>
       </section>
 
+      {/* SECTION 04: EDUCATIONAL TIMELINE LEDGER */}
       <section
         ref={credentialsRef}
         id="credentials"
@@ -1132,7 +1156,7 @@ function Index() {
                 className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8"
               >
                 <div className="col-span-12 md:col-span-3">
-                  <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                  <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
                     {edu.year}
                   </div>
 
@@ -1144,13 +1168,13 @@ function Index() {
                     />
                   </div>
 
-                  <div className="mt-4 font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                  <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
                     {edu.meta}
                   </div>
                 </div>
 
                 <div className="col-span-12 md:col-span-9">
-                  <div className="font-mono-tech text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
+                  <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
                     {edu.institution}
                   </div>
                   <h3 className="mt-2 font-sans-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
@@ -1167,7 +1191,7 @@ function Index() {
                           key={p.title}
                           className="rounded-md border border-border/70 bg-background/60 p-4 shadow-sm"
                         >
-                          <div className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
+                          <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
                             ● {p.title}
                           </div>
                           <p className="mt-2 text-sm leading-relaxed text-foreground/80 font-light">
@@ -1182,7 +1206,7 @@ function Index() {
                     {edu.domains.map((d) => (
                       <span
                         key={d}
-                        className="rounded-full border border-border px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.24em] text-muted-foreground bg-background/40"
+                        className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground bg-background/40"
                       >
                         {d}
                       </span>
@@ -1195,8 +1219,9 @@ function Index() {
         </div>
       </section>
 
+      {/* FOOTER */}
       <footer className="relative z-10 border-t border-border/70 bg-card/40 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
+        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
           <div className="flex flex-col gap-1 items-center md:items-start">
             <span>© 2026 · Dr. Sandhya Haridas</span>
             <span className="text-[8px] text-muted-foreground/50 tracking-widest">
@@ -1204,7 +1229,7 @@ function Index() {
             </span>
           </div>
 
-          <div className="flex items-center gap-6 text-[11px] font-mono-tech text-muted-foreground tracking-widest lowercase">
+          <div className="flex items-center gap-6 text-[11px] font-mono text-muted-foreground tracking-widest lowercase">
             <a
               href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
               target="_blank"
@@ -1225,18 +1250,20 @@ function Index() {
         </div>
       </footer>
 
+      {/* FLOATING BACK TO TOP BUTTON */}
       {showBackToTop && (
         <button
           type="button"
           onClick={scrollToTop}
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border border-[color:var(--gold)]/60 bg-background/85 px-4 py-2.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-[color:var(--gold)]/20 cursor-pointer animate-fadeIn"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border border-[color:var(--gold)]/60 bg-background/85 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-[color:var(--gold)]/20 cursor-pointer animate-fadeIn"
         >
           <ArrowUp className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Top</span>
         </button>
       )}
 
+      {/* CERTIFICATE LIGHTBOX MODAL */}
       {selectedCert && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn"
@@ -1247,13 +1274,13 @@ function Index() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-border/60">
-              <span className="font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
+              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
                 Verified Certificate Attestation
               </span>
               <button
                 type="button"
                 onClick={() => setSelectedCert(null)}
-                className="text-muted-foreground hover:text-foreground font-mono-tech text-xs uppercase tracking-widest px-2.5 py-1 rounded bg-background/60 border border-border transition-colors cursor-pointer"
+                className="text-muted-foreground hover:text-foreground font-mono text-xs uppercase tracking-widest px-2.5 py-1 rounded bg-background/60 border border-border transition-colors cursor-pointer"
               >
                 Close [ESC]
               </button>
@@ -1277,7 +1304,7 @@ function SectionHeader({ index, kicker, title }: { index: string; kicker: string
   return (
     <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
       <div>
-        <div className="font-mono-tech text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+        <div className="font-mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
           § {index} — {kicker}
         </div>
         <h2 className="mt-3 font-sans-display text-4xl font-black tracking-tight text-foreground md:text-6xl uppercase">
@@ -1293,7 +1320,7 @@ function TrackLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-4">
       <span className="h-px w-10 bg-[color:var(--gold-strong)]" />
-      <span className="font-mono-tech text-[10px] uppercase tracking-[0.32em] text-[color:var(--gold-strong)]">
+      <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--gold-strong)]">
         {label}
       </span>
     </div>
@@ -1304,7 +1331,7 @@ function TimelineCard({ job }: { job: Job }) {
   return (
     <article className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8">
       <div className="col-span-12 md:col-span-3">
-        <div className="font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
           {job.year}
         </div>
 
@@ -1317,14 +1344,14 @@ function TimelineCard({ job }: { job: Job }) {
         </div>
 
         {job.location && (
-          <div className="mt-4 font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
             {job.location}
           </div>
         )}
       </div>
 
       <div className="col-span-12 md:col-span-9">
-        <div className="font-mono-tech text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
+        <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
           {job.company}
         </div>
         <h3 className="mt-2 font-sans-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
@@ -1341,7 +1368,7 @@ function TimelineCard({ job }: { job: Job }) {
                 key={p.title}
                 className="rounded-md border border-border/70 bg-background/60 p-4"
               >
-                <div className="font-mono-tech text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
+                <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
                   ● {p.title}
                 </div>
                 <p className="mt-2 text-sm leading-relaxed text-foreground/80">{p.body}</p>
@@ -1354,7 +1381,7 @@ function TimelineCard({ job }: { job: Job }) {
           {job.domains.map((d) => (
             <span
               key={d}
-              className="rounded-full border border-border px-3 py-1 font-mono-tech text-[10px] uppercase tracking-[0.24em] text-muted-foreground"
+              className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground"
             >
               {d}
             </span>
