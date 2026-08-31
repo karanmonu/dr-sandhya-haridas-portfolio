@@ -13,6 +13,10 @@ import {
   Radio,
   ExternalLink,
   ArrowUp,
+  Sparkles,
+  Terminal,
+  Activity,
+  Layers,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
@@ -36,13 +40,13 @@ type Focus = "default" | "accolades" | "delivery" | "aerospace" | "engineering" 
 
 const NARRATION: Record<Focus, string> = {
   default:
-    "System online. Auditing a verified history spanning 26+ years of global technology delivery, Industry 4.0 adoption, and enterprise digital transformation.",
+    "System online. Auditing a verified history spanning 26+ years of global technology delivery, Industry 4.0/5.0 adoption, and enterprise digital transformation.",
 
   accolades:
-    "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation and leadership awards.",
+    "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation awards and invited international keynote speaker.",
 
   delivery:
-    "Global Delivery tracks active: Directing P&L operations across Industry X.0 robotics, MES software pipelines, and AI-led recurring monetization frameworks.",
+    "Global Delivery tracks active: Directing P&L operations across Industry X.0 robotics, MES software pipelines, and AI-led recurring monetization frameworks at LTTS.",
 
   aerospace:
     "Aerospace systems verified: Deployed SAFe Agile Release Trains, core edge flight-to-ground communication protocols, and A350XWB structural stress dossiers.",
@@ -101,7 +105,7 @@ type Job = {
   domains: string[];
 };
 
-// Official CXO Declaration Link (Direct LinkedIn Verification Post)
+// Official CXO Declaration Link
 const CXO_DECLARATION_URL =
   "https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/";
 
@@ -158,10 +162,26 @@ const ENTERPRISE_AWARDS = [
   },
 ];
 
-// 2. KEYNOTES, PODCASTS & PANEL DISCUSSIONS DATA
+// 2. KEYNOTES, PODCASTS & PANEL DISCUSSIONS DATA (Updated with New Content)
 const MEDIA_AND_TALKS = [
   {
-    type: "PODCAST FEATURE",
+    type: "FEATURED INTERVIEW // PODCAST",
+    title: "Opportunities in Automated Manufacturing & AI",
+    platform: "Business Standard (BSmart Leadership Series)",
+    date: "Jul 21, 2026",
+    link: "https://www.business-standard.com/video-gallery/education/opportunities-in-automated-manufacturing-179110.htm",
+    body: "Executive leadership session discussing the emergence of intelligent automated factories, Industry 4.0/5.0 roadmaps, and actionable career guidance for future business leaders.",
+  },
+  {
+    type: "INTERNATIONAL CONFERENCE KEYNOTE",
+    title: "Next-Generation Data Engineering & Analytics (INDEA-2026)",
+    platform: "University of Salford (Manchester, UK) & Universal Inovators / Springer",
+    date: "Aug 21–22, 2026",
+    certificateUrl: "/certificates/indea-2026.png",
+    body: "Invited keynote speaker for the INDEA-2026 International Conference, presenting state-of-the-art frameworks in Explainable AI (XAI), big data architectures, and industrial analytics models.",
+  },
+  {
+    type: "EXECUTIVE PODCAST FEATURE",
     title: "Will AI Replace Your Job? Future of Work, Skills & Responsible AI",
     platform: "Pivot Podcast · Hosted by Pushpa Latha (CEO, PropLilly)",
     date: "2024",
@@ -187,7 +207,7 @@ const MEDIA_AND_TALKS = [
   {
     type: "ACADEMIC & INDUSTRY PANEL",
     title: "Responsible AI, Digitization & STEM Leadership",
-    platform: "UC Irvine & Industry Summits",
+    platform: "UC Irvine & Global Industry Summits",
     date: "2023 – Present",
     body: "Keynote speaker bridging academic research and industrial execution across IIoT, STEM advocacy, Industry X.0 transformation, and AI ethics.",
   },
@@ -387,7 +407,6 @@ function Index() {
   const accoladesRef = useFocusOnScroll<HTMLDivElement>("accolades", setFocus);
   const credentialsRef = useFocusOnScroll<HTMLDivElement>("credentials", setFocus);
 
-  // Monitor scroll for Floating Back-To-Top Dossier Button
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
@@ -396,7 +415,6 @@ function Index() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Close modal on ESC key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") setSelectedCert(null);
@@ -418,58 +436,21 @@ function Index() {
   };
 
   return (
-    <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden">
-      {/* HAIKEI-INSPIRED PARAMETRIC VECTOR CONTOUR UNDERLAYS & AMBIENT GLOWS */}
-      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-35">
-        <svg
-          className="absolute -left-32 -top-24 h-[750px] w-[750px] text-[color:var(--gold)]"
-          viewBox="0 0 800 800"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M750 400C750 593.3 593.3 750 400 750C206.7 750 50 593.3 50 400C50 206.7 206.7 50 400 50C593.3 50 750 206.7 750 400Z"
-            stroke="currentColor"
-            strokeWidth="0.75"
-            strokeDasharray="4 8"
-            opacity="0.25"
-          />
-          <path
-            d="M680 400C680 554.64 554.64 680 400 680C245.36 680 120 554.64 120 400C120 245.36 245.36 120 400 120C554.64 120 680 245.36 680 400Z"
-            stroke="currentColor"
-            strokeWidth="0.75"
-            opacity="0.35"
-          />
-          <path
-            d="M600 400C600 510.46 510.46 600 400 600C289.54 600 200 510.46 200 400C200 289.54 289.54 200 400 200C510.46 200 600 289.54 600 400Z"
-            stroke="currentColor"
-            strokeWidth="1"
-            strokeDasharray="6 12"
-            opacity="0.45"
-          />
-          <path
-            d="M500 400C500 455.23 455.23 500 400 500C344.77 500 300 455.23 300 400C300 344.77 344.77 300 400 300C455.23 300 500 344.77 500 400Z"
-            stroke="currentColor"
-            strokeWidth="1.2"
-            opacity="0.55"
-          />
-        </svg>
-
-        {/* Ambient Warm Floor Gradients */}
+    <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden font-sans">
+      {/* AMBIENT BACKGROUND GLOWS & PRECISION MESH */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-30">
         <div
-          aria-hidden
-          className="absolute -left-40 -top-40 h-[560px] w-[560px] rounded-full blur-3xl opacity-40"
+          className="absolute -left-40 -top-40 h-[600px] w-[600px] rounded-full blur-3xl opacity-50"
           style={{ background: "radial-gradient(circle, oklch(0.86 0.09 78), transparent 70%)" }}
         />
         <div
-          aria-hidden
-          className="absolute top-40 right-[-160px] h-[520px] w-[520px] rounded-full blur-3xl opacity-30"
+          className="absolute top-60 right-[-160px] h-[550px] w-[550px] rounded-full blur-3xl opacity-35"
           style={{ background: "radial-gradient(circle, oklch(0.82 0.08 30), transparent 70%)" }}
         />
       </div>
 
-      {/* PREMIUM STICKY GLASSMORPHIC HEADBAR */}
-      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-14 bg-background/80 backdrop-blur-md border-b border-border/40 shadow-sm">
+      {/* STICKY GLASSMORPHIC HEADBAR */}
+      <header className="sticky top-0 z-50 flex items-center justify-between px-6 py-4 md:px-14 bg-background/85 backdrop-blur-md border-b border-border/40 shadow-sm">
         <div className="flex items-center gap-3 font-mono-tech text-[11px] uppercase tracking-[0.32em] text-muted-foreground select-none">
           <div className="w-8 h-8 rounded-full border-2 border-foreground/60 flex items-center justify-center font-sans text-[11px] font-black tracking-normal text-foreground bg-background shadow-sm">
             SH
@@ -530,16 +511,32 @@ function Index() {
         </div>
       </header>
 
-      {/* SECTION 01: IDENTITY HERO */}
+      {/* SECTION 01: IDENTITY HERO (REFINED EDITORIAL CANVAS) */}
       <section
         id="identity"
-        className="relative z-10 mx-auto max-w-6xl px-6 pb-10 pt-16 md:px-14 scroll-mt-24"
+        className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-12 md:px-14 scroll-mt-24"
       >
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-[560px]">
+        <div className="relative mx-auto aspect-[4/5] w-full max-w-[540px] flex items-center justify-center">
+          {/* Subtle Precision Engineering Back-Grid Mesh (Replaced Faint Circle) */}
+          <div
+            aria-hidden
+            className="absolute inset-0 -m-8 opacity-25 pointer-events-none flex items-center justify-center overflow-hidden"
+          >
+            <div
+              className="w-full h-full"
+              style={{
+                backgroundImage: `linear-gradient(rgba(180, 130, 40, 0.25) 1px, transparent 1px), linear-gradient(90deg, rgba(180, 130, 40, 0.25) 1px, transparent 1px)`,
+                backgroundSize: "40px 40px",
+                maskImage: "radial-gradient(ellipse at center, black 45%, transparent 80%)",
+              }}
+            />
+          </div>
+
+          {/* Architectural Arch Backdrop */}
           <svg
             aria-hidden
             viewBox="0 0 400 500"
-            className="absolute inset-0 h-full w-full"
+            className="absolute inset-0 h-full w-full opacity-70"
             preserveAspectRatio="none"
           >
             <path d="M30,500 L30,190 A170,170 0 0 1 370,190 L370,500 Z" fill="url(#arch)" />
@@ -551,37 +548,16 @@ function Index() {
             </defs>
           </svg>
 
-          <svg
-            aria-hidden
-            viewBox="0 0 400 500"
-            className="absolute inset-0 h-full w-full"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            <path
-              d="M60,300 C130,240 270,240 340,300 C380,340 340,400 260,400 C170,400 100,360 80,320"
-              stroke="oklch(0.68 0.12 70)"
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path
-              d="M340,300 C400,270 430,220 450,150"
-              stroke="oklch(0.68 0.12 70)"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-              strokeDasharray="2 5"
-            />
-          </svg>
-
+          {/* Portrait Image */}
           <img
             src={portraitImg}
             alt="Dr. Sandhya Haridas portrait"
-            className="absolute inset-x-0 bottom-0 mx-auto h-[98%] w-auto max-w-full object-contain drop-shadow-[0_40px_50px_rgba(30,20,10,0.22)]"
+            className="relative z-10 mx-auto h-[96%] w-auto max-w-full object-contain drop-shadow-[0_30px_45px_rgba(30,20,10,0.18)]"
           />
 
           {/* EXECUTIVE SEAL BADGE */}
-          <div className="absolute -top-6 -right-2 z-20 md:-right-20 md:top-6">
-            <div className="relative h-28 w-28 md:h-40 md:w-40">
+          <div className="absolute -top-4 -right-2 z-20 md:-right-16 md:top-4">
+            <div className="relative h-28 w-28 md:h-36 md:w-36">
               <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
               <svg
                 viewBox="0 0 160 160"
@@ -601,7 +577,7 @@ function Index() {
                   </textPath>
                 </text>
               </svg>
-              <div className="absolute inset-4 flex flex-col items-center justify-center rounded-full bg-background/90 backdrop-blur-md md:inset-8">
+              <div className="absolute inset-3.5 flex flex-col items-center justify-center rounded-full bg-background/95 backdrop-blur-md md:inset-7 shadow-lg">
                 <span className="font-mono-tech text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
                   Ledger
                 </span>
@@ -615,8 +591,9 @@ function Index() {
             </div>
           </div>
 
-          <div className="absolute left-[-8px] bottom-4 hidden w-[300px] md:block lg:left-[-40px] lg:w-[320px]">
-            <div className="rounded-lg border border-border/70 bg-card/85 p-4 shadow-xl backdrop-blur-md">
+          {/* Brief Typewriter Terminal */}
+          <div className="absolute left-[-10px] bottom-3 z-20 hidden w-[310px] md:block lg:left-[-35px] lg:w-[330px]">
+            <div className="rounded-xl border border-border/80 bg-card/90 p-4 shadow-xl backdrop-blur-md">
               <div className="mb-2 flex items-center gap-2">
                 <span className="relative flex h-2 w-2">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-60" />
@@ -641,7 +618,7 @@ function Index() {
           <div className="font-mono-tech text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
             Executive Profile · 01
           </div>
-          <h1 className="mt-4 font-sans-display text-6xl font-black leading-[0.9] tracking-tight text-foreground md:text-8xl uppercase">
+          <h1 className="mt-4 font-sans-display text-5xl font-black leading-[0.9] tracking-tight text-foreground md:text-7xl lg:text-8xl uppercase">
             Dr. Sandhya{" "}
             <span className="font-editorial italic font-normal text-muted-foreground lowercase">
               Haridas
@@ -653,7 +630,7 @@ function Index() {
             AI Strategy &amp; Digital Transformation
           </p>
 
-          {/* TACTICAL METRICS STAT STRIP (UPGRADE 3) */}
+          {/* TACTICAL STAT STRIP */}
           <div className="mx-auto mt-8 flex max-w-4xl flex-wrap items-center justify-center gap-3 sm:gap-6 border-y border-[color:var(--gold)]/30 py-3.5 px-4 font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-foreground/85 bg-card/20 backdrop-blur-sm rounded-lg sm:rounded-none">
             <div className="flex items-center gap-2">
               <span className="font-editorial text-base sm:text-lg italic text-[color:var(--gold-strong)] font-normal">
@@ -686,7 +663,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 02: DYNAMIC LAURELS, MEDIA & ADVOCACY HUB */}
+      {/* SECTION 02: RECOGNITION, MEDIA & KEYNOTES */}
       <section
         ref={accoladesRef}
         id="accolades"
@@ -699,7 +676,7 @@ function Index() {
             title="Recognition & Advocacy"
           />
 
-          {/* MOTION PRIMITIVES FLUID TAB CONTROLS (UPGRADE 1) */}
+          {/* Fluid Tab Bar */}
           <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono-tech text-[10px] uppercase tracking-[0.2em]">
             <button
               onClick={() => setActiveTab("powerlist")}
@@ -713,6 +690,18 @@ function Index() {
             </button>
 
             <button
+              onClick={() => setActiveTab("talks")}
+              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
+                activeTab === "talks"
+                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
+                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
+              }`}
+            >
+              <Radio className="w-3.5 h-3.5" /> 🎙️ Keynotes &amp; Podcasts ({MEDIA_AND_TALKS.length}
+              )
+            </button>
+
+            <button
               onClick={() => setActiveTab("awards")}
               className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
                 activeTab === "awards"
@@ -721,17 +710,6 @@ function Index() {
               }`}
             >
               <Award className="w-3.5 h-3.5" /> Enterprise Honors (7)
-            </button>
-
-            <button
-              onClick={() => setActiveTab("talks")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer ${
-                activeTab === "talks"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] border border-[color:var(--gold)]/50 font-bold shadow-sm shadow-[color:var(--gold)]/10"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 border border-transparent"
-              }`}
-            >
-              <Radio className="w-3.5 h-3.5" /> 🎙️ Keynotes &amp; Podcasts
             </button>
 
             <button
@@ -757,7 +735,7 @@ function Index() {
             </button>
           </div>
 
-          {/* TAB 1: POWER LIST 2026 WITH HYPERLINK */}
+          {/* TAB 1: POWER LIST 2026 */}
           {activeTab === "powerlist" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
               <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
@@ -805,7 +783,68 @@ function Index() {
             </div>
           )}
 
-          {/* TAB 2: ENTERPRISE AWARDS */}
+          {/* TAB 2: KEYNOTES & PODCASTS (Updated with INDEA-2026 & Business Standard) */}
+          {activeTab === "talks" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+              {MEDIA_AND_TALKS.map((talk) => (
+                <div
+                  key={talk.title}
+                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
+                        {talk.type}
+                      </span>
+                      <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
+                        {talk.date}
+                      </span>
+                    </div>
+
+                    <h4 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                      {talk.title}
+                    </h4>
+
+                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
+                      {talk.platform}
+                    </span>
+
+                    <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
+                      "{talk.body}"
+                    </p>
+                  </div>
+
+                  <div className="mt-6 pt-3 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
+                    {talk.link && (
+                      <a
+                        href={talk.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline"
+                      >
+                        <span>Access Media Feature</span>
+                        <ArrowUpRight className="w-3.5 h-3.5" />
+                      </a>
+                    )}
+
+                    {talk.certificateUrl && (
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setSelectedCert({ title: talk.title, url: talk.certificateUrl! })
+                        }
+                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
+                      >
+                        <span>View Certificate 📄</span>
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* TAB 3: ENTERPRISE AWARDS */}
           {activeTab === "awards" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
               {ENTERPRISE_AWARDS.map((award) => (
@@ -846,67 +885,6 @@ function Index() {
                       <p className="text-xs text-muted-foreground font-light leading-relaxed mt-3">
                         {award.body.split(".").slice(1).join(".").trim()}
                       </p>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* TAB 3: KEYNOTES, PODCASTS & CONFERENCES */}
-          {activeTab === "talks" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
-              {MEDIA_AND_TALKS.map((talk) => (
-                <div
-                  key={talk.title}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono-tech text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
-                        {talk.type}
-                      </span>
-                      <span className="font-mono-tech text-[10px] uppercase tracking-widest text-muted-foreground">
-                        {talk.date}
-                      </span>
-                    </div>
-
-                    <h4 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
-                      {talk.title}
-                    </h4>
-
-                    <span className="font-mono-tech text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
-                      {talk.platform}
-                    </span>
-
-                    <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
-                      "{talk.body}"
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-3 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
-                    {talk.link && (
-                      <a
-                        href={talk.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline"
-                      >
-                        <span>Watch Podcast Feature</span>
-                        <ArrowUpRight className="w-3 h-3" />
-                      </a>
-                    )}
-
-                    {talk.certificateUrl && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelectedCert({ title: talk.title, url: talk.certificateUrl! })
-                        }
-                        className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
-                      >
-                        <span>View Verified Certificate 📄</span>
-                      </button>
                     )}
                   </div>
                 </div>
@@ -1040,7 +1018,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 04: REAL EDUCATIONAL TIMELINE LEDGER */}
+      {/* SECTION 04: EDUCATIONAL TIMELINE LEDGER */}
       <section
         ref={credentialsRef}
         id="credentials"
@@ -1180,7 +1158,7 @@ function Index() {
         </div>
       </section>
 
-      {/* PRESTIGE FOOTER ACCENT */}
+      {/* FOOTER */}
       <footer className="relative z-10 border-t border-border/70 bg-card/40 backdrop-blur-sm">
         <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono-tech text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
           <div className="flex flex-col gap-1 items-center md:items-start">
@@ -1211,7 +1189,7 @@ function Index() {
         </div>
       </footer>
 
-      {/* FLOATING BACK TO TOP DOSSIER ACTION */}
+      {/* FLOATING BACK TO TOP BUTTON */}
       {showBackToTop && (
         <button
           type="button"
