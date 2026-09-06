@@ -156,7 +156,7 @@ function ExecutiveHUD({
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
           </span>
           <span className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-[color:var(--gold-strong)]">
-            SYS // {current.code}
+            TRACK · {current.code}
           </span>
         </div>
 
@@ -432,7 +432,7 @@ type VerifiedEngagement = {
 const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
   {
     category: "keynotes",
-    tag: "BROADCAST INTERVIEW // BSMART",
+    tag: "BROADCAST INTERVIEW · BSMART",
     title: "Opportunities in Automated Manufacturing & Industry AI",
     host: "Business Standard",
     date: "Jul 21, 2026",
@@ -1072,7 +1072,7 @@ function Index() {
           </h1>
           <p className="mx-auto mt-4 sm:mt-6 max-w-3xl font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.28em] text-muted-foreground md:text-[12px] px-2">
             Vice President &amp; Global Delivery Unit Head
-            <span className="mx-1.5 sm:mx-2 text-[color:var(--gold-strong)]">//</span>
+            <span className="mx-2 text-[color:var(--gold-strong)]">·</span>
             AI Strategy &amp; Digital Transformation
           </p>
 
@@ -1492,7 +1492,7 @@ function Index() {
                 </h4>
 
                 <span className="font-sans text-xs text-muted-foreground block mt-1">
-                  Publisher // {ARTIFACTS.publication.publisher}
+                  Publisher: {ARTIFACTS.publication.publisher}
                 </span>
 
                 <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
