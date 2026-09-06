@@ -211,56 +211,68 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
     <div
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      className="mt-8 relative min-h-[380px] overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-6 md:p-10 shadow-lg backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
+      className="mt-8 relative min-h-[380px] overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-6 md:p-8 shadow-lg backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
     >
+      {/* Background poster on right */}
       <div
-        className={`pointer-events-none absolute inset-0 z-10 overflow-hidden flex items-center justify-center p-3 bg-black/10 transition-all duration-500 ease-out ${
-          isHovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        className={`pointer-events-none absolute inset-y-0 right-0 w-full md:w-1/2 z-0 overflow-hidden flex items-center justify-center p-4 transition-all duration-500 ease-out ${
+          isHovered ? "opacity-100 scale-100 translate-x-0" : "opacity-0 scale-95 translate-x-4"
         }`}
       >
-        <img
-          src="/events/cxo-powerlist-2026.jpg"
-          alt="CXO Lanes IT Power List 2026 Top 50 Winners"
-          className="h-full w-full object-contain object-center drop-shadow-xl"
-        />
+        <div className="relative h-full max-h-[340px] aspect-square rounded-xl overflow-hidden border border-[color:var(--gold)]/40 shadow-2xl">
+          <img
+            src="/events/cxo-powerlist-2026.jpg"
+            alt="CXO Lanes IT Power List 2026 Top 50 Winners"
+            className="h-full w-full object-contain bg-black"
+          />
+          {/* Target Reticle */}
+          <div
+            className="absolute rounded border border-amber-300 shadow-[0_0_12px_rgba(251,191,36,0.8)] pointer-events-none animate-pulse"
+            style={{
+              left: "23.4%",
+              top: "86.8%",
+              width: "10.8%",
+              height: "12.2%",
+            }}
+          />
+        </div>
       </div>
 
-      <div
-        className={`relative z-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start w-full transition-all duration-300 ease-out ${
-          isHovered ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        <div className="col-span-12 md:col-span-5 flex flex-col gap-3 min-w-0">
+      {/* Foreground Content */}
+      <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-6 items-start w-full">
+        <div className="col-span-12 md:col-span-6 flex flex-col gap-3 min-w-0 bg-background/80 md:bg-transparent backdrop-blur-xs md:backdrop-blur-none p-2 md:p-0 rounded-xl">
           <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
             <Award className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">Top IT Leader Attestation</span>
           </div>
-          <h3 className="font-sans text-2xl sm:text-3xl font-black uppercase tracking-tight mt-2 break-words text-foreground">
+
+          <h3 className="font-sans text-2xl sm:text-3xl font-black uppercase tracking-tight mt-1 text-foreground">
             The Power List{" "}
             <span className="font-editorial italic font-normal text-[color:var(--gold-strong)] lowercase">
               2026
             </span>
           </h3>
-          <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
-            Issued by CXO Lanes
-          </span>
-        </div>
 
-        <div className="col-span-12 md:col-span-7 space-y-4 min-w-0">
-          <p className="font-editorial text-lg sm:text-xl italic leading-relaxed text-foreground/90 break-words">
+          <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            Issued by CXO Lanes · India's Top 50 Leaders
+          </span>
+
+          <p className="font-editorial text-lg sm:text-xl italic leading-relaxed text-foreground/90 mt-2">
             "Proud to be recognized among India’s Top IT Leaders – The Power List 2026 by CXO Lanes
             for contributions to AI-driven transformation, digital innovation, and industry
             leadership."
           </p>
-          <div className="h-px w-16 bg-[color:var(--gold)]/60" />
-          <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light break-words">
-            Nominated for outstanding deployment tracks across Process Automation, Reliability,
-            Intelligent Systems scaling, and sustainable digital industrial setups across Schneider
-            Electric, Honeywell Aerospace, UTC Aerospace, and GE HealthCare.
+
+          <div className="h-px w-16 bg-[color:var(--gold)]/60 my-1" />
+
+          <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light">
+            Selected from executive candidates nationwide across enterprise manufacturing, automated
+            factory software, and high-reliability aerospace edge systems.
           </p>
         </div>
       </div>
 
+      {/* Button Controls */}
       <div className="relative z-20 pt-4 mt-6 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <a
@@ -286,10 +298,12 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
 
         <span
           className={`font-mono text-[10px] uppercase tracking-wider transition-all ${
-            isHovered ? "text-white bg-black/70 px-2.5 py-1 rounded-md" : "text-muted-foreground"
+            isHovered
+              ? "text-amber-300 bg-black/80 px-2.5 py-1 rounded-md border border-amber-500/30"
+              : "text-muted-foreground"
           }`}
         >
-          {isHovered ? "Viewing Cohort" : "Hover to Focus Poster"}
+          {isHovered ? "● Dr. Sandhya Haridas Spotlighted" : "Hover to Preview Roster"}
         </span>
       </div>
     </div>
@@ -1237,7 +1251,7 @@ function Index() {
             />
           )}
 
-          {/* TAB 2: KEYNOTES, PANELS & BROADCASTS (STANDARDIZED EDITORIAL SERIF & UPPERCASE TITLES) */}
+          {/* TAB 2: KEYNOTES, PANELS & BROADCASTS */}
           {activeTab === "talks" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
               <div className="flex flex-wrap gap-2 text-xs">
@@ -1263,7 +1277,6 @@ function Index() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 {filteredTalks.map((talk) => {
-                  // 1. Static Layout for Certificates (No hover image fade)
                   if (!talk.hasHoverReveal) {
                     return (
                       <div
@@ -1319,7 +1332,6 @@ function Index() {
                     );
                   }
 
-                  // 2. Interactive focal reveals for event photos and posters
                   return (
                     <div
                       key={talk.title}
@@ -1755,7 +1767,7 @@ function Index() {
 
           <div className="flex items-center gap-6 text-[11px] font-mono text-muted-foreground tracking-widest lowercase">
             <a
-              href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
+              href="https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:text-foreground transition-colors group"
@@ -1787,20 +1799,27 @@ function Index() {
         </button>
       )}
 
-      {/* CERTIFICATE / MEDIA LIGHTBOX MODAL */}
+      {/* CERTIFICATE / MEDIA LIGHTBOX MODAL WITH ENTRY TARGET SPOTLIGHT */}
       {selectedCert && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-md p-3 sm:p-5 animate-fadeIn"
           onClick={() => setSelectedCert(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-2xl p-4 md:p-6 shadow-2xl overflow-hidden"
+            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-border/60">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold truncate pr-2">
-                {selectedCert.title || "Verified Record Attestation"}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold truncate">
+                  {selectedCert.title || "Verified Record Attestation"}
+                </span>
+                {selectedCert.url.includes("cxo-powerlist") && (
+                  <span className="hidden sm:inline-flex items-center rounded-md border border-amber-400/50 bg-amber-400/10 px-2 py-0.5 font-mono text-[9px] text-amber-300">
+                    ● Honoree Highlighted (Row 6, Col 3)
+                  </span>
+                )}
+              </div>
               <button
                 type="button"
                 onClick={() => setSelectedCert(null)}
@@ -1810,12 +1829,32 @@ function Index() {
               </button>
             </div>
 
-            <div className="mt-4 max-h-[75vh] overflow-y-auto rounded-xl border border-border/40 bg-black/40 flex items-center justify-center p-2">
-              <img
-                src={selectedCert.url}
-                alt={selectedCert.title}
-                className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
-              />
+            {/* Poster Canvas */}
+            <div className="mt-4 max-h-[75vh] overflow-y-auto rounded-xl border border-border/40 bg-black/50 flex items-center justify-center p-2 relative">
+              <div className="relative inline-block">
+                <img
+                  src={selectedCert.url}
+                  alt={selectedCert.title}
+                  className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
+                />
+
+                {/* TARGET RETICLE OVERLAY FOR CXO POSTER */}
+                {selectedCert.url.includes("cxo-powerlist") && (
+                  <div
+                    className="absolute rounded border-2 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.9)] pointer-events-none animate-pulse"
+                    style={{
+                      left: "23.4%",
+                      top: "86.8%",
+                      width: "10.8%",
+                      height: "12.2%",
+                    }}
+                  >
+                    <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-amber-400 text-black font-sans text-[10px] font-extrabold px-1.5 py-0.5 rounded shadow-lg uppercase tracking-tight">
+                      Dr. Sandhya Haridas
+                    </span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
