@@ -33,6 +33,177 @@ import {
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
+// ==========================================
+// 1. LIVE DOSSIER TELEMETRY HUD DATA & LOGIC
+// ==========================================
+type TelemetryKey =
+  | "overview"
+  | "accolades"
+  | "delivery"
+  | "aerospace"
+  | "engineering"
+  | "credentials";
+
+interface TelemetryStream {
+  id: TelemetryKey;
+  label: string;
+  code: string;
+  metric: string;
+  headline: string;
+  body: string;
+}
+
+const DOSSIER_STREAMS: Record<TelemetryKey, TelemetryStream> = {
+  overview: {
+    id: "overview",
+    label: "OVERVIEW",
+    code: "CORP.26Y",
+    metric: "26+ Yrs Scope",
+    headline: "Global Technology Operations & Executive Delivery",
+    body: "Directing multi-region P&L structures, scalable Industry 4.0/5.0 roadmaps, autonomous edge software, and enterprise AI transformation programs.",
+  },
+  accolades: {
+    id: "accolades",
+    label: "HONORS",
+    code: "CXO.2026",
+    metric: "Top 50 IT Leader",
+    headline: "CXO Lanes Power List 2026 Attestation",
+    body: "Recognized among India's premier IT leaders. Recipient of 7 enterprise honors across Schneider Electric, Honeywell, UTC, and GE Healthcare.",
+  },
+  delivery: {
+    id: "delivery",
+    label: "DELIVERY",
+    code: "GDU.LTTS",
+    metric: "Global P&L Head",
+    headline: "Autonomous MES & Industry X.0 Systems",
+    body: "Leading global delivery units across North America, Europe, and India with dedicated focus on smart factory robotics and cloud telemetry.",
+  },
+  aerospace: {
+    id: "aerospace",
+    label: "AERO",
+    code: "AVIO.SAFE",
+    metric: "Flight Critical",
+    headline: "Commercial Avionics & Mission Data Protocols",
+    body: "Spearheaded SAFe Agile Release Trains, aircraft-to-ground edge communications, and A350XWB structural stress certification dossiers.",
+  },
+  engineering: {
+    id: "engineering",
+    label: "RESEARCH",
+    code: "PAT.GE04",
+    metric: "Six-Sigma Green",
+    headline: "Thermal Physics & High-Vacuum Algorithms",
+    body: "Authored technical research on variable conductance heat pipe behaviour in vacuum chambers for GE Healthcare. Recipient of Best Kaizen Award.",
+  },
+  credentials: {
+    id: "credentials",
+    label: "ACADEMIA",
+    code: "DBA.AI25",
+    metric: "Doctorate in AI",
+    headline: "Doctor of Business Administration & HBS Strategy",
+    body: "Doctoral research focused on Explainable AI (XAI) frameworks and high-trust enterprise adoption models from Swiss School of Business (SSBM).",
+  },
+};
+
+const STREAM_KEYS: TelemetryKey[] = [
+  "overview",
+  "accolades",
+  "delivery",
+  "aerospace",
+  "engineering",
+  "credentials",
+];
+
+function useTypewriter(text: string, speed = 12) {
+  const [out, setOut] = useState("");
+  useEffect(() => {
+    setOut("");
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setOut(text.slice(0, i));
+      if (i >= text.length) clearInterval(id);
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return out;
+}
+
+function ExecutiveHUD({
+  activeFocus,
+  onSelectFocus,
+}: {
+  activeFocus: TelemetryKey;
+  onSelectFocus: (key: TelemetryKey) => void;
+}) {
+  const current = DOSSIER_STREAMS[activeFocus] || DOSSIER_STREAMS.overview;
+  const typedBody = useTypewriter(current.body, 14);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      onSelectFocus(STREAM_KEYS[(STREAM_KEYS.indexOf(activeFocus) + 1) % STREAM_KEYS.length]);
+    }, 8500);
+    return () => clearInterval(timer);
+  }, [activeFocus, onSelectFocus]);
+
+  return (
+    <div className="group relative w-full overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-4 sm:p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-[color:var(--gold)]/80 hover:shadow-[0_20px_40px_rgba(180,130,40,0.12)]">
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(180,130,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(180,130,40,0.03)_1px,transparent_1px)] bg-[size:16px_16px]" />
+
+      <div className="relative z-10 flex items-center justify-between border-b border-border/50 pb-2.5">
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-75" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
+          </span>
+          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-[color:var(--gold-strong)]">
+            SYS // {current.code}
+          </span>
+        </div>
+
+        <span className="rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-[color:var(--gold-strong)]">
+          {current.metric}
+        </span>
+      </div>
+
+      <div className="relative z-10 mt-3 min-h-[85px] sm:min-h-[75px]">
+        <h5 className="font-sans text-xs sm:text-[13px] font-bold text-foreground transition-colors duration-200 leading-snug">
+          {current.headline}
+        </h5>
+        <p className="mt-1.5 font-mono text-[10.5px] sm:text-[11px] leading-relaxed text-muted-foreground/90 font-normal">
+          {typedBody}
+          <span className="ml-0.5 inline-block h-2.5 w-1 translate-y-[2px] animate-pulse bg-[color:var(--gold-strong)]" />
+        </p>
+      </div>
+
+      <div className="relative z-10 mt-3 pt-2.5 border-t border-border/40 flex flex-wrap items-center justify-between gap-1">
+        <div className="flex flex-wrap items-center gap-1">
+          {STREAM_KEYS.map((k) => (
+            <button
+              key={k}
+              type="button"
+              onClick={() => onSelectFocus(k)}
+              className={`rounded px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-wider transition-all cursor-pointer border ${
+                activeFocus === k
+                  ? "border-[color:var(--gold)] bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-xs"
+                  : "border-transparent text-muted-foreground/70 hover:text-foreground hover:bg-card/60"
+              }`}
+            >
+              {DOSSIER_STREAMS[k].label}
+            </button>
+          ))}
+        </div>
+
+        <span className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/40 hidden sm:inline">
+          LIVE AUDIT
+        </span>
+      </div>
+    </div>
+  );
+}
+
+// ==========================================
+// 2. CXO POWER LIST HOVER-REVEAL CARD
+// ==========================================
 function PowerListCard({ onInspect }: { onInspect: () => void }) {
   const [isHovered, setIsHovered] = useState(false);
 
@@ -42,7 +213,6 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
       onMouseLeave={() => setIsHovered(false)}
       className="mt-8 relative min-h-[380px] overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-6 md:p-10 shadow-lg backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
     >
-      {/* 1. PHOTO LAYER (Always renders; opacity controlled via React state) */}
       <div
         className={`pointer-events-none absolute inset-0 z-10 overflow-hidden flex items-center justify-center p-3 bg-black/10 transition-all duration-500 ease-out ${
           isHovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
@@ -55,7 +225,6 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
         />
       </div>
 
-      {/* 2. TEXT LAYER (Dissolves out when hovered) */}
       <div
         className={`relative z-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start w-full transition-all duration-300 ease-out ${
           isHovered ? "opacity-0 pointer-events-none" : "opacity-100"
@@ -66,9 +235,9 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
             <Award className="w-3.5 h-3.5 shrink-0" />
             <span className="truncate">Top IT Leader Attestation</span>
           </div>
-          <h3 className="font-sans text-3xl font-black tracking-tight uppercase mt-2 break-words text-foreground">
+          <h3 className="font-sans text-2xl sm:text-3xl font-black uppercase tracking-tight mt-2 break-words text-foreground">
             The Power List{" "}
-            <span className="font-editorial italic font-normal text-[color:var(--gold-strong)]">
+            <span className="font-editorial italic font-normal text-[color:var(--gold-strong)] lowercase">
               2026
             </span>
           </h3>
@@ -78,13 +247,13 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
         </div>
 
         <div className="col-span-12 md:col-span-7 space-y-4 min-w-0">
-          <p className="font-editorial text-xl italic leading-relaxed text-foreground/90 break-words">
+          <p className="font-editorial text-lg sm:text-xl italic leading-relaxed text-foreground/90 break-words">
             "Proud to be recognized among India’s Top IT Leaders – The Power List 2026 by CXO Lanes
             for contributions to AI-driven transformation, digital innovation, and industry
             leadership."
           </p>
           <div className="h-px w-16 bg-[color:var(--gold)]/60" />
-          <p className="text-sm leading-relaxed text-muted-foreground font-light break-words">
+          <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light break-words">
             Nominated for outstanding deployment tracks across Process Automation, Reliability,
             Intelligent Systems scaling, and sustainable digital industrial setups across Schneider
             Electric, Honeywell Aerospace, UTC Aerospace, and GE HealthCare.
@@ -92,14 +261,13 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
         </div>
       </div>
 
-      {/* 3. BUTTON BAR (z-20 so it stays above the photo and remains clickable) */}
-      <div className="relative z-20 pt-4 mt-6 border-t border-border/30 flex items-center justify-between">
-        <div className="flex flex-wrap items-center gap-3">
+      <div className="relative z-20 pt-4 mt-6 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3">
           <a
-            href={CXO_DECLARATION_URL}
+            href="https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--gold)]/60 bg-background/90 hover:bg-[color:var(--gold)]/20 px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all shadow-md backdrop-blur-md"
+            className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--gold)]/60 bg-background/90 hover:bg-[color:var(--gold)]/20 px-3.5 sm:px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all shadow-md backdrop-blur-md"
           >
             <Linkedin className="w-3.5 h-3.5" />
             <span>View Official Declaration</span>
@@ -109,7 +277,7 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
           <button
             type="button"
             onClick={onInspect}
-            className="inline-flex items-center gap-2 rounded-xl bg-background/90 hover:text-[color:var(--gold-strong)] hover:border-[color:var(--gold)]/50 border border-border/80 px-4 py-2 text-xs font-semibold text-foreground transition-all cursor-pointer backdrop-blur-md shadow-md"
+            className="inline-flex items-center gap-2 rounded-xl bg-background/90 hover:text-[color:var(--gold-strong)] hover:border-[color:var(--gold)]/50 border border-border/80 px-3.5 sm:px-4 py-2 text-xs font-semibold text-foreground transition-all cursor-pointer backdrop-blur-md shadow-md"
           >
             <Maximize2 className="w-3.5 h-3.5" />
             <span>Inspect Cohort Poster</span>
@@ -128,6 +296,9 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
   );
 }
 
+// ==========================================
+// 3. MAIN ROUTE CONFIGURATION
+// ==========================================
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
@@ -144,28 +315,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-type Focus = "default" | "accolades" | "delivery" | "aerospace" | "engineering" | "credentials";
-
-const NARRATION: Record<Focus, string> = {
-  default:
-    "System online. Auditing a verified history spanning 26+ years of global technology delivery, Industry 4.0/5.0 adoption, and enterprise digital transformation.",
-
-  accolades:
-    "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation awards, conference chair, and keynote panelist.",
-
-  delivery:
-    "Global Delivery tracks active: Directing P&L operations across Industry X.0 robotics, MES software pipelines, and AI-led recurring monetization frameworks at LTTS.",
-
-  aerospace:
-    "Aerospace systems verified: Deployed SAFe Agile Release Trains, core edge flight-to-ground communication protocols, and A350XWB structural stress dossiers.",
-
-  engineering:
-    "Core engineering research mapped: Developed thermal algorithms for vacuum chambers at GE. Six-Sigma Green Belt & Best Kaizen Award recipient.",
-
-  credentials:
-    "Academic credentials verified: Swiss School of Business (DBA in AI), Harvard Business School (Disruptive Strategy), and Bangalore University Engineering.",
-};
-
 const NAV_ITEMS = [
   { id: "identity", label: "Profile", icon: User },
   { id: "accolades", label: "Laurels", icon: Trophy },
@@ -173,22 +322,10 @@ const NAV_ITEMS = [
   { id: "credentials", label: "Education", icon: GraduationCap },
 ];
 
-function useTypewriter(text: string, speed = 12) {
-  const [out, setOut] = useState("");
-  useEffect(() => {
-    setOut("");
-    let i = 0;
-    const id = setInterval(() => {
-      i++;
-      setOut(text.slice(0, i));
-      if (i >= text.length) clearInterval(id);
-    }, speed);
-    return () => clearInterval(id);
-  }, [text, speed]);
-  return out;
-}
-
-function useFocusOnScroll<T extends HTMLElement>(focus: Focus, set: (f: Focus) => void) {
+function useFocusOnScroll<T extends HTMLElement>(
+  focus: TelemetryKey,
+  set: (f: TelemetryKey) => void,
+) {
   const ref = useRef<T | null>(null);
   useEffect(() => {
     const el = ref.current;
@@ -289,7 +426,7 @@ type VerifiedEngagement = {
   actionUrl: string;
   actionLabel: string;
   previewImage?: string;
-  hasHoverReveal: boolean; // false for certificates; true for event media/photos
+  hasHoverReveal: boolean;
 };
 
 const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
@@ -326,7 +463,6 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
-    // CERTIFICATE 1: Clean card, no background text disappearance
     category: "keynotes",
     tag: "INTERNATIONAL CONFERENCE KEYNOTE",
     title: "Next-Generation Data Engineering & Analytics (INDEA-2026)",
@@ -405,7 +541,6 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
-    // CERTIFICATE 2: Clean card, no background text disappearance
     category: "keynotes",
     tag: "INTERNATIONAL CONFERENCE KEYNOTE",
     title: "Sustainable & Innovative Practices in Business and Academia",
@@ -429,7 +564,7 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
       "Special keynote session connecting with women talent in manufacturing on leading through disruption, continuous upskilling, and executive growth in STEM.",
     highlightPill: "Keynote",
     actionType: "linkedin",
-    actionUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7171836166986227712/", // Replace with her exact Chryso post URL/URN
+    actionUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7171836166986227712/",
     actionLabel: "Open Post on LinkedIn",
     previewImage: "/events/chryso-keynote.jpg",
     hasHoverReveal: true,
@@ -450,7 +585,6 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
-    // CERTIFICATE 3: Clean card, no background text disappearance
     category: "keynotes",
     tag: "EXPERT WEBINAR SERIES",
     title: "Smart Flying and XAI (Explainable AI) Applications",
@@ -684,7 +818,7 @@ function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallba
 }
 
 function Index() {
-  const [focus, setFocus] = useState<Focus>("default");
+  const [focus, setFocus] = useState<TelemetryKey>("overview");
   const [activeNav, setActiveNav] = useState("identity");
   const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
 
@@ -694,7 +828,6 @@ function Index() {
   const [talkFilter, setTalkFilter] = useState<TalkCategory>("all");
   const [selectedCert, setSelectedCert] = useState<{ title: string; url: string } | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
-  const typed = useTypewriter(NARRATION[focus]);
 
   const deliveryRef = useFocusOnScroll<HTMLDivElement>("delivery", setFocus);
   const aerospaceRef = useFocusOnScroll<HTMLDivElement>("aerospace", setFocus);
@@ -767,11 +900,11 @@ function Index() {
       </div>
 
       {/* EXPANDING DOCK NAVIGATION */}
-      <header className="sticky top-3.5 z-50 mx-auto max-w-6xl px-4 sm:px-8">
-        <div className="flex items-center justify-between rounded-2xl border border-border/70 bg-background/85 px-4 sm:px-6 py-2.5 backdrop-blur-xl shadow-lg">
+      <header className="sticky top-3.5 z-50 mx-auto max-w-6xl px-3 sm:px-6 md:px-8">
+        <div className="flex items-center justify-between rounded-2xl border border-border/70 bg-background/85 px-3 sm:px-6 py-2.5 backdrop-blur-xl shadow-lg">
           <button
             onClick={() => handleScrollTo("identity")}
-            className="flex items-center gap-3 group cursor-pointer border-0 bg-transparent p-0"
+            className="flex items-center gap-2 sm:gap-3 group cursor-pointer border-0 bg-transparent p-0"
             aria-label="Profile"
           >
             <div className="w-8 h-8 rounded-xl border border-[color:var(--gold)]/50 bg-[color:var(--gold)]/10 flex items-center justify-center font-sans text-xs font-black text-foreground group-hover:border-[color:var(--gold)] transition-colors shadow-sm">
@@ -787,7 +920,7 @@ function Index() {
             </div>
           </button>
 
-          <nav className="flex items-center gap-1.5 bg-card/60 border border-border/70 rounded-xl p-1 shadow-inner">
+          <nav className="flex items-center gap-1 bg-card/60 border border-border/70 rounded-xl p-1 shadow-inner">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
               const isExpanded = hoveredNavId ? hoveredNavId === item.id : activeNav === item.id;
@@ -798,7 +931,7 @@ function Index() {
                   onMouseEnter={() => setHoveredNavId(item.id)}
                   onMouseLeave={() => setHoveredNavId(null)}
                   onClick={() => handleScrollTo(item.id)}
-                  className={`relative flex items-center gap-2 h-9 px-3 rounded-lg font-sans text-xs font-medium transition-all duration-300 ease-out cursor-pointer overflow-hidden border-0 ${
+                  className={`relative flex items-center gap-1.5 sm:gap-2 h-8 sm:h-9 px-2 sm:px-3 rounded-lg font-sans text-xs font-medium transition-all duration-300 ease-out cursor-pointer overflow-hidden border-0 ${
                     isExpanded
                       ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                       : "text-muted-foreground hover:text-foreground hover:bg-card/80 bg-transparent"
@@ -819,7 +952,7 @@ function Index() {
             })}
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 sm:gap-2">
             <a
               href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
               target="_blank"
@@ -843,7 +976,7 @@ function Index() {
       {/* SECTION 01: IDENTITY HERO */}
       <section
         id="identity"
-        className="relative z-10 mx-auto max-w-6xl px-6 pb-12 pt-10 md:px-14 scroll-mt-24"
+        className="relative z-10 mx-auto max-w-6xl px-4 sm:px-6 pb-12 pt-8 md:pt-10 md:px-14 scroll-mt-24"
       >
         <div className="relative mx-auto aspect-[4/5] w-full max-w-[540px] flex items-center justify-center">
           <div
@@ -881,8 +1014,9 @@ function Index() {
             className="relative z-10 mx-auto h-[96%] w-auto max-w-full object-contain drop-shadow-[0_30px_45px_rgba(30,20,10,0.18)]"
           />
 
-          <div className="absolute -top-4 -right-2 z-20 md:-right-16 md:top-4">
-            <div className="relative h-28 w-28 md:h-36 md:w-36">
+          {/* SEAL INDICATOR */}
+          <div className="absolute -top-3 -right-1 z-20 sm:-top-4 sm:-right-2 md:-right-16 md:top-4">
+            <div className="relative h-24 w-24 sm:h-28 sm:w-28 md:h-36 md:w-36">
               <div className="absolute inset-0 rounded-full border border-[color:var(--gold)]/50 animate-pulse" />
               <svg
                 viewBox="0 0 160 160"
@@ -901,68 +1035,60 @@ function Index() {
                   </textPath>
                 </text>
               </svg>
-              <div className="absolute inset-3.5 flex flex-col items-center justify-center rounded-full bg-background/95 backdrop-blur-md md:inset-7 shadow-lg">
-                <span className="font-mono text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
+              <div className="absolute inset-3 sm:inset-3.5 flex flex-col items-center justify-center rounded-full bg-background/95 backdrop-blur-md md:inset-7 shadow-lg">
+                <span className="font-mono text-[6.5px] sm:text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
                   Ledger
                 </span>
-                <span className="font-editorial text-xl md:text-2xl italic leading-none text-foreground my-0.5">
+                <span className="font-editorial text-lg sm:text-xl md:text-2xl italic leading-none text-foreground my-0.5">
                   26+ Yrs
                 </span>
-                <span className="font-mono text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
+                <span className="font-mono text-[6.5px] sm:text-[7px] md:text-[8px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
                   ● VERIFIED
                 </span>
               </div>
             </div>
           </div>
 
-          <div className="absolute left-[-10px] bottom-3 z-20 hidden w-[310px] md:block lg:left-[-35px] lg:w-[330px]">
-            <div className="rounded-xl border border-border/80 bg-card/90 p-4 shadow-xl backdrop-blur-md">
-              <div className="mb-2 flex items-center gap-2">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-60" />
-                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
-                </span>
-                <span className="font-mono text-[9px] uppercase tracking-[0.3em] text-muted-foreground">
-                  Brief · {focus}
-                </span>
-              </div>
-              <p key={focus} className="font-mono text-[11px] leading-relaxed text-foreground/90">
-                {typed}
-                <span className="ml-0.5 inline-block h-3 w-1.5 translate-y-[2px] animate-pulse bg-[color:var(--gold-strong)]" />
-              </p>
-            </div>
+          {/* DESKTOP FLOATING HUD */}
+          <div className="absolute left-[-20px] bottom-1 z-20 hidden w-[340px] md:block lg:left-[-60px] lg:w-[380px]">
+            <ExecutiveHUD activeFocus={focus} onSelectFocus={(k) => setFocus(k)} />
           </div>
         </div>
 
-        <div className="mt-12 text-center">
+        {/* MOBILE RESPONSIVE HUD */}
+        <div className="mt-6 block md:hidden w-full max-w-[420px] mx-auto">
+          <ExecutiveHUD activeFocus={focus} onSelectFocus={(k) => setFocus(k)} />
+        </div>
+
+        <div className="mt-10 sm:mt-12 text-center">
           <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
             Executive Profile · 01
           </div>
-          <h1 className="mt-4 font-sans-display text-5xl font-black leading-[0.9] tracking-tight text-foreground md:text-7xl lg:text-8xl uppercase">
+          <h1 className="mt-3 sm:mt-4 font-sans-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight text-foreground uppercase">
             Dr. Sandhya{" "}
             <span className="font-editorial italic font-normal text-muted-foreground lowercase">
               Haridas
             </span>
           </h1>
-          <p className="mx-auto mt-6 max-w-3xl font-mono text-[11px] uppercase tracking-[0.28em] text-muted-foreground md:text-[12px]">
+          <p className="mx-auto mt-4 sm:mt-6 max-w-3xl font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] sm:tracking-[0.28em] text-muted-foreground md:text-[12px] px-2">
             Vice President &amp; Global Delivery Unit Head
-            <span className="mx-2 text-[color:var(--gold-strong)]">//</span>
+            <span className="mx-1.5 sm:mx-2 text-[color:var(--gold-strong)]">//</span>
             AI Strategy &amp; Digital Transformation
           </p>
 
           {/* EDITORIAL STAT LEDGER */}
-          <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-border/70 bg-card/40 backdrop-blur-md shadow-sm overflow-hidden">
+          <div className="mx-auto mt-8 sm:mt-10 max-w-4xl rounded-2xl border border-border/70 bg-card/40 backdrop-blur-md shadow-sm overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-border/60">
-              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+              <div className="p-4 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
                 <div className="flex items-center justify-between text-muted-foreground">
-                  <span className="font-mono text-[10px] uppercase tracking-widest">
+                  <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest">
                     Leadership
                   </span>
                   <Activity className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
                 </div>
-                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                <div className="mt-2 sm:mt-3 font-sans text-2xl sm:text-4xl font-black text-foreground tracking-tight">
                   26
-                  <span className="font-editorial italic font-normal text-xl text-[color:var(--gold-strong)]">
+                  <span className="font-editorial italic font-normal text-lg sm:text-xl text-[color:var(--gold-strong)]">
                     +
                   </span>
                 </div>
@@ -971,12 +1097,14 @@ function Index() {
                 </div>
               </div>
 
-              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+              <div className="p-4 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
                 <div className="flex items-center justify-between text-muted-foreground">
-                  <span className="font-mono text-[10px] uppercase tracking-widest">Doctorate</span>
+                  <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest">
+                    Doctorate
+                  </span>
                   <GraduationCap className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
                 </div>
-                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                <div className="mt-2 sm:mt-3 font-sans text-2xl sm:text-4xl font-black text-foreground tracking-tight">
                   DBA
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
@@ -984,14 +1112,16 @@ function Index() {
                 </div>
               </div>
 
-              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+              <div className="p-4 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
                 <div className="flex items-center justify-between text-muted-foreground">
-                  <span className="font-mono text-[10px] uppercase tracking-widest">Laurels</span>
+                  <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest">
+                    Laurels
+                  </span>
                   <Award className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
                 </div>
-                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                <div className="mt-2 sm:mt-3 font-sans text-2xl sm:text-4xl font-black text-foreground tracking-tight">
                   7
-                  <span className="font-editorial italic font-normal text-xl text-[color:var(--gold-strong)]">
+                  <span className="font-editorial italic font-normal text-lg sm:text-xl text-[color:var(--gold-strong)]">
                     x
                   </span>
                 </div>
@@ -1000,12 +1130,14 @@ function Index() {
                 </div>
               </div>
 
-              <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
+              <div className="p-4 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
                 <div className="flex items-center justify-between text-muted-foreground">
-                  <span className="font-mono text-[10px] uppercase tracking-widest">Scope</span>
+                  <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest">
+                    Scope
+                  </span>
                   <Globe className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
                 </div>
-                <div className="mt-3 font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                <div className="mt-2 sm:mt-3 font-sans text-2xl sm:text-4xl font-black text-foreground tracking-tight">
                   P&amp;L
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
@@ -1023,17 +1155,18 @@ function Index() {
         id="accolades"
         className="relative z-10 border-t border-border/70 bg-card/20 backdrop-blur-sm scroll-mt-24"
       >
-        <div className="mx-auto max-w-7xl px-6 py-20 md:px-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:px-14">
           <SectionHeader
             index="02"
             kicker="Executive Laurels, Media & Impact"
             title="Recognition & Advocacy"
           />
+
           {/* Segment Controls */}
-          <div className="mt-10 flex flex-wrap gap-2.5 border-b border-border/60 pb-4 text-xs font-medium">
+          <div className="mt-8 sm:mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 text-xs font-medium">
             <button
               onClick={() => setActiveTab("powerlist")}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "powerlist"
                   ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -1045,7 +1178,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("talks")}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "talks"
                   ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -1057,7 +1190,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("awards")}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "awards"
                   ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -1069,7 +1202,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("artifacts")}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "artifacts"
                   ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -1081,7 +1214,7 @@ function Index() {
 
             <button
               onClick={() => setActiveTab("impact")}
-              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
+              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "impact"
                   ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                   : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
@@ -1091,6 +1224,7 @@ function Index() {
               <span>STEM &amp; Volunteering</span>
             </button>
           </div>
+
           {/* TAB 1: POWER LIST 2026 */}
           {activeTab === "powerlist" && (
             <PowerListCard
@@ -1103,10 +1237,9 @@ function Index() {
             />
           )}
 
-          {/* TAB 2: KEYNOTES, PANELS & BROADCASTS */}
+          {/* TAB 2: KEYNOTES, PANELS & BROADCASTS (STANDARDIZED EDITORIAL SERIF & UPPERCASE TITLES) */}
           {activeTab === "talks" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
-              {/* Filter Chips */}
               <div className="flex flex-wrap gap-2 text-xs">
                 {[
                   { id: "all", label: "All Engagements" },
@@ -1117,7 +1250,7 @@ function Index() {
                   <button
                     key={pill.id}
                     onClick={() => setTalkFilter(pill.id as TalkCategory)}
-                    className={`rounded-lg px-3.5 py-1.5 transition-all cursor-pointer border ${
+                    className={`rounded-lg px-3 py-1.5 transition-all cursor-pointer border ${
                       talkFilter === pill.id
                         ? "border-[color:var(--gold)] bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
                         : "border-border/60 bg-card/40 text-muted-foreground hover:text-foreground"
@@ -1128,28 +1261,27 @@ function Index() {
                 ))}
               </div>
 
-              {/* Grid of Verified Media Items */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 {filteredTalks.map((talk) => {
-                  // If certificate, render clean static layout without text dissolving
+                  // 1. Static Layout for Certificates (No hover image fade)
                   if (!talk.hasHoverReveal) {
                     return (
                       <div
                         key={talk.title}
-                        className="relative rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/80 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 flex flex-col justify-between"
+                        className="relative rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/80 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 flex flex-col justify-between"
                       >
                         <div>
                           <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                            <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                            <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                               {talk.tag}
                             </span>
-                            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                            <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-muted-foreground">
                               {talk.date}
                             </span>
                           </div>
 
-                          <div className="mt-4 flex items-start justify-between gap-3">
-                            <h4 className="font-sans text-xl font-bold text-foreground leading-snug">
+                          <div className="mt-4 flex items-start justify-between gap-2">
+                            <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
                               {talk.title}
                             </h4>
                             <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
@@ -1157,22 +1289,24 @@ function Index() {
                             </span>
                           </div>
 
-                          <span className="font-sans text-xs text-muted-foreground font-medium block mt-1.5">
+                          <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
                             {talk.host}
                           </span>
 
-                          <p className="mt-4 font-sans text-xs leading-relaxed text-foreground/80 font-normal">
-                            {talk.summary}
+                          <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
+                            "{talk.summary}"
                           </p>
+
+                          <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                         </div>
 
-                        <div className="pt-5 mt-6 border-t border-border/30 flex items-center justify-between">
+                        <div className="pt-4 mt-5 border-t border-border/30 flex items-center justify-between">
                           <button
                             type="button"
                             onClick={() =>
                               setSelectedCert({ title: talk.title, url: talk.actionUrl })
                             }
-                            className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30 shadow-sm"
+                            className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-3.5 sm:px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30 shadow-sm"
                           >
                             <FileText className="w-3.5 h-3.5" />
                             <span>{talk.actionLabel}</span>
@@ -1185,13 +1319,12 @@ function Index() {
                     );
                   }
 
-                  // Event & Poster cards: Image zooms into full focus on hover and text dissolves
+                  // 2. Interactive focal reveals for event photos and posters
                   return (
                     <div
                       key={talk.title}
-                      className="group relative min-h-[380px] overflow-hidden rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
+                      className="group relative min-h-[380px] sm:min-h-[400px] overflow-hidden rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
                     >
-                      {/* Image Viewport on Hover */}
                       {talk.previewImage && (
                         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden flex items-center justify-center p-2.5 bg-black/5">
                           <img
@@ -1202,20 +1335,18 @@ function Index() {
                         </div>
                       )}
 
-                      {/* Top Bar: Dissolves on hover */}
                       <div className="relative z-10 flex items-center justify-between gap-2 border-b border-border/40 pb-3 transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                        <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                           {talk.tag}
                         </span>
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                        <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-muted-foreground">
                           {talk.date}
                         </span>
                       </div>
 
-                      {/* Dynamic Content: Dissolves on hover */}
-                      <div className="relative z-10 flex-1 flex flex-col justify-center py-4 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
+                      <div className="relative z-10 flex-1 flex flex-col justify-center py-3 sm:py-4 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
                         <div className="flex items-start justify-between gap-2">
-                          <h4 className="font-sans text-xl font-bold text-foreground leading-snug">
+                          <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
                             {talk.title}
                           </h4>
                           <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
@@ -1223,16 +1354,17 @@ function Index() {
                           </span>
                         </div>
 
-                        <span className="font-sans text-xs text-muted-foreground font-medium block mt-1.5">
+                        <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
                           {talk.host}
                         </span>
 
-                        <p className="mt-4 font-sans text-xs leading-relaxed text-foreground/80 font-normal">
-                          {talk.summary}
+                        <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
+                          "{talk.summary}"
                         </p>
+
+                        <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                       </div>
 
-                      {/* Bottom Action Button: Anchored floating pill */}
                       <div className="relative z-20 pt-3 border-t border-border/30 group-hover:border-transparent flex items-center justify-between">
                         {talk.actionType === "modal" ? (
                           <button
@@ -1272,13 +1404,14 @@ function Index() {
               </div>
             </div>
           )}
+
           {/* TAB 3: ENTERPRISE AWARDS */}
           {activeTab === "awards" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
               {ENTERPRISE_AWARDS.map((award) => (
                 <div
                   key={award.title}
-                  className="rounded-2xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
+                  className="rounded-2xl border border-border/80 bg-background/60 p-5 sm:p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -1303,7 +1436,7 @@ function Index() {
                       {award.title}
                     </h4>
 
-                    <p className="font-editorial text-lg italic text-foreground/90 mt-3 leading-relaxed">
+                    <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
                       "{award.body.split(".")[0]}."
                     </p>
 
@@ -1319,6 +1452,7 @@ function Index() {
               ))}
             </div>
           )}
+
           {/* TAB 4: RESEARCH & ACADEMIC CHAIR */}
           {activeTab === "artifacts" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
@@ -1336,13 +1470,14 @@ function Index() {
                   <span className="font-sans text-xs text-muted-foreground block mt-1">
                     {role.organization} &bull; {role.period}
                   </span>
-                  <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
+                  <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
                     "{role.body}"
                   </p>
+                  <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                 </div>
               ))}
 
-              <div className="rounded-2xl border border-border/80 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
+              <div className="rounded-2xl border border-border/80 bg-background/60 p-5 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
                 <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
                   <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                     <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
@@ -1363,13 +1498,14 @@ function Index() {
                 <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
                   "{ARTIFACTS.publication.body}"
                 </p>
+                <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 {ARTIFACTS.projects.map((proj) => (
                   <div
                     key={proj.title}
-                    className="rounded-2xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
+                    className="rounded-2xl border border-border/80 bg-background/60 p-5 sm:p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -1385,22 +1521,24 @@ function Index() {
                         {proj.title}
                       </h5>
 
-                      <p className="font-editorial text-lg italic text-foreground/90 mt-3 leading-relaxed">
+                      <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3 leading-relaxed">
                         "{proj.body}"
                       </p>
+                      <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
           )}
+
           {/* TAB 5: ADVOCACY & VOLUNTEERING */}
           {activeTab === "impact" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 animate-fadeIn">
               {VOLUNTEERING.map((vol) => (
                 <div
                   key={vol.organization}
-                  className="rounded-2xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
+                  className="rounded-2xl border border-border/80 bg-background/60 p-5 sm:p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
@@ -1427,6 +1565,7 @@ function Index() {
                     <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
                       "{vol.body}"
                     </p>
+                    <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                   </div>
                 </div>
               ))}
@@ -1438,25 +1577,25 @@ function Index() {
       {/* SECTION 03: EXPERIENCE TIMELINE */}
       <section
         id="timeline"
-        className="relative z-10 mx-auto max-w-7xl px-6 py-24 md:px-14 border-t border-border/70 scroll-mt-24"
+        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-20 sm:py-24 md:px-14 border-t border-border/70 scroll-mt-24"
       >
         <SectionHeader index="03" kicker="Executive enterprise tracks" title="Delivery ledger" />
 
-        <div ref={deliveryRef} className="mt-16 space-y-4">
+        <div ref={deliveryRef} className="mt-12 sm:mt-16 space-y-4">
           <TrackLabel label="Global Delivery · AI Transformation" />
           {DELIVERY_JOBS.map((j) => (
             <TimelineCard key={j.company} job={j} />
           ))}
         </div>
 
-        <div ref={aerospaceRef} className="mt-16 space-y-4">
+        <div ref={aerospaceRef} className="mt-12 sm:mt-16 space-y-4">
           <TrackLabel label="Aerospace · Connected Systems" />
           {AEROSPACE_JOBS.map((j) => (
             <TimelineCard key={j.company} job={j} />
           ))}
         </div>
 
-        <div ref={engineeringRef} className="mt-16 space-y-4">
+        <div ref={engineeringRef} className="mt-12 sm:mt-16 space-y-4">
           <TrackLabel label="Foundational Engineering · Research" />
           {ENGINEERING_JOBS.map((j) => (
             <TimelineCard key={j.company} job={j} />
@@ -1470,14 +1609,14 @@ function Index() {
         id="credentials"
         className="relative z-10 border-t border-border/70 bg-card/10 backdrop-blur-sm scroll-mt-24"
       >
-        <div className="mx-auto max-w-7xl px-6 py-24 md:px-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-20 sm:py-24 md:px-14">
           <SectionHeader
             index="04"
             kicker="Academic &amp; verified credentials"
             title="Education ledger"
           />
 
-          <div className="mt-16 space-y-4">
+          <div className="mt-12 sm:mt-16 space-y-4">
             {[
               {
                 year: "2021 — 2025",
@@ -1538,7 +1677,7 @@ function Index() {
             ].map((edu) => (
               <article
                 key={edu.institution}
-                className="group grid grid-cols-12 gap-6 rounded-2xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8"
+                className="group grid grid-cols-12 gap-5 sm:gap-6 rounded-2xl border border-border/70 bg-card/40 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
               >
                 <div className="col-span-12 md:col-span-3">
                   <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -1562,15 +1701,15 @@ function Index() {
                   <div className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--gold-strong)]">
                     {edu.institution}
                   </div>
-                  <h3 className="mt-2 font-sans text-2xl font-bold leading-tight text-foreground md:text-3xl">
+                  <h3 className="mt-2 font-sans text-xl sm:text-2xl md:text-3xl font-bold leading-tight text-foreground">
                     {edu.degree}
                   </h3>
-                  <p className="mt-4 font-editorial text-lg italic leading-snug text-foreground/80 md:text-xl">
+                  <p className="mt-3.5 font-editorial text-base sm:text-lg md:text-xl italic leading-snug text-foreground/80">
                     {edu.abstract}
                   </p>
 
                   {edu.pillars && (
-                    <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+                    <div className="mt-5 sm:mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
                       {edu.pillars.map((p) => (
                         <div
                           key={p.title}
@@ -1579,7 +1718,7 @@ function Index() {
                           <div className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                             ● {p.title}
                           </div>
-                          <p className="mt-2 text-sm leading-relaxed text-foreground/80 font-light">
+                          <p className="mt-2 text-xs sm:text-sm leading-relaxed text-foreground/80 font-light">
                             {p.body}
                           </p>
                         </div>
@@ -1587,7 +1726,7 @@ function Index() {
                     </div>
                   )}
 
-                  <div className="mt-6 flex flex-wrap gap-2">
+                  <div className="mt-5 sm:mt-6 flex flex-wrap gap-2">
                     {edu.domains.map((d) => (
                       <span
                         key={d}
@@ -1606,8 +1745,8 @@ function Index() {
 
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-border/70 bg-card/40 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:flex-row md:px-14">
-          <div className="flex flex-col gap-1 items-center md:items-start">
+        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-4 sm:px-6 py-8 sm:py-10 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:flex-row md:px-14">
+          <div className="flex flex-col gap-1 items-center md:items-start text-center md:text-left">
             <span>© 2026 · Dr. Sandhya Haridas</span>
             <span className="text-[8px] text-muted-foreground/50 tracking-widest">
               Executive Workspace Interface · Secure
@@ -1651,7 +1790,7 @@ function Index() {
       {/* CERTIFICATE / MEDIA LIGHTBOX MODAL */}
       {selectedCert && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-3 sm:p-4 animate-fadeIn"
           onClick={() => setSelectedCert(null)}
         >
           <div
@@ -1659,13 +1798,13 @@ function Index() {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-border/60">
-              <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                Verified Record Attestation
+              <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold truncate pr-2">
+                {selectedCert.title || "Verified Record Attestation"}
               </span>
               <button
                 type="button"
                 onClick={() => setSelectedCert(null)}
-                className="text-muted-foreground hover:text-foreground font-mono text-xs uppercase tracking-widest px-2.5 py-1 rounded bg-background/60 border border-border transition-colors cursor-pointer"
+                className="text-muted-foreground hover:text-foreground font-mono text-xs uppercase tracking-widest px-2.5 py-1 rounded bg-background/60 border border-border transition-colors cursor-pointer shrink-0"
               >
                 Close [ESC]
               </button>
@@ -1687,12 +1826,12 @@ function Index() {
 
 function SectionHeader({ index, kicker, title }: { index: string; kicker: string; title: string }) {
   return (
-    <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
+    <div className="flex flex-col items-start gap-4 sm:gap-6 md:flex-row md:items-end md:justify-between">
       <div>
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           § {index} — {kicker}
         </div>
-        <h2 className="mt-3 font-sans text-4xl font-black tracking-tight text-foreground md:text-6xl uppercase">
+        <h2 className="mt-2 sm:mt-3 font-sans text-3xl sm:text-4xl md:text-6xl font-black tracking-tight text-foreground uppercase">
           {title}
         </h2>
       </div>
@@ -1703,9 +1842,9 @@ function SectionHeader({ index, kicker, title }: { index: string; kicker: string
 
 function TrackLabel({ label }: { label: string }) {
   return (
-    <div className="flex items-center gap-4">
-      <span className="h-px w-10 bg-[color:var(--gold-strong)]" />
-      <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)]">
+    <div className="flex items-center gap-3 sm:gap-4">
+      <span className="h-px w-8 sm:w-10 bg-[color:var(--gold-strong)]" />
+      <span className="font-mono text-[9px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)]">
         {label}
       </span>
     </div>
@@ -1714,7 +1853,7 @@ function TrackLabel({ label }: { label: string }) {
 
 function TimelineCard({ job }: { job: Job }) {
   return (
-    <article className="group grid grid-cols-12 gap-6 rounded-2xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8">
+    <article className="group grid grid-cols-12 gap-5 sm:gap-6 rounded-2xl border border-border/70 bg-card/40 p-5 sm:p-8 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
       <div className="col-span-12 md:col-span-3">
         <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           {job.year}
@@ -1729,7 +1868,7 @@ function TimelineCard({ job }: { job: Job }) {
         </div>
 
         {job.location && (
-          <div className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+          <div className="mt-3 sm:mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
             {job.location}
           </div>
         )}
@@ -1739,15 +1878,15 @@ function TimelineCard({ job }: { job: Job }) {
         <div className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--gold-strong)]">
           {job.company}
         </div>
-        <h3 className="mt-2 font-sans text-2xl font-bold leading-tight text-foreground md:text-3xl">
+        <h3 className="mt-2 font-sans text-xl sm:text-2xl md:text-3xl font-bold leading-tight text-foreground">
           {job.role}
         </h3>
-        <p className="mt-4 font-editorial text-lg italic leading-snug text-foreground/80 md:text-xl">
+        <p className="mt-3.5 font-editorial text-base sm:text-lg md:text-xl italic leading-snug text-foreground/80">
           {job.abstract}
         </p>
 
         {job.pillars && (
-          <div className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="mt-5 sm:mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
             {job.pillars.map((p) => (
               <div
                 key={p.title}
@@ -1756,7 +1895,7 @@ function TimelineCard({ job }: { job: Job }) {
                 <div className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                   ● {p.title}
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/80 font-light">
+                <p className="mt-2 text-xs sm:text-sm leading-relaxed text-foreground/80 font-light">
                   {p.body}
                 </p>
               </div>
@@ -1764,7 +1903,7 @@ function TimelineCard({ job }: { job: Job }) {
           </div>
         )}
 
-        <div className="mt-6 flex flex-wrap gap-2">
+        <div className="mt-5 sm:mt-6 flex flex-wrap gap-2">
           {job.domains.map((d) => (
             <span
               key={d}
