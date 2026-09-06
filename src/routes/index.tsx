@@ -23,8 +23,110 @@ import {
   Send,
   User,
   Globe,
+  FileText,
+  PlayCircle,
+  Share2,
+  BookmarkCheck,
+  CheckCircle2,
+  Maximize2,
+  Calendar,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
+
+function PowerListCard({ onInspect }: { onInspect: () => void }) {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      className="mt-8 relative min-h-[380px] overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-6 md:p-10 shadow-lg backdrop-blur-md transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
+    >
+      {/* 1. PHOTO LAYER (Always renders; opacity controlled via React state) */}
+      <div
+        className={`pointer-events-none absolute inset-0 z-10 overflow-hidden flex items-center justify-center p-3 bg-black/10 transition-all duration-500 ease-out ${
+          isHovered ? "opacity-100 scale-100" : "opacity-0 scale-95"
+        }`}
+      >
+        <img
+          src="/events/cxo-powerlist-2026.jpg"
+          alt="CXO Lanes IT Power List 2026 Top 50 Winners"
+          className="h-full w-full object-contain object-center drop-shadow-xl"
+        />
+      </div>
+
+      {/* 2. TEXT LAYER (Dissolves out when hovered) */}
+      <div
+        className={`relative z-0 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start w-full transition-all duration-300 ease-out ${
+          isHovered ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
+      >
+        <div className="col-span-12 md:col-span-5 flex flex-col gap-3 min-w-0">
+          <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
+            <Award className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Top IT Leader Attestation</span>
+          </div>
+          <h3 className="font-sans text-3xl font-black tracking-tight uppercase mt-2 break-words text-foreground">
+            The Power List{" "}
+            <span className="font-editorial italic font-normal text-[color:var(--gold-strong)]">
+              2026
+            </span>
+          </h3>
+          <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+            Issued by CXO Lanes
+          </span>
+        </div>
+
+        <div className="col-span-12 md:col-span-7 space-y-4 min-w-0">
+          <p className="font-editorial text-xl italic leading-relaxed text-foreground/90 break-words">
+            "Proud to be recognized among India’s Top IT Leaders – The Power List 2026 by CXO Lanes
+            for contributions to AI-driven transformation, digital innovation, and industry
+            leadership."
+          </p>
+          <div className="h-px w-16 bg-[color:var(--gold)]/60" />
+          <p className="text-sm leading-relaxed text-muted-foreground font-light break-words">
+            Nominated for outstanding deployment tracks across Process Automation, Reliability,
+            Intelligent Systems scaling, and sustainable digital industrial setups across Schneider
+            Electric, Honeywell Aerospace, UTC Aerospace, and GE HealthCare.
+          </p>
+        </div>
+      </div>
+
+      {/* 3. BUTTON BAR (z-20 so it stays above the photo and remains clickable) */}
+      <div className="relative z-20 pt-4 mt-6 border-t border-border/30 flex items-center justify-between">
+        <div className="flex flex-wrap items-center gap-3">
+          <a
+            href={CXO_DECLARATION_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl border border-[color:var(--gold)]/60 bg-background/90 hover:bg-[color:var(--gold)]/20 px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all shadow-md backdrop-blur-md"
+          >
+            <Linkedin className="w-3.5 h-3.5" />
+            <span>View Official Declaration</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+
+          <button
+            type="button"
+            onClick={onInspect}
+            className="inline-flex items-center gap-2 rounded-xl bg-background/90 hover:text-[color:var(--gold-strong)] hover:border-[color:var(--gold)]/50 border border-border/80 px-4 py-2 text-xs font-semibold text-foreground transition-all cursor-pointer backdrop-blur-md shadow-md"
+          >
+            <Maximize2 className="w-3.5 h-3.5" />
+            <span>Inspect Cohort Poster</span>
+          </button>
+        </div>
+
+        <span
+          className={`font-mono text-[10px] uppercase tracking-wider transition-all ${
+            isHovered ? "text-white bg-black/70 px-2.5 py-1 rounded-md" : "text-muted-foreground"
+          }`}
+        >
+          {isHovered ? "Viewing Cohort" : "Hover to Focus Poster"}
+        </span>
+      </div>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -49,7 +151,7 @@ const NARRATION: Record<Focus, string> = {
     "System online. Auditing a verified history spanning 26+ years of global technology delivery, Industry 4.0/5.0 adoption, and enterprise digital transformation.",
 
   accolades:
-    "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation awards and invited international keynote speaker.",
+    "Laurels authenticated: Recognized on CXO Lanes Power List 2026 for India's Top IT Leaders. Winner of 7 enterprise innovation awards, conference chair, and keynote panelist.",
 
   delivery:
     "Global Delivery tracks active: Directing P&L operations across Industry X.0 robotics, MES software pipelines, and AI-led recurring monetization frameworks at LTTS.",
@@ -173,57 +275,238 @@ const ENTERPRISE_AWARDS = [
   },
 ];
 
-const MEDIA_AND_TALKS = [
+type TalkCategory = "all" | "keynotes" | "panels" | "stem";
+
+type VerifiedEngagement = {
+  category: "keynotes" | "panels" | "stem";
+  tag: string;
+  title: string;
+  host: string;
+  date: string;
+  summary: string;
+  highlightPill: string;
+  actionType: "youtube" | "video" | "certificate" | "linkedin" | "modal";
+  actionUrl: string;
+  actionLabel: string;
+  previewImage?: string;
+  hasHoverReveal: boolean; // false for certificates; true for event media/photos
+};
+
+const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
   {
-    type: "FEATURED INTERVIEW // PODCAST",
-    title: "Opportunities in Automated Manufacturing & AI",
-    platform: "Business Standard (BSmart Leadership Series)",
+    category: "keynotes",
+    tag: "BROADCAST INTERVIEW // BSMART",
+    title: "Opportunities in Automated Manufacturing & Industry AI",
+    host: "Business Standard",
     date: "Jul 21, 2026",
-    link: "https://www.business-standard.com/video-gallery/education/opportunities-in-automated-manufacturing-179110.htm",
-    body: "Executive leadership session discussing the emergence of intelligent automated factories, Industry 4.0/5.0 roadmaps, and actionable career guidance for future business leaders.",
+    summary:
+      "Executive leadership broadcast exploring the human element in smart automated manufacturing, industrial AI adoption, and career trajectories.",
+    highlightPill: "Featured Broadcast",
+    actionType: "video",
+    actionUrl:
+      "https://www.business-standard.com/video-gallery/education/opportunities-in-automated-manufacturing-179110.htm",
+    actionLabel: "Watch on Business Standard",
+    previewImage: "/events/business-standard.jpg",
+    hasHoverReveal: true,
   },
   {
-    type: "INTERNATIONAL CONFERENCE KEYNOTE",
+    category: "panels",
+    tag: "NATIONAL LEADERSHIP SUMMIT",
+    title: "CII Women in STEM Leadership Summit 2026",
+    host: "Confederation of Indian Industry (CII) · New Delhi",
+    date: "2026",
+    summary:
+      "Invited panelist alongside leaders from government, industrial manufacturing, and global academia on accelerating women's executive participation in digital transformation.",
+    highlightPill: "Summit Panel",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_cii-womeninstem-womenleadership-ugcPost-7492107007378817025-KLT5/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/cii-summit.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    // CERTIFICATE 1: Clean card, no background text disappearance
+    category: "keynotes",
+    tag: "INTERNATIONAL CONFERENCE KEYNOTE",
     title: "Next-Generation Data Engineering & Analytics (INDEA-2026)",
-    platform: "University of Salford (Manchester, UK) & Universal Inovators / Springer",
+    host: "University of Salford (Manchester, UK) & Universal Inovators / Springer",
     date: "Aug 21–22, 2026",
-    certificateUrl: "/certificates/indea-2026.png",
-    body: "Invited keynote speaker for the INDEA-2026 International Conference, presenting state-of-the-art frameworks in Explainable AI (XAI), big data architectures, and industrial analytics models.",
+    summary:
+      "Invited Keynote Speaker presenting state-of-the-art architectures in Explainable AI (XAI), scalable edge computing, and industrial telemetry analytics.",
+    highlightPill: "Springer Verified",
+    actionType: "certificate",
+    actionUrl: "/certificates/indea-2026.png",
+    actionLabel: "View Verified Certificate",
+    hasHoverReveal: false,
   },
   {
-    type: "EXECUTIVE PODCAST FEATURE",
-    title: "Will AI Replace Your Job? Future of Work, Skills & Responsible AI",
-    platform: "Pivot Podcast · Hosted by Pushpa Latha (CEO, PropLilly)",
+    category: "keynotes",
+    tag: "ACADEMIC SYMPOSIUM 2.0",
+    title: "Reimagining Manufacturing with Cognitive AI",
+    host: "PES University · Center for Cognitive Computing (C3I), Bangalore",
+    date: "Feb 14, 2026",
+    summary:
+      "Inaugural keynote address delivered on bridging cognitive AI models with edge deployment across smart factory shop-floors and real-time sensor networks.",
+    highlightPill: "Keynote Address",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-pooja-agarwal_aiformanufacturing-aisymposium-manufacturinginnovation-ugcPost-7425879188433186816-MC2g/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/pes-symposium.png",
+    hasHoverReveal: true,
+  },
+  {
+    category: "stem",
+    tag: "FEATURED KEYNOTE & MENTOR",
+    title: "Katalyst India Alumni Leadership Meet",
+    host: "Katalyst India · Bangalore",
     date: "2024",
-    link: "https://www.youtube.com/watch?v=tIklWsbiTCs",
-    body: "Featured guest discussing Industry 4.0/5.0, smart manufacturing in India, Responsible AI governance, and Women in Tech leadership. Key takeaway: 'The future is not about fearing AI, but learning how humans and intelligent technology work better together.'",
+    summary:
+      "Featured guest speaker alongside Sanjay Gopinath (MathWorks), mentoring 50+ women engineering scholars and alumni on technical mastery, executive presence, and career resilience.",
+    highlightPill: "500+ Coached",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/sahana113_katalystindia-alumnimeet-networking-ugcPost-7477746463570317312-nyb_",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/katalyst-alumni.jpg",
+    hasHoverReveal: true,
   },
   {
-    type: "INTERNATIONAL KEYNOTE",
+    category: "panels",
+    tag: "CXO INDUSTRY MASTERCLASS",
+    title: "Mastering the AI Shift: Strategizing Tech Teams for the Future",
+    host: "Simplilearn & The Brainalytics CXO Platform",
+    date: "May 10, 2024",
+    summary:
+      "CXO speaker on managing enterprise AI transformation, addressing organizational inertia, and building resilient engineering teams aligned with market shifts.",
+    highlightPill: "CXO Masterclass",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_this-was-an-insightful-cxo-session-by-industry-ugcPost-7202948918026883072-dH6Y/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/simplilearn-ai.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    category: "stem",
+    tag: "CORPORATE BRAND AMBASSADOR",
+    title: "Women in Industrial Automation & Sustainable Cloud",
+    host: "Schneider Electric Official Campaign",
+    date: "2024",
+    summary:
+      "Official brand ambassador feature spotlighting executive leadership: 'Bringing together AI, IoT, cloud, and sustainability to create the next generation of solutions.'",
+    highlightPill: "Brand Ambassador",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_great-opportunities-at-schneider-electric-share-7235709854378553345-_hCl/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/schneider-women.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    // CERTIFICATE 2: Clean card, no background text disappearance
+    category: "keynotes",
+    tag: "INTERNATIONAL CONFERENCE KEYNOTE",
     title: "Sustainable & Innovative Practices in Business and Academia",
-    platform: "JAIN (Deemed-to-be University) · CMS",
+    host: "JAIN (Deemed-to-be University) · CMS",
     date: "Dec 13–14, 2024",
-    certificateUrl: "/certificates/jain-keynote.png",
-    body: "Awarded Certificate of Appreciation as Keynote Speaker for the Two-Day International Conference on Sustainable, Innovative Practices in Business and Academia[cite: 1].",
+    summary:
+      "Awarded Certificate of Appreciation as Keynote Speaker for the Two-Day International Conference on Sustainable, Innovative Practices in Business and Academia.",
+    highlightPill: "Keynote Certificate",
+    actionType: "certificate",
+    actionUrl: "/certificates/jain-keynote.png",
+    actionLabel: "View Verified Certificate",
+    hasHoverReveal: false,
   },
   {
-    type: "EXPERT WEBINAR",
+    category: "stem",
+    tag: "WOMEN'S DAY KEYNOTE",
+    title: "Women@Chryso: Inspiring Talent in Modern Engineering",
+    host: "CHRYSO India",
+    date: "Mar 8, 2024",
+    summary:
+      "Special keynote session connecting with women talent in manufacturing on leading through disruption, continuous upskilling, and executive growth in STEM.",
+    highlightPill: "Keynote",
+    actionType: "linkedin",
+    actionUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7171836166986227712/", // Replace with her exact Chryso post URL/URN
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/chryso-keynote.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    category: "keynotes",
+    tag: "EXECUTIVE PODCAST FEATURE",
+    title: "Will AI Replace Your Job? Future of Work & Responsible AI",
+    host: "Pivot Podcast · Hosted by Pushpa Latha (CEO, PropLilly)",
+    date: "2024",
+    summary:
+      "Featured guest evaluating smart manufacturing in India, Responsible AI guardrails, and workforce evolution: 'The future is about learning how humans and intelligent technology work together.'",
+    highlightPill: "Full Episode",
+    actionType: "youtube",
+    actionUrl: "https://www.youtube.com/watch?v=tIklWsbiTCs",
+    actionLabel: "Watch Episode on YouTube",
+    previewImage: "/events/pivot-podcast.png",
+    hasHoverReveal: true,
+  },
+  {
+    // CERTIFICATE 3: Clean card, no background text disappearance
+    category: "keynotes",
+    tag: "EXPERT WEBINAR SERIES",
     title: "Smart Flying and XAI (Explainable AI) Applications",
-    platform: "IABAC (International Association of Business Analytics Certification)",
+    host: "IABAC (International Association of Business Analytics Certification)",
     date: "Aug 30, 2023",
-    certificateUrl: "/certificates/iabac-xai.jpeg",
-    body: "Invited speaker for the 'Experts Speak' Webinar Series, presenting Explainable AI (XAI) models in aerospace, predictive maintenance, and flight analytics.",
+    summary:
+      "Invited speaker for the 'Experts Speak' Series, presenting operational Explainable AI (XAI) models in aerospace and predictive flight analytics.",
+    highlightPill: "IABAC Certified",
+    actionType: "certificate",
+    actionUrl: "/certificates/iabac-xai.jpeg",
+    actionLabel: "View Verified Certificate",
+    hasHoverReveal: false,
   },
   {
-    type: "ACADEMIC & INDUSTRY PANEL",
-    title: "Responsible AI, Digitization & STEM Leadership",
-    platform: "UC Irvine & Global Industry Summits",
-    date: "2023 – Present",
-    body: "Keynote speaker bridging academic research and industrial execution across IIoT, STEM advocacy, Industry X.0 transformation, and AI ethics.",
+    category: "stem",
+    tag: "ENGINEERING FORUM LEAD",
+    title: "Role of Data Analytics & AI in the Enterprise World",
+    host: "Honeywell Women In Technology (WIT) Hub",
+    date: "Jun 21, 2022",
+    summary:
+      "Technical lecture exploring aerospace telemetry architectures, ML production pipelines, and operational ROI modeling for Honeywell global engineering units.",
+    highlightPill: "Tech Lecture",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_ai-share-ml-share-6958044738864263168-d4Zf/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/honeywell-ai.png",
+    hasHoverReveal: true,
+  },
+  {
+    category: "keynotes",
+    tag: "AERO WOMEN'S COUNCIL INAUGURAL",
+    title: "Commercial Artificial Intelligence Solutions in Aerospace",
+    host: "Honeywell Aero Women's Council (AWC)",
+    date: "Jun 28, 2022",
+    summary:
+      "Keynote presentation providing a global aerospace engineering audience a comprehensive overview of machine learning paradigms, flight-to-ground edge data, and business aviation applications.",
+    highlightPill: "AWC Keynote",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_datascience-automation-technology-share-6952524441356558336-JukE/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/aero-awc.png",
+    hasHoverReveal: true,
   },
 ];
 
 const ARTIFACTS = {
+  academicRoles: [
+    {
+      title: "Conference Chair & University Paper Presentation Reviewer",
+      organization: "International Research Conferences & Academic Hubs",
+      period: "2023 — Present",
+      body: "Serving as University Paper Presentation Session Chair and Technical Paper Peer Reviewer across premier international IEEE and Springer conference symposiums.",
+    },
+  ],
   publication: {
     title: "Thermal Behaviour of Variable Conductance Heat Pipes in Vacuum Chambers",
     publisher: "GE Patenting Forum / GE Healthcare",
@@ -237,7 +520,7 @@ const ARTIFACTS = {
       client: "Creative Synergies / AIRBUS",
       date: "Oct 2011 – Feb 2012",
       logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
-      body: "Stress focal for Sec 16/18 CDS/PDS and Sec 13/14 RPB on A350XWB. Cleared primary and secondary structures (frames, stringers, rear pressure bulkhead) according to Airbus SAP and quality guidelines.",
+      body: "Stress focal for Sec 16/18 CDS/PDS and Sec 13/14 RPB on A350XWB. Cleared primary and secondary structures according to Airbus SAP and quality guidelines.",
     },
     {
       title: "A380 Fixed Trailing Edge Panel & B777 Damage Tolerance",
@@ -406,8 +689,9 @@ function Index() {
   const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
 
   const [activeTab, setActiveTab] = useState<
-    "powerlist" | "awards" | "talks" | "artifacts" | "impact"
+    "powerlist" | "talks" | "awards" | "artifacts" | "impact"
   >("powerlist");
+  const [talkFilter, setTalkFilter] = useState<TalkCategory>("all");
   const [selectedCert, setSelectedCert] = useState<{ title: string; url: string } | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const typed = useTypewriter(NARRATION[focus]);
@@ -465,6 +749,10 @@ function Index() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
+  const filteredTalks = VERIFIED_ENGAGEMENTS.filter((t) =>
+    talkFilter === "all" ? true : t.category === talkFilter,
+  );
+
   return (
     <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden font-sans">
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden opacity-30">
@@ -478,7 +766,7 @@ function Index() {
         />
       </div>
 
-      {/* EXPANDING ICON DOCK NAVIGATION (BALANCED WIDTH & PADDING) */}
+      {/* EXPANDING DOCK NAVIGATION */}
       <header className="sticky top-3.5 z-50 mx-auto max-w-6xl px-4 sm:px-8">
         <div className="flex items-center justify-between rounded-2xl border border-border/70 bg-background/85 px-4 sm:px-6 py-2.5 backdrop-blur-xl shadow-lg">
           <button
@@ -499,7 +787,6 @@ function Index() {
             </div>
           </button>
 
-          {/* Morphing Expanding Icon Dock */}
           <nav className="flex items-center gap-1.5 bg-card/60 border border-border/70 rounded-xl p-1 shadow-inner">
             {NAV_ITEMS.map((item) => {
               const Icon = item.icon;
@@ -663,7 +950,7 @@ function Index() {
             AI Strategy &amp; Digital Transformation
           </p>
 
-          {/* EDITORIAL STAT LEDGER (REDESIGNED STRIP) */}
+          {/* EDITORIAL STAT LEDGER */}
           <div className="mx-auto mt-10 max-w-4xl rounded-2xl border border-border/70 bg-card/40 backdrop-blur-md shadow-sm overflow-hidden">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-border/60">
               <div className="p-5 sm:p-6 text-left flex flex-col justify-between hover:bg-card/60 transition-colors">
@@ -730,7 +1017,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 02: RECOGNITION, MEDIA & KEYNOTES */}
+      {/* SECTION 02: RECOGNITION, KEYNOTES & PANELS */}
       <section
         ref={accoladesRef}
         id="accolades"
@@ -742,182 +1029,260 @@ function Index() {
             kicker="Executive Laurels, Media & Impact"
             title="Recognition & Advocacy"
           />
-
-          <div className="mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 font-mono text-[10px] uppercase tracking-[0.2em]">
+          {/* Segment Controls */}
+          <div className="mt-10 flex flex-wrap gap-2.5 border-b border-border/60 pb-4 text-xs font-medium">
             <button
               onClick={() => setActiveTab("powerlist")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "powerlist"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
+                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
-              <Award className="w-3.5 h-3.5" /> 🏆 Power List 2026
+              <Award className="w-4 h-4 text-[color:var(--gold-strong)]" />
+              <span>Power List 2026</span>
             </button>
 
             <button
               onClick={() => setActiveTab("talks")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "talks"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
+                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
-              <Radio className="w-3.5 h-3.5" /> 🎙️ Keynotes &amp; Podcasts ({MEDIA_AND_TALKS.length}
-              )
+              <Radio className="w-4 h-4 text-[color:var(--gold-strong)]" />
+              <span>Keynotes, Panels &amp; Broadcasts ({VERIFIED_ENGAGEMENTS.length})</span>
             </button>
 
             <button
               onClick={() => setActiveTab("awards")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "awards"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
+                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
-              <Award className="w-3.5 h-3.5" /> Enterprise Honors (7)
+              <Award className="w-4 h-4" />
+              <span>Enterprise Honors (7)</span>
             </button>
 
             <button
               onClick={() => setActiveTab("artifacts")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "artifacts"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
+                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
-              <BookOpen className="w-3.5 h-3.5" /> Research &amp; Projects
+              <BookOpen className="w-4 h-4" />
+              <span>Research &amp; Academic Chair</span>
             </button>
 
             <button
               onClick={() => setActiveTab("impact")}
-              className={`relative flex items-center gap-2 rounded-lg px-4 py-2 transition-all duration-300 ease-out active:scale-95 cursor-pointer border-0 ${
+              className={`flex items-center gap-2 rounded-xl px-4 py-2.5 transition-all duration-200 cursor-pointer border ${
                 activeTab === "impact"
-                  ? "bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "text-muted-foreground hover:text-foreground hover:bg-card/40 bg-transparent"
+                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
               }`}
             >
-              <GraduationCap className="w-3.5 h-3.5" /> STEM &amp; Volunteering
+              <GraduationCap className="w-4 h-4" />
+              <span>STEM &amp; Volunteering</span>
             </button>
           </div>
-
+          {/* TAB 1: POWER LIST 2026 */}
           {activeTab === "powerlist" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8 items-start rounded-xl border border-border/80 bg-background/60 p-5 md:p-10 shadow-lg backdrop-blur-sm animate-fadeIn w-full min-w-0 overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
-              <div className="col-span-12 md:col-span-4 flex flex-col gap-3 min-w-0">
-                <div className="inline-flex w-fit max-w-full items-center gap-2 rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-3 py-1 font-mono text-[10px] uppercase tracking-wider text-[color:var(--gold-strong)]">
-                  <Award className="w-3.5 h-3.5 shrink-0" />
-                  <span className="truncate">Top IT Leader Attestation</span>
-                </div>
-                <h3 className="font-sans-display text-2xl sm:text-3xl font-black tracking-tight uppercase mt-2 break-words">
-                  The Power List{" "}
-                  <span className="font-editorial italic font-normal text-[color:var(--gold-strong)]">
-                    2026
-                  </span>
-                </h3>
-                <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                  Issued by CXO Lanes
-                </span>
-
-                <div className="mt-4">
-                  <a
-                    href={CXO_DECLARATION_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-lg border border-[color:var(--gold)]/60 bg-[color:var(--gold)]/15 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.18em] text-[color:var(--gold-strong)] hover:bg-[color:var(--gold)]/30 transition-all shadow-sm group"
-                  >
-                    <span>View Official Declaration ↗</span>
-                    <ArrowUpRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                  </a>
-                </div>
-              </div>
-
-              <div className="col-span-12 md:col-span-8 space-y-4 min-w-0">
-                <p className="font-editorial text-lg md:text-xl italic leading-relaxed text-foreground/90 break-words">
-                  "Proud to be recognized among India’s Top IT Leaders – The Power List 2026 by CXO
-                  Lanes for contributions to AI-driven transformation, digital innovation, and
-                  industry leadership."
-                </p>
-                <div className="h-px w-16 bg-[color:var(--gold)]/60" />
-                <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light break-words">
-                  Nominated for outstanding deployment tracks across Process Automation,
-                  Reliability, Intelligent Systems scaling, and sustainable digital industrial
-                  setups across Schneider Electric, Honeywell Aerospace, UTC Aerospace, and GE
-                  HealthCare.
-                </p>
-              </div>
-            </div>
+            <PowerListCard
+              onInspect={() =>
+                setSelectedCert({
+                  title: "CXO Lanes IT Power List 2026 — Official Top 50 Winners Cohort",
+                  url: "/events/cxo-powerlist-2026.jpg",
+                })
+              }
+            />
           )}
 
+          {/* TAB 2: KEYNOTES, PANELS & BROADCASTS */}
           {activeTab === "talks" && (
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
-              {MEDIA_AND_TALKS.map((talk) => (
-                <div
-                  key={talk.title}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
-                        {talk.type}
-                      </span>
-                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                        {talk.date}
-                      </span>
+            <div className="mt-8 space-y-6 animate-fadeIn">
+              {/* Filter Chips */}
+              <div className="flex flex-wrap gap-2 text-xs">
+                {[
+                  { id: "all", label: "All Engagements" },
+                  { id: "keynotes", label: "Keynotes & Summits" },
+                  { id: "panels", label: "Panel Discussions" },
+                  { id: "stem", label: "Women in STEM & Mentorship" },
+                ].map((pill) => (
+                  <button
+                    key={pill.id}
+                    onClick={() => setTalkFilter(pill.id as TalkCategory)}
+                    className={`rounded-lg px-3.5 py-1.5 transition-all cursor-pointer border ${
+                      talkFilter === pill.id
+                        ? "border-[color:var(--gold)] bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                        : "border-border/60 bg-card/40 text-muted-foreground hover:text-foreground"
+                    }`}
+                  >
+                    {pill.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Grid of Verified Media Items */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {filteredTalks.map((talk) => {
+                  // If certificate, render clean static layout without text dissolving
+                  if (!talk.hasHoverReveal) {
+                    return (
+                      <div
+                        key={talk.title}
+                        className="relative rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/80 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 flex flex-col justify-between"
+                      >
+                        <div>
+                          <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                              {talk.tag}
+                            </span>
+                            <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                              {talk.date}
+                            </span>
+                          </div>
+
+                          <div className="mt-4 flex items-start justify-between gap-3">
+                            <h4 className="font-sans text-xl font-bold text-foreground leading-snug">
+                              {talk.title}
+                            </h4>
+                            <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
+                              {talk.highlightPill}
+                            </span>
+                          </div>
+
+                          <span className="font-sans text-xs text-muted-foreground font-medium block mt-1.5">
+                            {talk.host}
+                          </span>
+
+                          <p className="mt-4 font-sans text-xs leading-relaxed text-foreground/80 font-normal">
+                            {talk.summary}
+                          </p>
+                        </div>
+
+                        <div className="pt-5 mt-6 border-t border-border/30 flex items-center justify-between">
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedCert({ title: talk.title, url: talk.actionUrl })
+                            }
+                            className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30 shadow-sm"
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>{talk.actionLabel}</span>
+                          </button>
+                          <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
+                            Verified Attestation
+                          </span>
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  // Event & Poster cards: Image zooms into full focus on hover and text dissolves
+                  return (
+                    <div
+                      key={talk.title}
+                      className="group relative min-h-[380px] overflow-hidden rounded-2xl border border-border/80 bg-background/90 p-6 sm:p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
+                    >
+                      {/* Image Viewport on Hover */}
+                      {talk.previewImage && (
+                        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden flex items-center justify-center p-2.5 bg-black/5">
+                          <img
+                            src={talk.previewImage}
+                            alt={talk.title}
+                            className="h-full w-full object-contain object-center opacity-0 scale-95 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-100"
+                          />
+                        </div>
+                      )}
+
+                      {/* Top Bar: Dissolves on hover */}
+                      <div className="relative z-10 flex items-center justify-between gap-2 border-b border-border/40 pb-3 transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                          {talk.tag}
+                        </span>
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                          {talk.date}
+                        </span>
+                      </div>
+
+                      {/* Dynamic Content: Dissolves on hover */}
+                      <div className="relative z-10 flex-1 flex flex-col justify-center py-4 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
+                        <div className="flex items-start justify-between gap-2">
+                          <h4 className="font-sans text-xl font-bold text-foreground leading-snug">
+                            {talk.title}
+                          </h4>
+                          <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
+                            {talk.highlightPill}
+                          </span>
+                        </div>
+
+                        <span className="font-sans text-xs text-muted-foreground font-medium block mt-1.5">
+                          {talk.host}
+                        </span>
+
+                        <p className="mt-4 font-sans text-xs leading-relaxed text-foreground/80 font-normal">
+                          {talk.summary}
+                        </p>
+                      </div>
+
+                      {/* Bottom Action Button: Anchored floating pill */}
+                      <div className="relative z-20 pt-3 border-t border-border/30 group-hover:border-transparent flex items-center justify-between">
+                        {talk.actionType === "modal" ? (
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setSelectedCert({ title: talk.title, url: talk.actionUrl })
+                            }
+                            className="inline-flex items-center gap-2 rounded-xl bg-background/90 group-hover:bg-black/75 group-hover:text-amber-300 group-hover:border-amber-400/60 px-3.5 py-1.5 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-border/60 shadow-md backdrop-blur-md"
+                          >
+                            <Maximize2 className="w-3.5 h-3.5" />
+                            <span>{talk.actionLabel}</span>
+                          </button>
+                        ) : (
+                          <a
+                            href={talk.actionUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 rounded-xl bg-background/90 group-hover:bg-black/75 group-hover:text-amber-300 group-hover:border-amber-400/60 px-3.5 py-1.5 text-xs font-semibold text-[color:var(--gold-strong)] transition-all border border-border/60 shadow-md backdrop-blur-md"
+                          >
+                            {talk.actionType === "youtube" || talk.actionType === "video" ? (
+                              <PlayCircle className="w-3.5 h-3.5" />
+                            ) : (
+                              <Linkedin className="w-3.5 h-3.5" />
+                            )}
+                            <span>{talk.actionLabel}</span>
+                            <ArrowUpRight className="w-3.5 h-3.5" />
+                          </a>
+                        )}
+
+                        <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground group-hover:text-white/80 group-hover:bg-black/60 group-hover:px-2 group-hover:py-0.5 group-hover:rounded transition-all">
+                          Hover to Focus
+                        </span>
+                      </div>
                     </div>
-
-                    <h4 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
-                      {talk.title}
-                    </h4>
-
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
-                      {talk.platform}
-                    </span>
-
-                    <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
-                      "{talk.body}"
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-3 border-t border-border/30 flex flex-wrap items-center justify-between gap-3">
-                    {talk.link && (
-                      <a
-                        href={talk.link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline"
-                      >
-                        <span>Access Media Feature</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </a>
-                    )}
-
-                    {talk.certificateUrl && (
-                      <button
-                        type="button"
-                        onClick={() =>
-                          setSelectedCert({ title: talk.title, url: talk.certificateUrl! })
-                        }
-                        className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] hover:underline bg-transparent border-0 p-0 cursor-pointer"
-                      >
-                        <span>View Certificate 📄</span>
-                      </button>
-                    )}
-                  </div>
-                </div>
-              ))}
+                  );
+                })}
+              </div>
             </div>
           )}
-
+          {/* TAB 3: ENTERPRISE AWARDS */}
           {activeTab === "awards" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 animate-fadeIn">
               {ENTERPRISE_AWARDS.map((award) => (
                 <div
                   key={award.title}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
+                  className="rounded-2xl border border-border/80 bg-background/60 p-6 shadow-md backdrop-blur-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                         Issued by {award.issuer}
                       </span>
                       <div className="flex items-center gap-2">
@@ -934,7 +1299,7 @@ function Index() {
                       </div>
                     </div>
 
-                    <h4 className="font-sans-display text-xl sm:text-2xl font-black uppercase text-foreground mt-4 leading-tight">
+                    <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground mt-4 leading-tight">
                       {award.title}
                     </h4>
 
@@ -954,12 +1319,32 @@ function Index() {
               ))}
             </div>
           )}
-
+          {/* TAB 4: RESEARCH & ACADEMIC CHAIR */}
           {activeTab === "artifacts" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
-              <div className="rounded-xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
+              {ARTIFACTS.academicRoles.map((role) => (
+                <div
+                  key={role.title}
+                  className="rounded-2xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md"
+                >
+                  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                    <BookmarkCheck className="w-4 h-4" /> Academic Leadership &amp; Peer Review
+                  </div>
+                  <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground mt-3">
+                    {role.title}
+                  </h4>
+                  <span className="font-sans text-xs text-muted-foreground block mt-1">
+                    {role.organization} &bull; {role.period}
+                  </span>
+                  <p className="font-editorial text-lg italic text-foreground/90 mt-4 leading-relaxed">
+                    "{role.body}"
+                  </p>
+                </div>
+              ))}
+
+              <div className="rounded-2xl border border-border/80 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
                 <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                  <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                  <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                     <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
                   </div>
                   <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -967,11 +1352,11 @@ function Index() {
                   </span>
                 </div>
 
-                <h4 className="font-sans-display text-xl sm:text-2xl md:text-3xl font-black uppercase text-foreground mt-4">
+                <h4 className="font-sans text-xl sm:text-2xl md:text-3xl font-black uppercase text-foreground mt-4">
                   {ARTIFACTS.publication.title}
                 </h4>
 
-                <span className="font-mono text-[11px] uppercase tracking-[0.25em] text-muted-foreground block mt-1">
+                <span className="font-sans text-xs text-muted-foreground block mt-1">
                   Publisher // {ARTIFACTS.publication.publisher}
                 </span>
 
@@ -984,11 +1369,11 @@ function Index() {
                 {ARTIFACTS.projects.map((proj) => (
                   <div
                     key={proj.title}
-                    className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
+                    className="rounded-2xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
                   >
                     <div>
                       <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                        <span className="font-mono text-[10px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)] font-bold">
+                        <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                           Client // {proj.client}
                         </span>
                         <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
@@ -996,7 +1381,7 @@ function Index() {
                         </span>
                       </div>
 
-                      <h5 className="font-sans-display text-lg sm:text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                      <h5 className="font-sans text-lg sm:text-xl font-bold uppercase text-foreground mt-4 leading-snug">
                         {proj.title}
                       </h5>
 
@@ -1009,17 +1394,17 @@ function Index() {
               </div>
             </div>
           )}
-
+          {/* TAB 5: ADVOCACY & VOLUNTEERING */}
           {activeTab === "impact" && (
             <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6 animate-fadeIn">
               {VOLUNTEERING.map((vol) => (
                 <div
                   key={vol.organization}
-                  className="rounded-xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
+                  className="rounded-2xl border border-border/80 bg-background/60 p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 group"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                      <span className="font-mono text-[10px] uppercase tracking-[0.25em] text-[color:var(--gold-strong)] font-bold">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                         {vol.domain}
                       </span>
                       <div className="h-7 w-7 rounded-full border border-[color:var(--gold)] bg-white p-0.5 overflow-hidden shrink-0">
@@ -1031,11 +1416,11 @@ function Index() {
                       </div>
                     </div>
 
-                    <h4 className="font-sans-display text-xl font-bold uppercase text-foreground mt-4 leading-snug">
+                    <h4 className="font-sans text-xl font-bold uppercase text-foreground mt-4 leading-snug">
                       {vol.role}
                     </h4>
 
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground block mt-1">
+                    <span className="font-sans text-xs text-muted-foreground block mt-1">
                       {vol.organization} · {vol.period}
                     </span>
 
@@ -1153,10 +1538,10 @@ function Index() {
             ].map((edu) => (
               <article
                 key={edu.institution}
-                className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8"
+                className="group grid grid-cols-12 gap-6 rounded-2xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8"
               >
                 <div className="col-span-12 md:col-span-3">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+                  <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                     {edu.year}
                   </div>
 
@@ -1168,16 +1553,16 @@ function Index() {
                     />
                   </div>
 
-                  <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground font-semibold">
+                  <div className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground font-semibold">
                     {edu.meta}
                   </div>
                 </div>
 
                 <div className="col-span-12 md:col-span-9">
-                  <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
+                  <div className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--gold-strong)]">
                     {edu.institution}
                   </div>
-                  <h3 className="mt-2 font-sans-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
+                  <h3 className="mt-2 font-sans text-2xl font-bold leading-tight text-foreground md:text-3xl">
                     {edu.degree}
                   </h3>
                   <p className="mt-4 font-editorial text-lg italic leading-snug text-foreground/80 md:text-xl">
@@ -1189,9 +1574,9 @@ function Index() {
                       {edu.pillars.map((p) => (
                         <div
                           key={p.title}
-                          className="rounded-md border border-border/70 bg-background/60 p-4 shadow-sm"
+                          className="rounded-xl border border-border/70 bg-background/60 p-4 shadow-sm"
                         >
-                          <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
+                          <div className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                             ● {p.title}
                           </div>
                           <p className="mt-2 text-sm leading-relaxed text-foreground/80 font-light">
@@ -1206,7 +1591,7 @@ function Index() {
                     {edu.domains.map((d) => (
                       <span
                         key={d}
-                        className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground bg-background/40"
+                        className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground bg-background/40"
                       >
                         {d}
                       </span>
@@ -1221,7 +1606,7 @@ function Index() {
 
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-border/70 bg-card/40 backdrop-blur-sm">
-        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground md:flex-row md:px-14">
+        <div className="mx-auto max-w-7xl flex flex-col items-center justify-between gap-6 px-6 py-10 font-mono text-[10px] uppercase tracking-widest text-muted-foreground md:flex-row md:px-14">
           <div className="flex flex-col gap-1 items-center md:items-start">
             <span>© 2026 · Dr. Sandhya Haridas</span>
             <span className="text-[8px] text-muted-foreground/50 tracking-widest">
@@ -1256,26 +1641,26 @@ function Index() {
           type="button"
           onClick={scrollToTop}
           aria-label="Back to top"
-          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border border-[color:var(--gold)]/60 bg-background/85 px-4 py-2.5 font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-[color:var(--gold)]/20 cursor-pointer animate-fadeIn"
+          className="fixed bottom-6 right-6 z-40 flex items-center gap-2 rounded-full border border-[color:var(--gold)]/60 bg-background/85 px-4 py-2.5 font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] shadow-xl backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:bg-[color:var(--gold)]/20 cursor-pointer animate-fadeIn"
         >
           <ArrowUp className="w-3.5 h-3.5" />
           <span className="hidden sm:inline">Top</span>
         </button>
       )}
 
-      {/* CERTIFICATE LIGHTBOX MODAL */}
+      {/* CERTIFICATE / MEDIA LIGHTBOX MODAL */}
       {selectedCert && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-fadeIn"
           onClick={() => setSelectedCert(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-xl p-4 md:p-6 shadow-2xl overflow-hidden"
+            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-2xl p-4 md:p-6 shadow-2xl overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between pb-3 border-b border-border/60">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-[color:var(--gold-strong)] font-bold">
-                Verified Certificate Attestation
+              <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                Verified Record Attestation
               </span>
               <button
                 type="button"
@@ -1286,11 +1671,11 @@ function Index() {
               </button>
             </div>
 
-            <div className="mt-4 max-h-[75vh] overflow-y-auto rounded-lg border border-border/40 bg-black/40 flex items-center justify-center p-2">
+            <div className="mt-4 max-h-[75vh] overflow-y-auto rounded-xl border border-border/40 bg-black/40 flex items-center justify-center p-2">
               <img
                 src={selectedCert.url}
                 alt={selectedCert.title}
-                className="w-full h-auto max-h-[70vh] object-contain rounded"
+                className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
               />
             </div>
           </div>
@@ -1304,10 +1689,10 @@ function SectionHeader({ index, kicker, title }: { index: string; kicker: string
   return (
     <div className="flex flex-col items-start gap-6 md:flex-row md:items-end md:justify-between">
       <div>
-        <div className="font-mono text-[10px] uppercase tracking-[0.32em] text-muted-foreground">
+        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           § {index} — {kicker}
         </div>
-        <h2 className="mt-3 font-sans-display text-4xl font-black tracking-tight text-foreground md:text-6xl uppercase">
+        <h2 className="mt-3 font-sans text-4xl font-black tracking-tight text-foreground md:text-6xl uppercase">
           {title}
         </h2>
       </div>
@@ -1320,7 +1705,7 @@ function TrackLabel({ label }: { label: string }) {
   return (
     <div className="flex items-center gap-4">
       <span className="h-px w-10 bg-[color:var(--gold-strong)]" />
-      <span className="font-mono text-[10px] uppercase tracking-[0.32em] text-[color:var(--gold-strong)]">
+      <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)]">
         {label}
       </span>
     </div>
@@ -1329,9 +1714,9 @@ function TrackLabel({ label }: { label: string }) {
 
 function TimelineCard({ job }: { job: Job }) {
   return (
-    <article className="group grid grid-cols-12 gap-6 rounded-xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8">
+    <article className="group grid grid-cols-12 gap-6 rounded-2xl border border-border/70 bg-card/40 p-6 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:bg-card/70 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 md:p-8">
       <div className="col-span-12 md:col-span-3">
-        <div className="font-mono text-[10px] uppercase tracking-[0.3em] text-muted-foreground">
+        <div className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
           {job.year}
         </div>
 
@@ -1344,17 +1729,17 @@ function TimelineCard({ job }: { job: Job }) {
         </div>
 
         {job.location && (
-          <div className="mt-4 font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+          <div className="mt-4 font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
             {job.location}
           </div>
         )}
       </div>
 
       <div className="col-span-12 md:col-span-9">
-        <div className="font-mono text-[11px] uppercase tracking-[0.28em] text-[color:var(--gold-strong)]">
+        <div className="font-mono text-[11px] uppercase tracking-widest text-[color:var(--gold-strong)]">
           {job.company}
         </div>
-        <h3 className="mt-2 font-sans-display text-2xl font-bold leading-tight text-foreground md:text-3xl">
+        <h3 className="mt-2 font-sans text-2xl font-bold leading-tight text-foreground md:text-3xl">
           {job.role}
         </h3>
         <p className="mt-4 font-editorial text-lg italic leading-snug text-foreground/80 md:text-xl">
@@ -1366,12 +1751,14 @@ function TimelineCard({ job }: { job: Job }) {
             {job.pillars.map((p) => (
               <div
                 key={p.title}
-                className="rounded-md border border-border/70 bg-background/60 p-4"
+                className="rounded-xl border border-border/70 bg-background/60 p-4 shadow-sm"
               >
-                <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-[color:var(--gold-strong)] font-bold">
+                <div className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
                   ● {p.title}
                 </div>
-                <p className="mt-2 text-sm leading-relaxed text-foreground/80">{p.body}</p>
+                <p className="mt-2 text-sm leading-relaxed text-foreground/80 font-light">
+                  {p.body}
+                </p>
               </div>
             ))}
           </div>
@@ -1381,7 +1768,7 @@ function TimelineCard({ job }: { job: Job }) {
           {job.domains.map((d) => (
             <span
               key={d}
-              className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-[0.24em] text-muted-foreground"
+              className="rounded-full border border-border px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-muted-foreground bg-background/40"
             >
               {d}
             </span>
