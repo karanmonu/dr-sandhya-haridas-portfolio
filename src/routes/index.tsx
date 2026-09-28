@@ -37,7 +37,7 @@ import {
 import portraitImg from "@/assets/portrait.jpg";
 
 // =========================================================================
-// 1. FIELD AUTHORITY DOSSIER HUD — EB-1A DOCTRINE & EVIDENTIARY AUDIT STREAMS
+// 1. VERIFIED EXECUTIVE DOSSIER HUD — CONDENSED HIGH-IMPACT TELEMETRY
 // =========================================================================
 type TelemetryKey =
   | "thesis"
@@ -59,51 +59,51 @@ interface TelemetryStream {
 const DOSSIER_STREAMS: Record<TelemetryKey, TelemetryStream> = {
   thesis: {
     id: "thesis",
-    label: "THESIS",
-    code: "FIELD.CLAIM",
+    label: "DOCTRINE",
+    code: "SAFE.AI",
     metric: "Critical Systems",
-    headline: "Deterministic Safety for High-Reliability Infrastructure",
-    body: "Continuous process plants and flight systems cannot tolerate probabilistic failovers. My frameworks establish Explainable AI (XAI) verification layers and deterministic OT/IT barriers that enforce zero-failover physical operations.",
+    headline: "Deterministic Safety for High-Reliability Plants",
+    body: "Eliminating generative AI failovers in continuous infrastructure. Implementing deterministic OT/IT safety barriers and explainable architecture across mission-critical physical operations.",
   },
   ot_it: {
     id: "ot_it",
     label: "OT/IT",
     code: "CERT-IN.NAT",
     metric: "$97.2M Scope",
-    headline: "Apex National Critical-Infrastructure Security",
-    body: "Spearheaded national capability development securing CERT-In apex cybersecurity empanelment. Directed 350+ engineers safeguarding critical Distributed Control Systems across the world's largest refining and petrochemical complex.",
+    headline: "National Critical Infrastructure Cybersecurity",
+    body: "Secured apex CERT-In national cybersecurity empanelment. Directed 350+ engineers safeguarding automation systems across the world's largest refining and petrochemical complex.",
   },
   efficiency: {
     id: "efficiency",
-    label: "BENCHMARK",
+    label: "AI BENCHMARK",
     code: "SE.GLOBAL",
-    metric: "Top 1–2% Peer Rank",
-    headline: "Proprietary AI Framework Adopted as Global Benchmark",
-    body: "Pioneered proprietary industrial AI optimization methodology producing 60%+ engineering efficiency improvement and 50% effort reduction at Schneider Electric—formally transferred across international manufacturing sites.",
+    metric: "Top 1–2% Rank",
+    headline: "Proprietary AI Engineering Framework",
+    body: "Pioneered industrial AI optimization yielding 60%+ engineering efficiency and 50% effort reduction at Schneider Electric—formally transferred across international manufacturing sites.",
   },
   aerospace: {
     id: "aerospace",
-    label: "AERO",
+    label: "AVIONICS",
     code: "AERO.SAFE",
     metric: "Flight-Critical",
-    headline: "Airworthiness Certification & Connected Edge Avionics",
-    body: "Certified structural stress integrity on Airbus A350XWB primary and secondary airframe sections. Engineered mission-critical aircraft-to-ground edge telemetry pipelines compliant with strict FAA/EASA airworthiness protocols.",
+    headline: "Airworthiness Clearance & Edge Telemetry",
+    body: "Cleared primary structural stress calculations on Airbus A350XWB airframes. Architected real-time flight-to-ground edge communication protocols under strict FAA/EASA airworthiness standards.",
   },
   nasa_mentorship: {
     id: "nasa_mentorship",
     label: "NASA '26",
     code: "NASA.LA26",
     metric: "Space Apps",
-    headline: "NASA Space Apps Challenge Los Angeles Technical Mentor",
-    body: "Selected as Official Technical Mentor for the NASA Space Apps Challenge Los Angeles 2026, advising elite multidisciplinary engineering cohorts on resolving space mission blockers using open NASA datasets.",
+    headline: "NASA Space Apps Challenge 2026 Technical Mentor",
+    body: "Selected as Official Technical Mentor for the NASA Space Apps Challenge Los Angeles, guiding elite engineering teams solving mission blockers using open NASA datasets.",
   },
   research: {
     id: "research",
     label: "RESEARCH",
     code: "SSBM.DBA",
     metric: "Doctorate in AI",
-    headline: "Doctoral Frameworks for Explainable AI (XAI)",
-    body: "Doctor of Business Administration research solving black-box opacity in physical automation. Formalized operational trust calibration and human-in-the-loop diagnostic auditing layers for high-vulnerability industrial systems.",
+    headline: "Explainable AI (XAI) Enterprise Research",
+    body: "Doctor of Business Administration research solving opacity in physical automation. Formalized operational trust calibration and human-in-the-loop diagnostic auditing layers.",
   },
 };
 
@@ -144,22 +144,32 @@ function ExecutiveHUD({
   useEffect(() => {
     const timer = setInterval(() => {
       onSelectFocus(STREAM_KEYS[(STREAM_KEYS.indexOf(activeFocus) + 1) % STREAM_KEYS.length]);
-    }, 9000);
+    }, 8500);
     return () => clearInterval(timer);
   }, [activeFocus, onSelectFocus]);
+
+  const CHIP_ITEMS: { id: TelemetryKey; label: string }[] = [
+    { id: "thesis", label: "DOCTRINE" },
+    { id: "ot_it", label: "OT/IT" },
+    { id: "efficiency", label: "AI BENCHMARK" },
+    { id: "aerospace", label: "AVIONICS" },
+    { id: "nasa_mentorship", label: "NASA '26" },
+    { id: "research", label: "RESEARCH" },
+  ];
 
   return (
     <div className="group relative w-full overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-4 sm:p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-[color:var(--gold)]/80 hover:shadow-[0_20px_40px_rgba(180,130,40,0.12)]">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(180,130,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(180,130,40,0.03)_1px,transparent_1px)] bg-[size:16px_16px]" />
 
+      {/* TOP HEADER */}
       <div className="relative z-10 flex items-center justify-between border-b border-border/50 pb-2.5">
         <div className="flex items-center gap-2">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-75" />
             <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
           </span>
-          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.25em] text-[color:var(--gold-strong)]">
-            FIELD DOCTRINE · {current.code}
+          <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-strong)]">
+            VERIFIED RECORD · {current.code}
           </span>
         </div>
 
@@ -168,37 +178,35 @@ function ExecutiveHUD({
         </span>
       </div>
 
-      <div className="relative z-10 mt-3 min-h-[92px] sm:min-h-[80px]">
+      {/* BODY CONTENT */}
+      <div className="relative z-10 mt-3 min-h-[75px] sm:min-h-[68px]">
         <h5 className="font-sans text-xs sm:text-[13px] font-bold text-foreground transition-colors duration-200 leading-snug">
           {current.headline}
         </h5>
-        <p className="mt-1.5 font-mono text-[10.5px] sm:text-[11px] leading-relaxed text-muted-foreground/90 font-normal">
+        <p className="mt-1 font-mono text-[10.5px] sm:text-[11px] leading-relaxed text-muted-foreground font-normal">
           {typedBody}
           <span className="ml-0.5 inline-block h-2.5 w-1 translate-y-[2px] animate-pulse bg-[color:var(--gold-strong)]" />
         </p>
       </div>
 
-      <div className="relative z-10 mt-3 pt-2.5 border-t border-border/40 flex items-center justify-between gap-1">
-        <div className="flex flex-wrap items-center gap-1">
-          {STREAM_KEYS.map((k) => (
+      {/* CLEAN 2-ROW SELECTOR CHIPS */}
+      <div className="relative z-10 mt-3 pt-2.5 border-t border-border/40">
+        <div className="grid grid-cols-3 gap-1.5">
+          {CHIP_ITEMS.map((item) => (
             <button
-              key={k}
+              key={item.id}
               type="button"
-              onClick={() => onSelectFocus(k)}
-              className={`rounded px-1.5 py-0.5 font-mono text-[8px] uppercase tracking-wider transition-all cursor-pointer border ${
-                activeFocus === k
+              onClick={() => onSelectFocus(item.id)}
+              className={`rounded py-1 px-1.5 text-center font-mono text-[8px] uppercase tracking-wider transition-all cursor-pointer border ${
+                activeFocus === item.id
                   ? "border-[color:var(--gold)] bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-xs"
                   : "border-transparent text-muted-foreground/70 hover:text-foreground hover:bg-card/60"
               }`}
             >
-              {DOSSIER_STREAMS[k].label}
+              {item.label}
             </button>
           ))}
         </div>
-
-        <span className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/40 hidden lg:inline">
-          LIVE AUDIT
-        </span>
       </div>
     </div>
   );
@@ -266,8 +274,7 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
 
           <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light">
             Independently audited attestation benchmarking contributions across Distributed Control
-            Systems (DCS), safety instrumented architecture, and OT cybersecurity governance[cite:
-            24, 25].
+            Systems (DCS), safety instrumented architecture, and OT cybersecurity governance.
           </p>
         </div>
       </div>
@@ -376,14 +383,14 @@ const ENTERPRISE_AWARDS = [
     issuer: "Schneider Electric (Global President)",
     date: "2023",
     logoUrl: "https://unavatar.io/schneider-electric.com",
-    body: "Conferred by the Global President for pioneering AI engineering optimization frameworks that yielded over 60% efficiency improvement and 50% effort reduction across mission-critical execution pipelines[cite: 24, 25].",
+    body: "Conferred by the Global President for pioneering AI engineering optimization frameworks that yielded over 60% efficiency improvement and 50% effort reduction across mission-critical execution pipelines.",
   },
   {
     title: "BU Vice President Choice Award",
     issuer: "Schneider Electric",
     date: "Apr 2025",
     logoUrl: "https://unavatar.io/schneider-electric.com",
-    body: "Awarded for architecting a digitally optimized, sustainable One Automation facility in Mahape, establishing real-time digital staging dashboards that accelerated plant turnaround by 25–30%[cite: 24, 25].",
+    body: "Awarded for architecting a digitally optimized, sustainable One Automation facility in Mahape, establishing real-time digital staging dashboards that accelerated plant turnaround by 25–30%.",
   },
   {
     title: "Program Management Excellence — Go Beyond",
@@ -447,7 +454,7 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     host: "Business Standard BSmart Insight Talk",
     date: "Sep 9, 2026",
     summary:
-      "Featured keynote panelist alongside Deans and Leadership from IIM Bangalore, SP Jain Global, and MAHE evaluating human cognitive oversight in autonomous enterprise architectures[cite: 21].",
+      "Featured keynote panelist alongside Deans and Leadership from IIM Bangalore, SP Jain Global, and MAHE evaluating human cognitive oversight in autonomous enterprise architectures.",
     highlightPill: "Featured Keynote",
     actionType: "video",
     actionUrl: "https://www.business-standard.com/",
@@ -524,7 +531,7 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     host: "NASA Space Apps Organizing Team · Los Angeles",
     date: "Oct 2026",
     summary:
-      "Selected as Official Technical Mentor to guide high-intensity multidisciplinary engineering teams troubleshooting blockers and designing solutions using NASA open telemetry datasets[cite: 20].",
+      "Selected as Official Technical Mentor to guide high-intensity multidisciplinary engineering teams troubleshooting blockers and designing solutions using NASA open telemetry datasets.",
     highlightPill: "NASA Mentor",
     actionType: "certificate",
     actionUrl: "/events/nasa-mentor.jpg",
@@ -712,7 +719,7 @@ const VOLUNTEERING = [
     period: "Oct 2026",
     domain: "Aerospace & Mission Data",
     logoUrl: "https://unavatar.io/nasa.gov",
-    body: "Advising multidisciplinary engineering teams on utilizing NASA open data architecture to overcome high-consequence space and planetary mission challenges[cite: 20].",
+    body: "Advising multidisciplinary engineering teams on utilizing NASA open data architecture to overcome high-consequence space and planetary mission challenges.",
   },
   {
     role: "Director of Operations & Keynote Speaker",
@@ -757,23 +764,18 @@ const DELIVERY_JOBS: Job[] = [
     role: "Business Unit Head · Director India-Operations & Delivery",
     logoUrl: "https://unavatar.io/schneider-electric.com",
     abstract:
-      "Full P&L and operational accountability over $97.2M USD revenue and 350+ engineers[cite: 24, 25]. Managed 300+ mission-critical installations across refineries, power plants, and chemical manufacturing with zero safety incidents[cite: 24, 25].",
+      "Full P&L and operational accountability over $97.2M USD revenue and 350+ engineers. Managed 300+ mission-critical installations across refineries, power plants, and chemical manufacturing with zero safety incidents.",
     pillars: [
       {
         title: "Pioneering CERT-In Empanelment",
-        body: "Secured apex national cybersecurity auditing empanelment from the Ministry of Electronics & IT, qualifying the unit to audit government and critical infrastructure operational technology assets[cite: 24, 25].",
+        body: "Secured apex national cybersecurity auditing empanelment from the Ministry of Electronics & IT, qualifying the unit to audit government and critical infrastructure operational technology assets.",
       },
       {
         title: "Proprietary AI Engineering Framework",
-        body: "Engineered and deployed proprietary AI optimization models resulting in 60%+ efficiency improvement and 50% effort reduction, subsequently adopted across Schneider Electric international sites[cite: 24, 25].",
+        body: "Engineered and deployed proprietary AI optimization models resulting in 60%+ efficiency improvement and 50% effort reduction, subsequently adopted across Schneider Electric international sites.",
       },
     ],
-    domains: [
-      "$97.2M P&L[cite: 24, 25]",
-      "CERT-In Empanelment[cite: 24, 25]",
-      "60% AI Efficiency[cite: 24, 25]",
-      "Zero Incident Safety[cite: 24, 25]",
-    ],
+    domains: ["$97.2M P&L", "CERT-In Empanelment", "60% AI Efficiency", "Zero Incident Safety"],
   },
 ];
 
@@ -1136,7 +1138,7 @@ function Index() {
                   </span>
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
-                  Led 350+ Engineers[cite: 24, 25]
+                  Led 350+ Engineers
                 </div>
               </div>
 
@@ -1154,7 +1156,7 @@ function Index() {
                   </span>
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
-                  AI Engineering Benchmark[cite: 24, 25]
+                  AI Engineering Benchmark
                 </div>
               </div>
 
@@ -1172,7 +1174,7 @@ function Index() {
                   </span>
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
-                  National OT Empanelment[cite: 24, 25]
+                  National OT Empanelment
                 </div>
               </div>
 
@@ -1190,7 +1192,7 @@ function Index() {
                   </span>
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
-                  Space Apps Technical Mentor[cite: 20]
+                  Space Apps Technical Mentor
                 </div>
               </div>
             </div>
@@ -1451,15 +1453,15 @@ function Index() {
 
           {activeTab === "awards" && (
             <div className="mt-8 space-y-6 animate-fadeIn">
-              {/* PRIMARY EB-1A LEGAL ATTESTATION BANNER */}
+              {/* PRIMARY EXECUTIVE ATTESTATION BANNER */}
               <div className="relative rounded-2xl border-2 border-[color:var(--gold)]/60 bg-gradient-to-br from-background via-[color:var(--gold)]/5 to-[color:var(--gold)]/10 p-6 sm:p-8 shadow-xl backdrop-blur-md">
                 <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--gold)]/30 pb-4">
                   <div className="flex items-center gap-2">
                     <span className="rounded-md border border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wider text-[color:var(--gold-strong)]">
-                      EB-1A Extraordinary Ability Attestation
+                      Executive Leadership Attestation
                     </span>
                     <span className="font-mono text-[10px] text-muted-foreground">
-                      USCIS Legal Submission · May 2026
+                      Enterprise Endorsement · May 2026
                     </span>
                   </div>
 
@@ -1475,53 +1477,53 @@ function Index() {
                   </a>
                 </div>
 
-                <div className="mt-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+                <div className="mt-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
                   <div className="col-span-12 md:col-span-8 space-y-3">
                     <h3 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
-                      Testimony of Jacco Tholens[cite: 24, 25]
+                      Testimony of Jacco Tholens
                     </h3>
                     <span className="font-mono text-xs text-muted-foreground block -mt-1">
-                      Regional Delivery Director · East Asia &amp; Pacific, Schneider Electric[cite:
-                      24, 25]
+                      Regional Delivery Director · East Asia &amp; Pacific, Schneider Electric
                     </span>
                     <p className="font-editorial text-base sm:text-lg italic text-foreground/90 leading-relaxed">
                       "Across senior business unit leaders I have personally observed in industrial
                       automation in my 25-year career... Dr. Haridas occupies a position in the top
                       tier. In my professional judgment, she ranks within the top one to two percent
-                      of business unit leaders I have encountered."[cite: 24, 25]
+                      of business unit leaders I have encountered."
                     </p>
                     <div className="h-px w-16 bg-[color:var(--gold)]/60" />
                     <p className="text-xs text-muted-foreground font-light leading-relaxed">
-                      Affirmed under penalty of USCIS review: Direct accountability over $97.2M USD
-                      annual revenue, 350+ engineers, 60%+ AI engineering optimization benchmark,
-                      and apex CERT-In national cybersecurity empanelment[cite: 24, 25].
+                      Formal enterprise testimony covering unified accountability over $97.2M USD
+                      annual revenue, 350+ engineering professionals, proprietary AI-driven
+                      efficiency benchmarks, and apex CERT-In national cybersecurity empanelment.
                     </p>
                   </div>
 
-                  <div className="col-span-12 md:col-span-4 rounded-xl border border-border/60 bg-card/60 p-4 space-y-3">
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold block">
-                      Certified Legal Metrics
+                  {/* REFINED 3-PILLAR IMPACT STRIP */}
+                  <div className="col-span-12 md:col-span-4 rounded-xl border border-border/70 bg-card/60 p-4 space-y-3 shadow-xs">
+                    <span className="font-mono text-[9px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold block border-b border-border/40 pb-1.5">
+                      Operational Scope &amp; Impact
                     </span>
-                    <div className="space-y-2 font-mono text-xs">
-                      <div className="flex justify-between border-b border-border/40 pb-1">
-                        <span className="text-muted-foreground">Portfolio Scope:</span>
-                        <span className="font-bold text-foreground">$97.2M USD[cite: 24, 25]</span>
+                    <div className="space-y-2.5 font-mono text-xs">
+                      <div>
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                          Business Portfolio
+                        </div>
+                        <div className="text-base font-black text-foreground">$97.2M USD</div>
                       </div>
-                      <div className="flex justify-between border-b border-border/40 pb-1">
-                        <span className="text-muted-foreground">AI Efficiency:</span>
-                        <span className="font-bold text-foreground">+60% Gain[cite: 24, 25]</span>
+                      <div className="border-t border-border/40 pt-2">
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                          Engineering Efficiency
+                        </div>
+                        <div className="text-base font-black text-[color:var(--gold-strong)]">
+                          +60% Gain
+                        </div>
                       </div>
-                      <div className="flex justify-between border-b border-border/40 pb-1">
-                        <span className="text-muted-foreground">Critical Sites:</span>
-                        <span className="font-bold text-foreground">
-                          300+ Zero-Fail[cite: 24, 25]
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-muted-foreground">National Rank:</span>
-                        <span className="font-bold text-[color:var(--gold-strong)]">
-                          Top 1–2%[cite: 24, 25]
-                        </span>
+                      <div className="border-t border-border/40 pt-2">
+                        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
+                          Critical Deployments
+                        </div>
+                        <div className="text-base font-black text-foreground">300+ Facilities</div>
                       </div>
                     </div>
                   </div>
