@@ -33,180 +33,165 @@ import {
   ShieldCheck,
   Cpu,
   Orbit,
+  AlertTriangle,
+  Compass,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
 // =========================================================================
-// 1. VERIFIED EXECUTIVE DOSSIER HUD — CONDENSED HIGH-IMPACT TELEMETRY
+// 1. DYNAMIC 5-PANEL EXECUTIVE PROOF BADGE WITH LOGOS
 // =========================================================================
-type TelemetryKey =
-  | "thesis"
-  | "ot_it"
-  | "efficiency"
-  | "aerospace"
-  | "nasa_mentorship"
-  | "research";
-
-interface TelemetryStream {
-  id: TelemetryKey;
-  label: string;
-  code: string;
-  metric: string;
-  headline: string;
-  body: string;
-}
-
-const DOSSIER_STREAMS: Record<TelemetryKey, TelemetryStream> = {
-  thesis: {
-    id: "thesis",
-    label: "DOCTRINE",
-    code: "SAFE.AI",
-    metric: "Critical Systems",
-    headline: "Deterministic Safety for High-Reliability Plants",
-    body: "Eliminating generative AI failovers in continuous infrastructure. Implementing deterministic OT/IT safety barriers and explainable architecture across mission-critical physical operations.",
-  },
-  ot_it: {
-    id: "ot_it",
-    label: "OT/IT",
+const EXECUTIVE_PROOFS = [
+  {
+    domain: "CRITICAL INFRASTRUCTURE",
     code: "CERT-IN.NAT",
-    metric: "$97.2M Scope",
-    headline: "National Critical Infrastructure Cybersecurity",
-    body: "Secured apex CERT-In national cybersecurity empanelment. Directed 350+ engineers safeguarding automation systems across the world's largest refining and petrochemical complex.",
+    title: "CERT-In Empanelled Lead",
+    quote:
+      "Secured apex national cybersecurity empanelment across 300+ mission-critical facilities.",
+    tag: "Apex Authority",
+    logoUrl: "https://unavatar.io/schneider-electric.com",
+    fallback: "SE",
   },
-  efficiency: {
-    id: "efficiency",
-    label: "AI BENCHMARK",
+  {
+    domain: "ENTERPRISE AI BENCHMARK",
     code: "SE.GLOBAL",
-    metric: "Top 1–2% Rank",
-    headline: "Proprietary AI Engineering Framework",
-    body: "Pioneered industrial AI optimization yielding 60%+ engineering efficiency and 50% effort reduction at Schneider Electric—formally transferred across international manufacturing sites.",
+    title: "+60% AI Engineering Gain",
+    quote:
+      "Authored proprietary optimization methodology exported as global benchmark across international plants.",
+    tag: "Top 1–2% Rank",
+    logoUrl: "https://unavatar.io/schneider-electric.com",
+    fallback: "SE",
   },
-  aerospace: {
-    id: "aerospace",
-    label: "AVIONICS",
+  {
+    domain: "AEROSPACE & AIRWORTHINESS",
     code: "AERO.SAFE",
     metric: "Flight-Critical",
-    headline: "Airworthiness Clearance & Edge Telemetry",
-    body: "Cleared primary structural stress calculations on Airbus A350XWB airframes. Architected real-time flight-to-ground edge communication protocols under strict FAA/EASA airworthiness standards.",
+    title: "Airbus A350XWB Stress Clearance",
+    quote:
+      "Cleared primary structural stress calculations and real-time flight edge telemetry protocols.",
+    tag: "Flight-Critical",
+    logoUrl: "https://unavatar.io/airbus.com",
+    fallback: "AB",
   },
-  nasa_mentorship: {
-    id: "nasa_mentorship",
-    label: "NASA '26",
+  {
+    domain: "GLOBAL SPACE MENTORSHIP",
     code: "NASA.LA26",
-    metric: "Space Apps",
-    headline: "NASA Space Apps Challenge 2026 Technical Mentor",
-    body: "Selected as Official Technical Mentor for the NASA Space Apps Challenge Los Angeles, guiding elite engineering teams solving mission blockers using open NASA datasets.",
+    title: "NASA Space Apps 2026 Mentor",
+    quote:
+      "Selected technical mentor guiding elite cohorts on mission telemetry blockers using open NASA datasets.",
+    tag: "Space Apps '26",
+    logoUrl: "https://unavatar.io/nasa.gov",
+    fallback: "NA",
   },
-  research: {
-    id: "research",
-    label: "RESEARCH",
+  {
+    domain: "DOCTORAL RESEARCH",
     code: "SSBM.DBA",
-    metric: "Doctorate in AI",
-    headline: "Explainable AI (XAI) Enterprise Research",
-    body: "Doctor of Business Administration research solving opacity in physical automation. Formalized operational trust calibration and human-in-the-loop diagnostic auditing layers.",
+    title: "Explainable AI (XAI) Doctorate",
+    quote:
+      "Formalized operational trust calibration and human-in-the-loop diagnostic auditing layers.",
+    tag: "DBA in AI",
+    logoUrl: "https://unavatar.io/ssbm.ch",
+    fallback: "DB",
   },
-};
-
-const STREAM_KEYS: TelemetryKey[] = [
-  "thesis",
-  "ot_it",
-  "efficiency",
-  "aerospace",
-  "nasa_mentorship",
-  "research",
 ];
 
-function useTypewriter(text: string, speed = 11) {
-  const [out, setOut] = useState("");
-  useEffect(() => {
-    setOut("");
-    let i = 0;
-    const id = setInterval(() => {
-      i++;
-      setOut(text.slice(0, i));
-      if (i >= text.length) clearInterval(id);
-    }, speed);
-    return () => clearInterval(id);
-  }, [text, speed]);
-  return out;
+function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallback: string }) {
+  const [hasError, setHasError] = useState(false);
+
+  if (hasError || !src) {
+    return (
+      <div className="flex h-full w-full items-center justify-center bg-[color:var(--gold)]/20 font-mono text-[9px] font-bold text-[color:var(--gold-strong)] uppercase tracking-tight">
+        {fallback}
+      </div>
+    );
+  }
+
+  return (
+    <img
+      src={src}
+      alt={alt}
+      onError={() => setHasError(true)}
+      className="h-full w-full object-contain p-0.5"
+    />
+  );
 }
 
-function ExecutiveHUD({
-  activeFocus,
-  onSelectFocus,
-}: {
-  activeFocus: TelemetryKey;
-  onSelectFocus: (key: TelemetryKey) => void;
-}) {
-  const current = DOSSIER_STREAMS[activeFocus] || DOSSIER_STREAMS.thesis;
-  const typedBody = useTypewriter(current.body, 12);
+interface ExecutiveBadgeProps {
+  activeFocus?: string;
+  onSelectFocus?: (k: string) => void;
+}
+
+function ExecutiveHUD({ onSelectFocus }: ExecutiveBadgeProps) {
+  const [activeIdx, setActiveIdx] = useState(0);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      onSelectFocus(STREAM_KEYS[(STREAM_KEYS.indexOf(activeFocus) + 1) % STREAM_KEYS.length]);
-    }, 8500);
+      setActiveIdx((prev) => (prev + 1) % EXECUTIVE_PROOFS.length);
+    }, 5000);
     return () => clearInterval(timer);
-  }, [activeFocus, onSelectFocus]);
+  }, []);
 
-  const CHIP_ITEMS: { id: TelemetryKey; label: string }[] = [
-    { id: "thesis", label: "DOCTRINE" },
-    { id: "ot_it", label: "OT/IT" },
-    { id: "efficiency", label: "AI BENCHMARK" },
-    { id: "aerospace", label: "AVIONICS" },
-    { id: "nasa_mentorship", label: "NASA '26" },
-    { id: "research", label: "RESEARCH" },
-  ];
+  const current = EXECUTIVE_PROOFS[activeIdx];
+
+  const handleSelect = (idx: number) => {
+    setActiveIdx(idx);
+    if (onSelectFocus) {
+      onSelectFocus(EXECUTIVE_PROOFS[idx].code);
+    }
+  };
 
   return (
-    <div className="group relative w-full overflow-hidden rounded-2xl border border-border/80 bg-background/95 p-4 sm:p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-[color:var(--gold)]/80 hover:shadow-[0_20px_40px_rgba(180,130,40,0.12)]">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(180,130,40,0.03)_1px,transparent_1px),linear-gradient(to_bottom,rgba(180,130,40,0.03)_1px,transparent_1px)] bg-[size:16px_16px]" />
+    <div className="relative w-full overflow-hidden rounded-2xl border border-[color:var(--gold)]/50 bg-background/95 p-4 sm:p-5 shadow-2xl backdrop-blur-xl transition-all duration-300 hover:border-[color:var(--gold)] hover:shadow-[0_16px_36px_rgba(180,130,40,0.18)]">
+      {/* Ambient Gold Radial Glow */}
+      <div className="pointer-events-none absolute -right-8 -top-8 h-32 w-32 rounded-full bg-[color:var(--gold)]/15 blur-2xl" />
 
-      {/* TOP HEADER */}
-      <div className="relative z-10 flex items-center justify-between border-b border-border/50 pb-2.5">
-        <div className="flex items-center gap-2">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--gold)] opacity-75" />
-            <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
-          </span>
+      {/* Top Header Row with Logo Badge */}
+      <div className="relative z-10 flex items-center justify-between border-b border-border/40 pb-2.5">
+        <div className="flex items-center gap-2.5">
+          <div className="h-6 w-6 rounded-full border border-[color:var(--gold)]/60 bg-white p-0.5 shadow-xs overflow-hidden shrink-0 flex items-center justify-center">
+            <CompanyLogo src={current.logoUrl} alt={current.domain} fallback={current.fallback} />
+          </div>
           <span className="font-mono text-[9px] font-bold uppercase tracking-[0.2em] text-[color:var(--gold-strong)]">
-            VERIFIED RECORD · {current.code}
+            {current.domain}
           </span>
         </div>
 
-        <span className="rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-2 py-0.5 font-mono text-[9px] font-bold uppercase tracking-wider text-[color:var(--gold-strong)]">
-          {current.metric}
+        <span className="rounded-md border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/10 px-2 py-0.5 font-mono text-[8.5px] font-bold uppercase tracking-wider text-[color:var(--gold-strong)]">
+          {current.tag}
         </span>
       </div>
 
-      {/* BODY CONTENT */}
-      <div className="relative z-10 mt-3 min-h-[75px] sm:min-h-[68px]">
-        <h5 className="font-sans text-xs sm:text-[13px] font-bold text-foreground transition-colors duration-200 leading-snug">
-          {current.headline}
-        </h5>
-        <p className="mt-1 font-mono text-[10.5px] sm:text-[11px] leading-relaxed text-muted-foreground font-normal">
-          {typedBody}
-          <span className="ml-0.5 inline-block h-2.5 w-1 translate-y-[2px] animate-pulse bg-[color:var(--gold-strong)]" />
+      {/* Dynamic Headline & Quote */}
+      <div className="relative z-10 mt-3.5 min-h-[70px] flex flex-col justify-center">
+        <h4 className="font-sans text-xs sm:text-[14px] font-black uppercase tracking-tight text-foreground">
+          {current.title}
+        </h4>
+        <p className="font-editorial text-xs sm:text-[13px] italic text-foreground/80 mt-1 leading-snug">
+          "{current.quote}"
         </p>
       </div>
 
-      {/* CLEAN 2-ROW SELECTOR CHIPS */}
-      <div className="relative z-10 mt-3 pt-2.5 border-t border-border/40">
-        <div className="grid grid-cols-3 gap-1.5">
-          {CHIP_ITEMS.map((item) => (
+      {/* 5-Step Progress Indicators */}
+      <div className="relative z-10 mt-3.5 pt-2.5 border-t border-border/40 flex items-center justify-between">
+        <div className="flex items-center gap-1.5">
+          {EXECUTIVE_PROOFS.map((proof, i) => (
             <button
-              key={item.id}
+              key={proof.code}
               type="button"
-              onClick={() => onSelectFocus(item.id)}
-              className={`rounded py-1 px-1.5 text-center font-mono text-[8px] uppercase tracking-wider transition-all cursor-pointer border ${
-                activeFocus === item.id
-                  ? "border-[color:var(--gold)] bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-xs"
-                  : "border-transparent text-muted-foreground/70 hover:text-foreground hover:bg-card/60"
+              onClick={() => handleSelect(i)}
+              className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer border-0 ${
+                activeIdx === i
+                  ? "w-6 bg-[color:var(--gold-strong)]"
+                  : "w-2 bg-muted hover:bg-muted-foreground/40"
               }`}
-            >
-              {item.label}
-            </button>
+              aria-label={`Switch to ${proof.title}`}
+            />
           ))}
         </div>
+
+        <span className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/70 font-semibold">
+          Verified Field Record ({activeIdx + 1}/5)
+        </span>
       </div>
     </div>
   );
@@ -336,33 +321,12 @@ export const Route = createFileRoute("/")({
 });
 
 const NAV_ITEMS = [
+  { id: "agenda", label: "Mandate", icon: Compass },
   { id: "identity", label: "Authority", icon: User },
   { id: "accolades", label: "Evidence", icon: Trophy },
   { id: "timeline", label: "Trajectory", icon: History },
   { id: "credentials", label: "Research", icon: GraduationCap },
 ];
-
-function useFocusOnScroll<T extends HTMLElement>(
-  focus: TelemetryKey,
-  set: (f: TelemetryKey) => void,
-) {
-  const ref = useRef<T | null>(null);
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting && e.intersectionRatio > 0.2) set(focus);
-        });
-      },
-      { threshold: [0.2] },
-    );
-    io.observe(el);
-    return () => io.disconnect();
-  }, [focus, set]);
-  return ref;
-}
 
 type Job = {
   year: string;
@@ -850,29 +814,7 @@ const ENGINEERING_JOBS: Job[] = [
   },
 ];
 
-function CompanyLogo({ src, alt, fallback }: { src?: string; alt: string; fallback: string }) {
-  const [hasError, setHasError] = useState(false);
-
-  if (hasError || !src) {
-    return (
-      <div className="flex h-full w-full items-center justify-center bg-[color:var(--gold)]/15 font-mono text-[10px] font-bold text-[color:var(--gold-strong)] uppercase tracking-tight">
-        {fallback}
-      </div>
-    );
-  }
-
-  return (
-    <img
-      src={src}
-      alt={alt}
-      onError={() => setHasError(true)}
-      className="h-full w-full object-contain p-0.5"
-    />
-  );
-}
-
 function Index() {
-  const [focus, setFocus] = useState<TelemetryKey>("thesis");
   const [activeNav, setActiveNav] = useState("identity");
   const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
 
@@ -883,10 +825,7 @@ function Index() {
   const [selectedCert, setSelectedCert] = useState<{ title: string; url: string } | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
-  const deliveryRef = useFocusOnScroll<HTMLDivElement>("ot_it", setFocus);
-  const aerospaceRef = useFocusOnScroll<HTMLDivElement>("aerospace", setFocus);
-  const accoladesRef = useFocusOnScroll<HTMLDivElement>("efficiency", setFocus);
-  const credentialsRef = useFocusOnScroll<HTMLDivElement>("research", setFocus);
+  const agendaRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1097,12 +1036,12 @@ function Index() {
           </div>
 
           <div className="absolute left-[-20px] bottom-1 z-20 hidden w-[340px] md:block lg:left-[-60px] lg:w-[380px]">
-            <ExecutiveHUD activeFocus={focus} onSelectFocus={(k) => setFocus(k)} />
+            <ExecutiveHUD />
           </div>
         </div>
 
         <div className="mt-6 block md:hidden w-full max-w-[420px] mx-auto">
-          <ExecutiveHUD activeFocus={focus} onSelectFocus={(k) => setFocus(k)} />
+          <ExecutiveHUD />
         </div>
 
         <div className="mt-10 sm:mt-12 text-center">
@@ -1200,10 +1139,147 @@ function Index() {
         </div>
       </section>
 
+      {/* SECTION 01B: THE INDUSTRY MANDATE & FIELD AGENDA */}
+      <section
+        id="agenda"
+        ref={agendaRef}
+        className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:px-14 border-t border-border/70 scroll-mt-24"
+      >
+        <SectionHeader
+          index="01"
+          kicker="Field Thesis & Strategic Agenda"
+          title="The Mandate for Deterministic AI"
+        />
+
+        <p className="font-editorial text-lg sm:text-2xl italic leading-relaxed text-foreground/85 max-w-4xl mt-6">
+          "High-reliability industrial plants and flight-critical avionics cannot rely on black-box
+          probabilities. The future of physical infrastructure demands verifiable, deterministic
+          explainability."
+        </p>
+
+        <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
+          {/* CARD 01: THE CRITICAL DEFECT */}
+          <div className="relative rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-400/80 hover:shadow-xl hover:shadow-red-500/5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-red-500 font-bold">
+                  01 · The Critical Defect
+                </span>
+                <span className="rounded-full border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-red-500 font-bold">
+                  Vulnerability
+                </span>
+              </div>
+
+              <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight mt-4">
+                Unverified Autonomy in Physical Assets
+              </h4>
+
+              <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
+                Refineries, Chemical Plants & Supercritical Grids
+              </span>
+
+              <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
+                "Continuous process infrastructure operates under severe physical risk. Deploying
+                probabilistic generative models without deterministic safety verification introduces
+                catastrophic hardware failovers."
+              </p>
+
+              <div className="h-px w-12 bg-red-500/50 mt-4" />
+            </div>
+
+            <div className="pt-4 mt-5 border-t border-border/30 flex items-center justify-between">
+              <span className="font-mono text-[9px] uppercase tracking-wider text-red-400/90 font-semibold">
+                ● Physical Integrity Hazard
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
+                Industry Diagnosis
+              </span>
+            </div>
+          </div>
+
+          {/* CARD 02: THE ORIGINAL INTERVENTION */}
+          <div className="relative rounded-2xl border border-[color:var(--gold)]/60 bg-gradient-to-b from-background via-[color:var(--gold)]/5 to-background p-5 sm:p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/10 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between gap-2 border-b border-[color:var(--gold)]/30 pb-3">
+                <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                  02 · The Original Intervention
+                </span>
+                <span className="rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
+                  Field Standard
+                </span>
+              </div>
+
+              <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight mt-4">
+                Empaneled OT/IT Convergence
+              </h4>
+
+              <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
+                CERT-In National Empanelment & Proprietary AI Frameworks
+              </span>
+
+              <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
+                "Pioneered AI-driven engineering frameworks achieving 60%+ efficiency gains that
+                became the global enterprise reference standard, while securing national
+                cybersecurity authority over industrial plants."
+              </p>
+
+              <div className="h-px w-12 bg-[color:var(--gold)]/60 mt-4" />
+            </div>
+
+            <div className="pt-4 mt-5 border-t border-[color:var(--gold)]/30 flex items-center justify-between">
+              <span className="font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-semibold">
+                ● 60%+ Gain · CERT-In Empaneled
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
+                Validated Record
+              </span>
+            </div>
+          </div>
+
+          {/* CARD 03: THE FORWARD AGENDA */}
+          <div className="relative rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/80 hover:shadow-xl hover:shadow-emerald-500/5 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-emerald-600 dark:text-emerald-400 font-bold">
+                  03 · The Forward Agenda
+                </span>
+                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">
+                  US & Global Scope
+                </span>
+              </div>
+
+              <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight mt-4">
+                Standardizing Deterministic XAI
+              </h4>
+
+              <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
+                High-Trust Human-In-The-Loop Governance Layers
+              </span>
+
+              <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
+                "Establishing verifiable Explainable AI (XAI) verification layers that eliminate
+                black-box opacity across smart factory robotics, continuous automation, and flight
+                telemetry nationwide."
+              </p>
+
+              <div className="h-px w-12 bg-emerald-500/50 mt-4" />
+            </div>
+
+            <div className="pt-4 mt-5 border-t border-border/30 flex items-center justify-between">
+              <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">
+                ● Deterministic Governance
+              </span>
+              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
+                Action Mandate
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION 02: RECOGNITION, KEYNOTES & PANELS */}
       <section
         id="accolades"
-        ref={accoladesRef}
         className="relative z-10 border-t border-border/70 bg-card/20 backdrop-blur-sm scroll-mt-24"
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:px-14">
@@ -1708,14 +1784,14 @@ function Index() {
           title="Critical Executive Roles"
         />
 
-        <div ref={deliveryRef} className="mt-12 sm:mt-16 space-y-4">
+        <div className="mt-12 sm:mt-16 space-y-4">
           <TrackLabel label="Critical Industrial Automation · OT/IT Convergence" />
           {DELIVERY_JOBS.map((j) => (
             <TimelineCard key={j.company} job={j} />
           ))}
         </div>
 
-        <div ref={aerospaceRef} className="mt-12 sm:mt-16 space-y-4">
+        <div className="mt-12 sm:mt-16 space-y-4">
           <TrackLabel label="Commercial Aerospace · Flight-Critical Telemetry" />
           {AEROSPACE_JOBS.map((j) => (
             <TimelineCard key={j.company} job={j} />
@@ -1732,7 +1808,6 @@ function Index() {
 
       {/* SECTION 04: EDUCATIONAL & DOCTORAL RESEARCH LEDGER */}
       <section
-        ref={credentialsRef}
         id="credentials"
         className="relative z-10 border-t border-border/70 bg-card/10 backdrop-blur-sm scroll-mt-24"
       >
