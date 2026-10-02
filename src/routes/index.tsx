@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import type { LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
@@ -341,6 +342,41 @@ type Job = {
   domains: string[];
 };
 
+// 11 Formal Evidentiary Categories Structure
+type CategoryKey =
+  | "industry_impact"
+  | "distinguished_talks"
+  | "media_links"
+  | "expert_judging"
+  | "patents"
+  | "conference_articles"
+  | "journal_articles"
+  | "textbooks"
+  | "certifications"
+  | "memberships"
+  | "other_activities";
+
+interface CategoryMeta {
+  id: CategoryKey;
+  label: string;
+  icon: LucideIcon;
+  count: number;
+}
+
+const CATEGORIES: CategoryMeta[] = [
+  { id: "industry_impact", label: "INDUSTRY IMPACT", icon: Award, count: 4 },
+  { id: "distinguished_talks", label: "DISTINGUISHED TALKS", icon: Radio, count: 6 },
+  { id: "media_links", label: "MEDIA LINKS", icon: PlayCircle, count: 3 },
+  { id: "expert_judging", label: "EXPERT JUDGING", icon: BookmarkCheck, count: 3 },
+  { id: "patents", label: "PATENTS & IP", icon: Layers, count: 3 },
+  { id: "conference_articles", label: "CONFERENCE ARTICLES", icon: BookOpen, count: 3 },
+  { id: "journal_articles", label: "JOURNAL ARTICLES", icon: FileText, count: 1 },
+  { id: "textbooks", label: "TEXT BOOKS", icon: BookOpen, count: 1 },
+  { id: "certifications", label: "CERTIFICATIONS", icon: ShieldCheck, count: 5 },
+  { id: "memberships", label: "MEMBERSHIPS", icon: User, count: 4 },
+  { id: "other_activities", label: "OTHER ACTIVITIES", icon: GraduationCap, count: 4 },
+];
+
 const ENTERPRISE_AWARDS = [
   {
     title: "Global Disruptor Award",
@@ -393,10 +429,7 @@ const ENTERPRISE_AWARDS = [
   },
 ];
 
-type TalkCategory = "all" | "keynotes" | "panels" | "stem";
-
 type VerifiedEngagement = {
-  category: "keynotes" | "panels" | "stem";
   tag: string;
   title: string;
   host: string;
@@ -410,40 +443,23 @@ type VerifiedEngagement = {
   hasHoverReveal: boolean;
 };
 
-const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
+const DISTINGUISHED_TALKS: VerifiedEngagement[] = [
   {
-    category: "panels",
-    tag: "EXECUTIVE ACADEMIC SYMPOSIUM · BSMART",
-    title: "The AI-First MBA: What Should We Still Teach When AI Can Do Almost Everything?",
-    host: "Business Standard BSmart Insight Talk",
-    date: "Sep 9, 2026",
+    tag: "ACADEMIC SYMPOSIUM KEYNOTE",
+    title: "Reimagining Manufacturing with Cognitive AI",
+    host: "PES University · Center for Cognitive Computing (C3I), Bangalore",
+    date: "Feb 14, 2026",
     summary:
-      "Featured keynote panelist alongside Deans and Leadership from IIM Bangalore, SP Jain Global, and MAHE evaluating human cognitive oversight in autonomous enterprise architectures.",
-    highlightPill: "Featured Keynote",
-    actionType: "video",
-    actionUrl: "https://www.business-standard.com/",
-    actionLabel: "View Broadcast Record",
-    previewImage: "/events/bsmart-mba.jpg",
-    hasHoverReveal: true,
-  },
-  {
-    category: "keynotes",
-    tag: "BROADCAST INTERVIEW · BSMART",
-    title: "Opportunities in Automated Manufacturing & Industry AI",
-    host: "Business Standard",
-    date: "Jul 21, 2026",
-    summary:
-      "Broadcast leadership feature addressing non-delegable human accountability required when deploying autonomous cognitive models in continuous manufacturing and heavy industrial plants.",
-    highlightPill: "Featured Broadcast",
-    actionType: "video",
+      "Inaugural keynote address delivered on bridging cognitive AI models with edge deployment across smart factory shop-floors and real-time sensor networks.",
+    highlightPill: "Keynote Address",
+    actionType: "linkedin",
     actionUrl:
-      "https://www.business-standard.com/video-gallery/education/opportunities-in-automated-manufacturing-179110.htm",
-    actionLabel: "Watch on Business Standard",
-    previewImage: "/events/business-standard.jpg",
+      "https://www.linkedin.com/posts/dr-pooja-agarwal_aiformanufacturing-aisymposium-manufacturinginnovation-ugcPost-7425879188433186816-MC2g/",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/pes-symposium.png",
     hasHoverReveal: true,
   },
   {
-    category: "panels",
     tag: "NATIONAL LEADERSHIP SUMMIT",
     title: "CII Women in STEM Leadership Summit 2026",
     host: "Confederation of Indian Industry (CII) · New Delhi",
@@ -459,113 +475,6 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
-    category: "keynotes",
-    tag: "INTERNATIONAL CONFERENCE KEYNOTE",
-    title: "Next-Generation Data Engineering & Analytics (INDEA-2026)",
-    host: "University of Salford (Manchester, UK) & Universal Inovators / Springer",
-    date: "Aug 21–22, 2026",
-    summary:
-      "Invited Keynote Speaker presenting state-of-the-art architectures in Explainable AI (XAI), scalable edge computing, and industrial telemetry analytics.",
-    highlightPill: "Springer Verified",
-    actionType: "certificate",
-    actionUrl: "/certificates/indea-2026.png",
-    actionLabel: "View Verified Certificate",
-    hasHoverReveal: false,
-  },
-  {
-    category: "keynotes",
-    tag: "ACADEMIC SYMPOSIUM 2.0",
-    title: "Reimagining Manufacturing with Cognitive AI",
-    host: "PES University · Center for Cognitive Computing (C3I), Bangalore",
-    date: "Feb 14, 2026",
-    summary:
-      "Inaugural keynote address delivered on bridging cognitive AI models with edge deployment across smart factory shop-floors and real-time sensor networks.",
-    highlightPill: "Keynote Address",
-    actionType: "linkedin",
-    actionUrl:
-      "https://www.linkedin.com/posts/dr-pooja-agarwal_aiformanufacturing-aisymposium-manufacturinginnovation-ugcPost-7425879188433186816-MC2g/",
-    actionLabel: "Open Post on LinkedIn",
-    previewImage: "/events/pes-symposium.png",
-    hasHoverReveal: true,
-  },
-  {
-    category: "stem",
-    tag: "GLOBAL AEROSPACE MENTORSHIP",
-    title: "NASA Space Apps Challenge Los Angeles 2026",
-    host: "NASA Space Apps Organizing Team · Los Angeles",
-    date: "Oct 2026",
-    summary:
-      "Selected as Official Technical Mentor to guide high-intensity multidisciplinary engineering teams troubleshooting blockers and designing solutions using NASA open telemetry datasets.",
-    highlightPill: "NASA Mentor",
-    actionType: "certificate",
-    actionUrl: "/events/nasa-mentor.jpg",
-    actionLabel: "View Official Selection",
-    hasHoverReveal: false,
-  },
-  {
-    category: "stem",
-    tag: "FEATURED KEYNOTE & MENTOR",
-    title: "Katalyst India Alumni Leadership Meet",
-    host: "Katalyst India · Bangalore",
-    date: "2024",
-    summary:
-      "Featured guest speaker alongside Sanjay Gopinath (MathWorks), mentoring 50+ women engineering scholars and alumni on technical mastery, executive presence, and career resilience.",
-    highlightPill: "500+ Coached",
-    actionType: "linkedin",
-    actionUrl:
-      "https://www.linkedin.com/posts/sahana113_katalystindia-alumnimeet-networking-ugcPost-7477746463570317312-nyb_/",
-    actionLabel: "Open Post on LinkedIn",
-    previewImage: "/events/katalyst-alumni.jpg",
-    hasHoverReveal: true,
-  },
-  {
-    category: "panels",
-    tag: "CXO INDUSTRY MASTERCLASS",
-    title: "Mastering the AI Shift: Strategizing Tech Teams for the Future",
-    host: "Simplilearn & The Brainalytics CXO Platform",
-    date: "May 10, 2024",
-    summary:
-      "CXO speaker on managing enterprise AI transformation, addressing organizational inertia, and building resilient engineering teams aligned with market shifts.",
-    highlightPill: "CXO Masterclass",
-    actionType: "linkedin",
-    actionUrl:
-      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_this-was-an-insightful-cxo-session-by-industry-ugcPost-7202948918026883072-dH6Y/",
-    actionLabel: "Open Post on LinkedIn",
-    previewImage: "/events/simplilearn-ai.jpg",
-    hasHoverReveal: true,
-  },
-  {
-    category: "stem",
-    tag: "CORPORATE BRAND AMBASSADOR",
-    title: "Women in Industrial Automation & Sustainable Cloud",
-    host: "Schneider Electric Official Campaign",
-    date: "2024",
-    summary:
-      "Official brand ambassador feature spotlighting executive leadership: 'Bringing together AI, IoT, cloud, and sustainability to create the next generation of solutions.'",
-    highlightPill: "Brand Ambassador",
-    actionType: "linkedin",
-    actionUrl:
-      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_great-opportunities-at-schneider-electric-share-7235709854378553345-_hCl/",
-    actionLabel: "Open Post on LinkedIn",
-    previewImage: "/events/schneider-women.jpg",
-    hasHoverReveal: true,
-  },
-  {
-    category: "keynotes",
-    tag: "INTERNATIONAL CONFERENCE KEYNOTE",
-    title: "Sustainable & Innovative Practices in Business and Academia",
-    host: "JAIN (Deemed-to-be University) · CMS",
-    date: "Dec 13–14, 2024",
-    summary:
-      "Awarded Certificate of Appreciation as Keynote Speaker for the Two-Day International Conference on Sustainable, Innovative Practices in Business and Academia.",
-    highlightPill: "Keynote Certificate",
-    actionType: "certificate",
-    actionUrl: "/certificates/jain-keynote.png",
-    actionLabel: "View Verified Certificate",
-    hasHoverReveal: false,
-  },
-  {
-    category: "stem",
     tag: "WOMEN'S DAY KEYNOTE",
     title: "Women@Chryso: Inspiring Talent in Modern Engineering",
     host: "CHRYSO India",
@@ -580,36 +489,21 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
-    category: "keynotes",
-    tag: "EXECUTIVE PODCAST FEATURE",
-    title: "Will AI Replace Your Job? Future of Work & Responsible AI",
-    host: "Pivot Podcast · Hosted by Pushpa Latha (CEO, PropLilly)",
-    date: "2024",
+    tag: "AERO WOMEN'S COUNCIL INAUGURAL",
+    title: "Commercial Artificial Intelligence Solutions in Aerospace",
+    host: "Honeywell Aero Women's Council (AWC)",
+    date: "Jun 28, 2022",
     summary:
-      "Featured guest evaluating smart manufacturing in India, Responsible AI guardrails, and workforce evolution: 'The future is about learning how humans and intelligent technology work together.'",
-    highlightPill: "Full Episode",
-    actionType: "youtube",
-    actionUrl: "https://www.youtube.com/watch?v=tIklWsbiTCs",
-    actionLabel: "Watch Episode on YouTube",
-    previewImage: "/events/pivot-podcast.png",
+      "Keynote presentation providing a global aerospace engineering audience a comprehensive overview of machine learning paradigms, flight-to-ground edge data, and business aviation applications.",
+    highlightPill: "AWC Keynote",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_datascience-automation-technology-share-6952524441356558336-JukE/",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/aero-awc.png",
     hasHoverReveal: true,
   },
   {
-    category: "keynotes",
-    tag: "EXPERT WEBINAR SERIES",
-    title: "Smart Flying and XAI (Explainable AI) Applications",
-    host: "IABAC (International Association of Business Analytics Certification)",
-    date: "Aug 30, 2023",
-    summary:
-      "Invited speaker for the 'Experts Speak' Series, presenting operational Explainable AI (XAI) models in aerospace and predictive flight analytics.",
-    highlightPill: "IABAC Certified",
-    actionType: "certificate",
-    actionUrl: "/certificates/iabac-xai.jpeg",
-    actionLabel: "View Verified Certificate",
-    hasHoverReveal: false,
-  },
-  {
-    category: "stem",
     tag: "ENGINEERING FORUM LEAD",
     title: "Role of Data Analytics & AI in the Enterprise World",
     host: "Honeywell Women In Technology (WIT) Hub",
@@ -625,56 +519,232 @@ const VERIFIED_ENGAGEMENTS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
-    category: "keynotes",
-    tag: "AERO WOMEN'S COUNCIL INAUGURAL",
-    title: "Commercial Artificial Intelligence Solutions in Aerospace",
-    host: "Honeywell Aero Women's Council (AWC)",
-    date: "Jun 28, 2022",
+    tag: "EXPERT WEBINAR SERIES",
+    title: "Smart Flying and XAI (Explainable AI) Applications",
+    host: "IABAC (International Association of Business Analytics Certification)",
+    date: "Aug 30, 2023",
     summary:
-      "Keynote presentation providing a global aerospace engineering audience a comprehensive overview of machine learning paradigms, flight-to-ground edge data, and business aviation applications.",
-    highlightPill: "AWC Keynote",
-    actionType: "linkedin",
+      "Invited speaker for the 'Experts Speak' Series, presenting operational Explainable AI (XAI) models in aerospace and predictive flight analytics.",
+    highlightPill: "IABAC Certified",
+    actionType: "certificate",
+    actionUrl: "/certificates/iabac-xai.jpeg",
+    actionLabel: "View Verified Certificate",
+    hasHoverReveal: false,
+  },
+];
+
+const MEDIA_ENGAGEMENTS: VerifiedEngagement[] = [
+  {
+    tag: "EXECUTIVE ACADEMIC SYMPOSIUM · BSMART",
+    title: "The AI-First MBA: What Should We Still Teach When AI Can Do Almost Everything?",
+    host: "Business Standard BSmart Insight Talk",
+    date: "Sep 9, 2026",
+    summary:
+      "Featured keynote panelist alongside Deans and Leadership from IIM Bangalore, SP Jain Global, and MAHE evaluating human cognitive oversight in autonomous enterprise architectures.",
+    highlightPill: "Featured Keynote",
+    actionType: "youtube",
+    actionUrl: "https://www.youtube.com/watch?v=yebJUmHuWS0",
+    actionLabel: "Watch Broadcast on YouTube",
+    previewImage: "/events/bsmart-mba.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    tag: "BROADCAST INTERVIEW · BSMART",
+    title: "Opportunities in Automated Manufacturing & Industry AI",
+    host: "Business Standard",
+    date: "Jul 21, 2026",
+    summary:
+      "Broadcast leadership feature addressing non-delegable human accountability required when deploying autonomous cognitive models in continuous manufacturing and heavy industrial plants.",
+    highlightPill: "Featured Broadcast",
+    actionType: "video",
     actionUrl:
-      "https://www.linkedin.com/posts/dr-sandhya-haridas-13a84217_datascience-automation-technology-share-6952524441356558336-JukE/",
-    actionLabel: "Open Post on LinkedIn",
-    previewImage: "/events/aero-awc.png",
+      "https://www.business-standard.com/video-gallery/education/opportunities-in-automated-manufacturing-179110.htm",
+    actionLabel: "Watch on Business Standard",
+    previewImage: "/events/business-standard.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    tag: "EXECUTIVE PODCAST FEATURE",
+    title: "Will AI Replace Your Job? Future of Work & Responsible AI",
+    host: "Pivot Podcast · Hosted by Pushpa Latha (CEO, PropLilly)",
+    date: "2024",
+    summary:
+      "Featured guest evaluating smart manufacturing in India, Responsible AI guardrails, and workforce evolution: 'The future is about learning how humans and intelligent technology work together.'",
+    highlightPill: "Full Episode",
+    actionType: "youtube",
+    actionUrl: "https://www.youtube.com/watch?v=tIklWsbiTCs",
+    actionLabel: "Watch Episode on YouTube",
+    previewImage: "/events/pivot-podcast.png",
     hasHoverReveal: true,
   },
 ];
 
-const ARTIFACTS = {
-  academicRoles: [
-    {
-      title: "Conference Chair & University Paper Presentation Reviewer",
-      organization: "International Research Conferences & Academic Hubs",
-      period: "2023 — Present",
-      body: "Serving as University Paper Presentation Session Chair and Technical Paper Peer Reviewer across premier international IEEE and Springer conference symposiums.",
-    },
-  ],
-  publication: {
-    title: "Thermal Behaviour of Variable Conductance Heat Pipes in Vacuum Chambers",
-    publisher: "GE Patenting Forum / GE Healthcare",
-    date: "Oct 11, 2004",
-    logoUrl: "https://unavatar.io/gehealthcare.com",
-    body: "Published technical research evaluating thermal algorithms, heat sinks, and variable conductance pipe behavior inside vacuum environments for high-reliability medical equipment.",
+const EXPERT_JUDGING_ITEMS: VerifiedEngagement[] = [
+  {
+    tag: "GLOBAL AEROSPACE MENTORSHIP",
+    title: "NASA Space Apps Challenge Los Angeles 2026",
+    host: "NASA Space Apps Organizing Team · Los Angeles",
+    date: "Oct 2026",
+    summary:
+      "Selected as Official Technical Mentor to guide high-intensity multidisciplinary engineering teams troubleshooting blockers and designing solutions using NASA open telemetry datasets.",
+    highlightPill: "NASA Mentor",
+    actionType: "linkedin",
+    actionUrl: "https://www.spaceappschallenge.org/",
+    actionLabel: "Visit Space Apps Global",
+    previewImage: "/events/nasa-spaceapps-la.png",
+    hasHoverReveal: true,
   },
-  projects: [
-    {
-      title: "Concessions — Premium Aerotech Augsburg Germany",
-      client: "Creative Synergies / AIRBUS",
-      date: "Oct 2011 – Feb 2012",
-      logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
-      body: "Stress focal for Sec 16/18 CDS/PDS and Sec 13/14 RPB on A350XWB. Cleared primary and secondary structures according to Airbus SAP and quality guidelines.",
-    },
-    {
-      title: "A380 Fixed Trailing Edge Panel & B777 Damage Tolerance",
-      client: "Singapore Airlines / Zodiac Aerospace",
-      date: "Oct 2010 – Jul 2011",
-      logoUrl: "https://unavatar.io/creativesynergiesgroup.com",
-      body: "Engineered temporary 3mm aluminium panel replacement solutions for A380 wing layouts (22 panels) and conducted fatigue/damage tolerance analysis for B777 fleets.",
-    },
-  ],
-};
+  {
+    tag: "ACADEMIC PEER REVIEW LEAD",
+    title: "Conference Chair & University Paper Reviewer",
+    host: "International IEEE & Springer Research Conferences",
+    date: "2023 — Present",
+    summary:
+      "Serving as Session Chair and Technical Paper Peer Reviewer across premier international research symposiums evaluating advancements in edge computing and physical automation.",
+    highlightPill: "Peer Reviewer",
+    actionType: "modal",
+    actionUrl: "/certificates/indea-2026.png",
+    actionLabel: "Inspect Chairperson Record",
+    hasHoverReveal: false,
+  },
+  {
+    tag: "FEATURED KEYNOTE & MENTOR",
+    title: "Katalyst India Alumni Leadership Meet",
+    host: "Katalyst India · Bangalore",
+    date: "2024",
+    summary:
+      "Featured guest speaker alongside Sanjay Gopinath (MathWorks), mentoring and evaluating 50+ women engineering scholars and alumni on technical mastery and executive leadership.",
+    highlightPill: "500+ Coached",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/sahana113_katalystindia-alumnimeet-networking-ugcPost-7477746463570317312-nyb_/",
+    actionLabel: "Open Post on LinkedIn",
+    previewImage: "/events/katalyst-alumni.jpg",
+    hasHoverReveal: true,
+  },
+];
+
+const PATENTS_IP_ITEMS = [
+  {
+    tag: "PATENT PROCEEDINGS / GE RESEARCH",
+    title: "Thermal Behaviour of Variable Conductance Heat Pipes in Vacuum Chambers",
+    meta: "GE Patenting Forum / GE Healthcare · Oct 11, 2004",
+    summary:
+      "Developed mathematical thermal management models and heat dissipation algorithms for high-vacuum medical imaging equipment, published via the GE Patenting Forum.",
+  },
+  {
+    tag: "PROPRIETARY INDUSTRIAL AI FRAMEWORK",
+    title: "Deterministic AI Optimization Engine for Plant Automation",
+    meta: "Schneider Electric Enterprise Intellectual Property · 2023",
+    summary:
+      "Pioneered proprietary engineering optimization methodology yielding 60%+ efficiency improvement and 50% effort reduction across mission-critical execution pipelines.",
+  },
+  {
+    tag: "SECURE AVIONICS TELEMETRY ARCHITECTURE",
+    title: "131-9 HEM APU Encryption Protocol & Connected Aircraft Engine",
+    meta: "Honeywell Connected Enterprise · Dec 2020",
+    summary:
+      "Architected secure auxiliary power unit encryption key management and flight-to-ground edge telemetry channels for commercial aviation fleets.",
+  },
+];
+
+const CONFERENCE_ARTICLES = [
+  {
+    tag: "SPRINGER / INTERNATIONAL CONFERENCE KEYNOTE",
+    title: "Next-Generation Data Engineering & Analytics (INDEA-2026)",
+    meta: "University of Salford (Manchester, UK) & Universal Inovators / Springer · Aug 2026",
+    summary:
+      "Keynote proceedings presenting state-of-the-art architectures in Explainable AI (XAI), scalable edge computing, and industrial telemetry analytics.",
+    certUrl: "/certificates/indea-2026.png",
+  },
+  {
+    tag: "INTERNATIONAL CONFERENCE PROCEEDINGS",
+    title: "Sustainable & Innovative Practices in Business and Academia",
+    meta: "JAIN (Deemed-to-be University) · CMS · Dec 2024",
+    summary:
+      "Conference keynote address evaluating sustainable cloud transformation, resilient supply chains, and AI adoption frameworks across regulated environments.",
+    certUrl: "/certificates/jain-keynote.png",
+  },
+  {
+    tag: "AEROSPACE CONCESSIONS & DAMAGE TOLERANCE",
+    title: "Airbus A350XWB & A380 Primary Airframe Stress Clearances",
+    meta: "Premium Aerotech Augsburg & Creative Synergies · 2011 – 2012",
+    summary:
+      "Stress focal clearing structural concessions on A350XWB fuselage sections and B777 fatigue/damage tolerance under strict EASA/Airbus quality protocols.",
+  },
+];
+
+const CERTIFICATION_ITEMS = [
+  {
+    tag: "EXECUTIVE CREDENTIAL",
+    title: "Disruptive Strategy Innovation with Clayton Christensen",
+    meta: "Harvard Business School Online · Boston, MA · 2016",
+    summary:
+      "Advanced mastery of Christensen disruption frameworks, market barrier navigation, and strategic resource allocation during technology paradigm shifts.",
+  },
+  {
+    tag: "QUALITY EXCELLENCE",
+    title: "Six-Sigma Green Belt Certification",
+    meta: "GE Healthcare · 2005",
+    summary:
+      "Certified in statistical process control, root cause elimination, and DMAIC methodologies applied to critical medical manufacturing systems.",
+  },
+  {
+    tag: "ACCREDITATION",
+    title: "Explainable AI (XAI) in Aerospace Systems",
+    meta: "IABAC (International Association of Business Analytics Certification) · 2023",
+    summary:
+      "Specialized credential validating operational Explainable AI application standards in flight analytics.",
+    certUrl: "/certificates/iabac-xai.jpeg",
+  },
+  {
+    tag: "CONFERENCE HONOR",
+    title: "Keynote Appreciation Award — INDEA 2026",
+    meta: "University of Salford & Springer · Aug 2026",
+    summary:
+      "Official certificate recognizing authoritative keynote contributions in scalable data analytics and edge AI.",
+    certUrl: "/certificates/indea-2026.png",
+  },
+  {
+    tag: "ACADEMIC HONOR",
+    title: "Keynote Appreciation Certificate — JAIN University",
+    meta: "CMS International Conference · Dec 2024",
+    summary:
+      "Official citation conferred for keynote address on sustainable technological innovation in industry.",
+    certUrl: "/certificates/jain-keynote.png",
+  },
+];
+
+const MEMBERSHIP_ITEMS = [
+  {
+    tag: "NATIONAL COUNCIL",
+    title: "CII Women in STEM Leadership Council",
+    meta: "Confederation of Indian Industry (CII) · 2026",
+    summary:
+      "Executive member contributing to national policy dialogs on accelerating women leadership in industrial technology and manufacturing.",
+  },
+  {
+    tag: "GLOBAL AMBASSADOR",
+    title: "Women in Industrial Automation & Sustainable Cloud",
+    meta: "Schneider Electric Official Global Campaign · 2024",
+    summary:
+      "Official corporate brand ambassador representing leadership across AI, IoT, cloud, and sustainable energy.",
+  },
+  {
+    tag: "AEROSPACE LEADERSHIP",
+    title: "Honeywell Aero Women's Council (AWC)",
+    meta: "Honeywell Aerospace · 2022",
+    summary:
+      "Founding technical speaker and leadership mentor across Honeywell's global engineering councils.",
+  },
+  {
+    tag: "MILITARY AVIATION WING",
+    title: "National Cadet Corps (NCC) Airwing Alumna",
+    meta: "Bangalore University · Airwing Division",
+    summary:
+      "Trained in high-altitude Paragliding and Scale Aircraft Aerodynamics, fostering aeronautical discipline.",
+  },
+];
 
 const VOLUNTEERING = [
   {
@@ -814,14 +884,127 @@ const ENGINEERING_JOBS: Job[] = [
   },
 ];
 
+function EngagementCard({
+  item,
+  onSelectCert,
+}: {
+  item: VerifiedEngagement;
+  onSelectCert: (cert: { title: string; url: string }) => void;
+}) {
+  const isReveal = Boolean(item.hasHoverReveal && item.previewImage);
+
+  return (
+    <div className="group relative min-h-[380px] sm:min-h-[400px] overflow-hidden rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between">
+      {/* Background image — only rendered when an image exists */}
+      {isReveal && item.previewImage && (
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden flex items-center justify-center p-2.5 bg-black/5">
+          <img
+            src={item.previewImage}
+            alt={item.title}
+            className="h-full w-full object-contain object-center opacity-0 scale-95 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-100"
+          />
+        </div>
+      )}
+
+      {/* Header — only fades on hover if an image reveal is active */}
+      <div
+        className={`relative z-10 flex items-center justify-between gap-2 border-b border-border/40 pb-3 transition-opacity duration-300 ease-out ${
+          isReveal ? "group-hover:opacity-0 group-hover:pointer-events-none" : ""
+        }`}
+      >
+        <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+          {item.tag}
+        </span>
+        <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-muted-foreground">
+          {item.date}
+        </span>
+      </div>
+
+      {/* Main Content — remains 100% visible if there is no background image */}
+      <div
+        className={`relative z-10 flex-1 flex flex-col justify-center py-3 sm:py-4 transition-all duration-300 ease-out ${
+          isReveal ? "group-hover:opacity-0 group-hover:pointer-events-none" : ""
+        }`}
+      >
+        <div className="flex items-start justify-between gap-2">
+          <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
+            {item.title}
+          </h4>
+          <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
+            {item.highlightPill}
+          </span>
+        </div>
+
+        <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
+          {item.host}
+        </span>
+
+        <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
+          "{item.summary}"
+        </p>
+
+        <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
+      </div>
+
+      {/* Action Footer */}
+      <div
+        className={`relative z-20 pt-3 border-t border-border/30 flex items-center justify-between ${
+          isReveal ? "group-hover:border-transparent" : ""
+        }`}
+      >
+        {item.actionType === "certificate" || item.actionType === "modal" ? (
+          <button
+            type="button"
+            onClick={() => onSelectCert({ title: item.title, url: item.actionUrl })}
+            className={`inline-flex items-center gap-2 rounded-xl px-3.5 py-1.5 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border shadow-md backdrop-blur-md ${
+              isReveal
+                ? "bg-background/90 group-hover:bg-black/75 group-hover:text-amber-300 group-hover:border-amber-400/60 border-border/60"
+                : "bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 border-[color:var(--gold)]/30"
+            }`}
+          >
+            {item.actionType === "modal" ? (
+              <Maximize2 className="w-3.5 h-3.5" />
+            ) : (
+              <FileText className="w-3.5 h-3.5" />
+            )}
+            <span>{item.actionLabel}</span>
+          </button>
+        ) : (
+          <a
+            href={item.actionUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl bg-background/90 group-hover:bg-black/75 group-hover:text-amber-300 group-hover:border-amber-400/60 px-3.5 py-1.5 text-xs font-semibold text-[color:var(--gold-strong)] transition-all border border-border/60 shadow-md backdrop-blur-md"
+          >
+            {item.actionType === "youtube" || item.actionType === "video" ? (
+              <PlayCircle className="w-3.5 h-3.5" />
+            ) : (
+              <Linkedin className="w-3.5 h-3.5" />
+            )}
+            <span>{item.actionLabel}</span>
+            <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+        )}
+
+        <span
+          className={`font-mono text-[9px] uppercase tracking-wider text-muted-foreground transition-all ${
+            isReveal
+              ? "group-hover:text-white/80 group-hover:bg-black/60 group-hover:px-2 group-hover:py-0.5 group-hover:rounded"
+              : ""
+          }`}
+        >
+          {isReveal ? "Hover to Preview" : "Verified Record"}
+        </span>
+      </div>
+    </div>
+  );
+}
+
 function Index() {
   const [activeNav, setActiveNav] = useState("identity");
   const [hoveredNavId, setHoveredNavId] = useState<string | null>(null);
 
-  const [activeTab, setActiveTab] = useState<
-    "powerlist" | "talks" | "awards" | "artifacts" | "impact"
-  >("powerlist");
-  const [talkFilter, setTalkFilter] = useState<TalkCategory>("all");
+  const [activeCategory, setActiveCategory] = useState<CategoryKey>("industry_impact");
   const [selectedCert, setSelectedCert] = useState<{ title: string; url: string } | null>(null);
   const [showBackToTop, setShowBackToTop] = useState(false);
 
@@ -873,10 +1056,6 @@ function Index() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  const filteredTalks = VERIFIED_ENGAGEMENTS.filter((t) =>
-    talkFilter === "all" ? true : t.category === talkFilter,
-  );
 
   return (
     <main className="paper-grain relative min-h-screen text-foreground overflow-x-hidden font-sans">
@@ -1277,7 +1456,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 02: RECOGNITION, KEYNOTES & PANELS */}
+      {/* SECTION 02: FORMAL 11-CATEGORY EVIDENTIARY REPOSITORY */}
       <section
         id="accolades"
         className="relative z-10 border-t border-border/70 bg-card/20 backdrop-blur-sm scroll-mt-24"
@@ -1285,328 +1464,50 @@ function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:px-14">
           <SectionHeader
             index="02"
-            kicker="Verifiable Industry Footprint &amp; Attestations"
-            title="Evidence of Impact"
+            kicker="Verifiable Industry Footprint & Accreditations"
+            title="Evidence of Record"
           />
 
+          {/* 11-Category Interactive Navigation */}
           <div className="mt-8 sm:mt-10 flex flex-wrap gap-2 border-b border-border/60 pb-4 text-xs font-medium">
-            <button
-              onClick={() => setActiveTab("powerlist")}
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
-                activeTab === "powerlist"
-                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              <Award className="w-4 h-4 text-[color:var(--gold-strong)]" />
-              <span>National Power List 2026</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("talks")}
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
-                activeTab === "talks"
-                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              <Radio className="w-4 h-4 text-[color:var(--gold-strong)]" />
-              <span>Keynotes, NASA &amp; Broadcasts ({VERIFIED_ENGAGEMENTS.length})</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("awards")}
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
-                activeTab === "awards"
-                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              <Award className="w-4 h-4" />
-              <span>Enterprise &amp; Presidential Honors (7)</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("artifacts")}
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
-                activeTab === "artifacts"
-                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              <BookOpen className="w-4 h-4" />
-              <span>Published Research &amp; Peer Review</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab("impact")}
-              className={`flex items-center gap-1.5 sm:gap-2 rounded-xl px-3 sm:px-4 py-2 sm:py-2.5 transition-all duration-200 cursor-pointer border ${
-                activeTab === "impact"
-                  ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                  : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
-              }`}
-            >
-              <GraduationCap className="w-4 h-4" />
-              <span>NASA &amp; STEM Mentorship</span>
-            </button>
+            {CATEGORIES.map((cat) => {
+              const Icon = cat.icon;
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  type="button"
+                  onClick={() => setActiveCategory(cat.id)}
+                  className={`flex items-center gap-1.5 rounded-xl px-3 py-2 transition-all duration-200 cursor-pointer border ${
+                    isActive
+                      ? "border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
+                      : "border-transparent text-muted-foreground hover:text-foreground hover:bg-card/40"
+                  }`}
+                >
+                  <Icon className="w-3.5 h-3.5 shrink-0" />
+                  <span>{cat.label}</span>
+                  <span className="ml-1 rounded-full bg-background/60 px-1.5 py-0.2 font-mono text-[9px] text-muted-foreground">
+                    {cat.count}
+                  </span>
+                </button>
+              );
+            })}
           </div>
 
-          {activeTab === "powerlist" && (
-            <PowerListCard
-              onInspect={() =>
-                setSelectedCert({
-                  title: "CXO Lanes IT Power List 2026 — Official Top 50 Winners Cohort",
-                  url: "/events/cxo-powerlist-2026.jpg",
-                })
-              }
-            />
-          )}
+          {/* Tab 01: INDUSTRY IMPACT */}
+          {activeCategory === "industry_impact" && (
+            <div className="mt-8 space-y-8 animate-fadeIn">
+              {/* Power List Cohort Card */}
+              <PowerListCard
+                onInspect={() =>
+                  setSelectedCert({
+                    title: "CXO Lanes IT Power List 2026 — Official Top 50 Winners Cohort",
+                    url: "/events/cxo-powerlist-2026.jpg",
+                  })
+                }
+              />
 
-          {activeTab === "talks" && (
-            <div className="mt-8 space-y-6 animate-fadeIn">
-              <div className="flex flex-wrap gap-2 text-xs">
-                {[
-                  { id: "all", label: "All Engagements" },
-                  { id: "keynotes", label: "Keynotes & Summits" },
-                  { id: "panels", label: "Broadcast Panels" },
-                  { id: "stem", label: "NASA & Women in STEM" },
-                ].map((pill) => (
-                  <button
-                    key={pill.id}
-                    onClick={() => setTalkFilter(pill.id as TalkCategory)}
-                    className={`rounded-lg px-3 py-1.5 transition-all cursor-pointer border ${
-                      talkFilter === pill.id
-                        ? "border-[color:var(--gold)] bg-[color:var(--gold)]/20 text-[color:var(--gold-strong)] font-bold shadow-sm"
-                        : "border-border/60 bg-card/40 text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {pill.label}
-                  </button>
-                ))}
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-                {filteredTalks.map((talk) => {
-                  if (!talk.hasHoverReveal) {
-                    return (
-                      <div
-                        key={talk.title}
-                        className="relative rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/80 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 flex flex-col justify-between"
-                      >
-                        <div>
-                          <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                            <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                              {talk.tag}
-                            </span>
-                            <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-muted-foreground">
-                              {talk.date}
-                            </span>
-                          </div>
-
-                          <div className="mt-4 flex items-start justify-between gap-2">
-                            <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
-                              {talk.title}
-                            </h4>
-                            <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
-                              {talk.highlightPill}
-                            </span>
-                          </div>
-
-                          <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
-                            {talk.host}
-                          </span>
-
-                          <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
-                            "{talk.summary}"
-                          </p>
-
-                          <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
-                        </div>
-
-                        <div className="pt-4 mt-5 border-t border-border/30 flex items-center justify-between">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setSelectedCert({ title: talk.title, url: talk.actionUrl })
-                            }
-                            className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-3.5 sm:px-4 py-2 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30 shadow-sm"
-                          >
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>{talk.actionLabel}</span>
-                          </button>
-                          <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
-                            Verified Attestation
-                          </span>
-                        </div>
-                      </div>
-                    );
-                  }
-
-                  return (
-                    <div
-                      key={talk.title}
-                      className="group relative min-h-[380px] sm:min-h-[400px] overflow-hidden rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-500 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/15 flex flex-col justify-between"
-                    >
-                      {talk.previewImage && (
-                        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden flex items-center justify-center p-2.5 bg-black/5">
-                          <img
-                            src={talk.previewImage}
-                            alt={talk.title}
-                            className="h-full w-full object-contain object-center opacity-0 scale-95 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:scale-100"
-                          />
-                        </div>
-                      )}
-
-                      <div className="relative z-10 flex items-center justify-between gap-2 border-b border-border/40 pb-3 transition-opacity duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
-                        <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                          {talk.tag}
-                        </span>
-                        <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-muted-foreground">
-                          {talk.date}
-                        </span>
-                      </div>
-
-                      <div className="relative z-10 flex-1 flex flex-col justify-center py-3 sm:py-4 transition-all duration-300 ease-out group-hover:opacity-0 group-hover:pointer-events-none">
-                        <div className="flex items-start justify-between gap-2">
-                          <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
-                            {talk.title}
-                          </h4>
-                          <span className="shrink-0 rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
-                            {talk.highlightPill}
-                          </span>
-                        </div>
-
-                        <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
-                          {talk.host}
-                        </span>
-
-                        <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
-                          "{talk.summary}"
-                        </p>
-
-                        <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
-                      </div>
-
-                      <div className="relative z-20 pt-3 border-t border-border/30 group-hover:border-transparent flex items-center justify-between">
-                        {talk.actionType === "modal" ? (
-                          <button
-                            type="button"
-                            onClick={() =>
-                              setSelectedCert({ title: talk.title, url: talk.actionUrl })
-                            }
-                            className="inline-flex items-center gap-2 rounded-xl bg-background/90 group-hover:bg-black/75 group-hover:text-amber-300 group-hover:border-amber-400/60 px-3.5 py-1.5 text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-border/60 shadow-md backdrop-blur-md"
-                          >
-                            <Maximize2 className="w-3.5 h-3.5" />
-                            <span>{talk.actionLabel}</span>
-                          </button>
-                        ) : (
-                          <a
-                            href={talk.actionUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 rounded-xl bg-background/90 group-hover:bg-black/75 group-hover:text-amber-300 group-hover:border-amber-400/60 px-3.5 py-1.5 text-xs font-semibold text-[color:var(--gold-strong)] transition-all border border-border/60 shadow-md backdrop-blur-md"
-                          >
-                            {talk.actionType === "youtube" || talk.actionType === "video" ? (
-                              <PlayCircle className="w-3.5 h-3.5" />
-                            ) : (
-                              <Linkedin className="w-3.5 h-3.5" />
-                            )}
-                            <span>{talk.actionLabel}</span>
-                            <ArrowUpRight className="w-3.5 h-3.5" />
-                          </a>
-                        )}
-
-                        <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground group-hover:text-white/80 group-hover:bg-black/60 group-hover:px-2 group-hover:py-0.5 group-hover:rounded transition-all">
-                          Hover to Focus
-                        </span>
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {activeTab === "awards" && (
-            <div className="mt-8 space-y-6 animate-fadeIn">
-              {/* PRIMARY EXECUTIVE ATTESTATION BANNER */}
-              <div className="relative rounded-2xl border-2 border-[color:var(--gold)]/60 bg-gradient-to-br from-background via-[color:var(--gold)]/5 to-[color:var(--gold)]/10 p-6 sm:p-8 shadow-xl backdrop-blur-md">
-                <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[color:var(--gold)]/30 pb-4">
-                  <div className="flex items-center gap-2">
-                    <span className="rounded-md border border-[color:var(--gold)]/60 bg-[color:var(--gold)]/20 px-2.5 py-1 font-mono text-[9.5px] font-bold uppercase tracking-wider text-[color:var(--gold-strong)]">
-                      Executive Leadership Attestation
-                    </span>
-                    <span className="font-mono text-[10px] text-muted-foreground">
-                      Enterprise Endorsement · May 2026
-                    </span>
-                  </div>
-
-                  <a
-                    href="/documents/jacco-tholens-eb1a-attestation.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 rounded-xl bg-background border border-[color:var(--gold)] px-3.5 py-1.5 font-mono text-xs font-semibold text-[color:var(--gold-strong)] hover:bg-[color:var(--gold)]/20 transition-all shadow-sm"
-                  >
-                    <FileText className="w-3.5 h-3.5" />
-                    <span>Read Executive Letter (PDF)</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </a>
-                </div>
-
-                <div className="mt-5 grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                  <div className="col-span-12 md:col-span-8 space-y-3">
-                    <h3 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight">
-                      Testimony of Jacco Tholens
-                    </h3>
-                    <span className="font-mono text-xs text-muted-foreground block -mt-1">
-                      Regional Delivery Director · East Asia &amp; Pacific, Schneider Electric
-                    </span>
-                    <p className="font-editorial text-base sm:text-lg italic text-foreground/90 leading-relaxed">
-                      "Across senior business unit leaders I have personally observed in industrial
-                      automation in my 25-year career... Dr. Haridas occupies a position in the top
-                      tier. In my professional judgment, she ranks within the top one to two percent
-                      of business unit leaders I have encountered."
-                    </p>
-                    <div className="h-px w-16 bg-[color:var(--gold)]/60" />
-                    <p className="text-xs text-muted-foreground font-light leading-relaxed">
-                      Formal enterprise testimony covering unified accountability over $97.2M USD
-                      annual revenue, 350+ engineering professionals, proprietary AI-driven
-                      efficiency benchmarks, and apex CERT-In national cybersecurity empanelment.
-                    </p>
-                  </div>
-
-                  {/* REFINED 3-PILLAR IMPACT STRIP */}
-                  <div className="col-span-12 md:col-span-4 rounded-xl border border-border/70 bg-card/60 p-4 space-y-3 shadow-xs">
-                    <span className="font-mono text-[9px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold block border-b border-border/40 pb-1.5">
-                      Operational Scope &amp; Impact
-                    </span>
-                    <div className="space-y-2.5 font-mono text-xs">
-                      <div>
-                        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-                          Business Portfolio
-                        </div>
-                        <div className="text-base font-black text-foreground">$97.2M USD</div>
-                      </div>
-                      <div className="border-t border-border/40 pt-2">
-                        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-                          Engineering Efficiency
-                        </div>
-                        <div className="text-base font-black text-[color:var(--gold-strong)]">
-                          +60% Gain
-                        </div>
-                      </div>
-                      <div className="border-t border-border/40 pt-2">
-                        <div className="text-[10px] text-muted-foreground uppercase tracking-wider">
-                          Critical Deployments
-                        </div>
-                        <div className="text-base font-black text-foreground">300+ Facilities</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* ENTERPRISE AWARDS GRID */}
+              {/* Enterprise Awards Grid */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
                 {ENTERPRISE_AWARDS.map((award) => (
                   <div
@@ -1654,85 +1555,239 @@ function Index() {
             </div>
           )}
 
-          {activeTab === "artifacts" && (
-            <div className="mt-8 space-y-6 animate-fadeIn">
-              {ARTIFACTS.academicRoles.map((role) => (
+          {/* Tab 02: DISTINGUISHED TALKS */}
+          {activeCategory === "distinguished_talks" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
+              {DISTINGUISHED_TALKS.map((talk) => (
+                <EngagementCard key={talk.title} item={talk} onSelectCert={setSelectedCert} />
+              ))}
+            </div>
+          )}
+
+          {/* Tab 03: MEDIA LINKS */}
+          {activeCategory === "media_links" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
+              {MEDIA_ENGAGEMENTS.map((item) => (
+                <EngagementCard key={item.title} item={item} onSelectCert={setSelectedCert} />
+              ))}
+            </div>
+          )}
+
+          {/* Tab 04: EXPERT JUDGING */}
+          {activeCategory === "expert_judging" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
+              {EXPERT_JUDGING_ITEMS.map((item) => (
+                <EngagementCard key={item.title} item={item} onSelectCert={setSelectedCert} />
+              ))}
+            </div>
+          )}
+
+          {/* Tab 05: PATENTS & IP */}
+          {activeCategory === "patents" && (
+            <div className="mt-8 space-y-5 animate-fadeIn">
+              {PATENTS_IP_ITEMS.map((item) => (
                 <div
-                  key={role.title}
-                  className="rounded-2xl border border-[color:var(--gold)]/60 bg-background/60 p-6 sm:p-8 backdrop-blur-sm shadow-md"
+                  key={item.title}
+                  className="rounded-2xl border border-border/80 bg-background/80 p-6 sm:p-7 backdrop-blur-sm shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
                 >
-                  <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                    <BookmarkCheck className="w-4 h-4" /> Academic Leadership &amp; Peer Review
+                  <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                      {item.tag}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                      Proprietary Framework
+                    </span>
                   </div>
-                  <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground mt-3">
-                    {role.title}
+                  <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground mt-3 leading-tight">
+                    {item.title}
                   </h4>
                   <span className="font-sans text-xs text-muted-foreground block mt-1">
-                    {role.organization} &bull; {role.period}
+                    {item.meta}
                   </span>
-                  <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
-                    "{role.body}"
+                  <p className="font-editorial text-base sm:text-lg italic text-foreground/90 mt-3 leading-relaxed">
+                    "{item.summary}"
                   </p>
-                  <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                 </div>
               ))}
+            </div>
+          )}
 
-              <div className="rounded-2xl border border-border/80 bg-background/60 p-5 sm:p-8 backdrop-blur-sm shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-[color:var(--gold)]/5">
-                <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                  <div className="inline-flex items-center gap-2 font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                    <BookOpen className="w-3.5 h-3.5" /> Published Technical Research
+          {/* Tab 06: CONFERENCE ARTICLES */}
+          {activeCategory === "conference_articles" && (
+            <div className="mt-8 space-y-5 animate-fadeIn">
+              {CONFERENCE_ARTICLES.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-border/80 bg-background/80 p-6 sm:p-7 backdrop-blur-sm shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5 flex flex-col justify-between"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                        {item.tag}
+                      </span>
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                        Peer Proceedings
+                      </span>
+                    </div>
+                    <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground mt-3 leading-tight">
+                      {item.title}
+                    </h4>
+                    <span className="font-sans text-xs text-muted-foreground block mt-1">
+                      {item.meta}
+                    </span>
+                    <p className="font-editorial text-base sm:text-lg italic text-foreground/90 mt-3 leading-relaxed">
+                      "{item.summary}"
+                    </p>
                   </div>
+                  {item.certUrl && (
+                    <div className="pt-4 mt-4 border-t border-border/30">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedCert({ title: item.title, url: item.certUrl! })}
+                        className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-3.5 py-1.5 font-mono text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Inspect Verification Certificate</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tab 07: JOURNAL ARTICLES */}
+          {activeCategory === "journal_articles" && (
+            <div className="mt-8 space-y-5 animate-fadeIn">
+              <div className="rounded-2xl border border-[color:var(--gold)]/60 bg-background/90 p-6 sm:p-8 backdrop-blur-sm shadow-md">
+                <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                    PEER-REVIEWED SCIENTIFIC RESEARCH
+                  </span>
                   <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                    {ARTIFACTS.publication.date}
+                    Doctorate (DBA) Research
                   </span>
                 </div>
-
-                <h4 className="font-sans text-xl sm:text-2xl md:text-3xl font-black uppercase text-foreground mt-4">
-                  {ARTIFACTS.publication.title}
+                <h4 className="font-sans text-xl sm:text-2xl md:text-3xl font-black uppercase text-foreground mt-3 leading-tight">
+                  Explainable AI (XAI) Verification Layers in Physical Automation
                 </h4>
-
                 <span className="font-sans text-xs text-muted-foreground block mt-1">
-                  Publisher: {ARTIFACTS.publication.publisher}
+                  Swiss School of Business and Management (SSBM Geneva) · Geneva, Switzerland · 2025
                 </span>
-
                 <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
-                  "{ARTIFACTS.publication.body}"
+                  "Formalized algorithmic trust calibration models that eliminate black-box opacity
+                  in continuous physical process plants, enabling real-time human-in-the-loop
+                  oversight during automated execution cycles."
                 </p>
-                <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6">
-                {ARTIFACTS.projects.map((proj) => (
-                  <div
-                    key={proj.title}
-                    className="rounded-2xl border border-border/80 bg-background/60 p-5 sm:p-6 backdrop-blur-sm shadow-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                          Client // {proj.client}
-                        </span>
-                        <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
-                          {proj.date}
-                        </span>
-                      </div>
-
-                      <h5 className="font-sans text-lg sm:text-xl font-bold uppercase text-foreground mt-4 leading-snug">
-                        {proj.title}
-                      </h5>
-
-                      <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3 leading-relaxed">
-                        "{proj.body}"
-                      </p>
-                      <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
-                    </div>
-                  </div>
-                ))}
+                <div className="h-px w-16 bg-[color:var(--gold)]/60 mt-4" />
               </div>
             </div>
           )}
 
-          {activeTab === "impact" && (
+          {/* Tab 08: TEXT BOOKS */}
+          {activeCategory === "textbooks" && (
+            <div className="mt-8 space-y-5 animate-fadeIn">
+              <div className="rounded-2xl border border-[color:var(--gold)]/60 bg-background/90 p-6 sm:p-8 backdrop-blur-sm shadow-md">
+                <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                    DOCTORAL MONOGRAPH &amp; DISSERTATION
+                  </span>
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                    DBA Academic Repository · 2025
+                  </span>
+                </div>
+                <h4 className="font-sans text-xl sm:text-2xl md:text-3xl font-black uppercase text-foreground mt-3 leading-tight">
+                  Deterministic AI Architectures for High-Reliability Operations
+                </h4>
+                <span className="font-sans text-xs text-muted-foreground block mt-1">
+                  SSBM Geneva Research Repository · Geneva, Switzerland
+                </span>
+                <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-4 leading-relaxed">
+                  "Authored comprehensive dissertation establishing mathematical frameworks to
+                  safely bridge OT systems with edge cognitive models, enforcing strict
+                  zero-failover integrity across high-consequence enterprise operations."
+                </p>
+                <div className="h-px w-16 bg-[color:var(--gold)]/60 mt-4" />
+              </div>
+            </div>
+          )}
+
+          {/* Tab 09: CERTIFICATIONS */}
+          {activeCategory === "certifications" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
+              {CERTIFICATION_ITEMS.map((cert) => (
+                <div
+                  key={cert.title}
+                  className="rounded-2xl border border-border/80 bg-background/80 p-5 sm:p-6 backdrop-blur-sm shadow-sm flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
+                >
+                  <div>
+                    <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                        {cert.tag}
+                      </span>
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                        Verified
+                      </span>
+                    </div>
+                    <h4 className="font-sans text-xl font-bold uppercase text-foreground mt-3 leading-snug">
+                      {cert.title}
+                    </h4>
+                    <span className="font-sans text-xs text-muted-foreground block mt-1">
+                      {cert.meta}
+                    </span>
+                    <p className="font-editorial text-base italic text-foreground/85 mt-3 leading-relaxed">
+                      "{cert.summary}"
+                    </p>
+                  </div>
+                  {cert.certUrl && (
+                    <div className="pt-4 mt-4 border-t border-border/30">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedCert({ title: cert.title, url: cert.certUrl! })}
+                        className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-3.5 py-1.5 font-mono text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Inspect Certificate</span>
+                      </button>
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tab 10: MEMBERSHIPS */}
+          {activeCategory === "memberships" && (
+            <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
+              {MEMBERSHIP_ITEMS.map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-2xl border border-border/80 bg-background/80 p-5 sm:p-6 backdrop-blur-sm shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/60 hover:shadow-xl hover:shadow-[color:var(--gold)]/5"
+                >
+                  <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
+                      {item.tag}
+                    </span>
+                    <span className="font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
+                      Leadership
+                    </span>
+                  </div>
+                  <h4 className="font-sans text-xl font-bold uppercase text-foreground mt-3 leading-snug">
+                    {item.title}
+                  </h4>
+                  <span className="font-sans text-xs text-muted-foreground block mt-1">
+                    {item.meta}
+                  </span>
+                  <p className="font-editorial text-base italic text-foreground/85 mt-3 leading-relaxed">
+                    "{item.summary}"
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Tab 11: OTHER ACTIVITIES */}
+          {activeCategory === "other_activities" && (
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 animate-fadeIn">
               {VOLUNTEERING.map((vol) => (
                 <div
