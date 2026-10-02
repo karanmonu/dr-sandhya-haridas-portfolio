@@ -367,12 +367,12 @@ const CATEGORIES: CategoryMeta[] = [
   { id: "industry_impact", label: "INDUSTRY IMPACT", icon: Award, count: 4 },
   { id: "distinguished_talks", label: "DISTINGUISHED TALKS", icon: Radio, count: 6 },
   { id: "media_links", label: "MEDIA LINKS", icon: PlayCircle, count: 3 },
-  { id: "expert_judging", label: "EXPERT JUDGING", icon: BookmarkCheck, count: 3 },
+  { id: "expert_judging", label: "EXPERT JUDGING", icon: BookmarkCheck, count: 4 },
   { id: "patents", label: "PATENTS & IP", icon: Layers, count: 3 },
   { id: "conference_articles", label: "CONFERENCE ARTICLES", icon: BookOpen, count: 3 },
   { id: "journal_articles", label: "JOURNAL ARTICLES", icon: FileText, count: 1 },
   { id: "textbooks", label: "TEXT BOOKS", icon: BookOpen, count: 1 },
-  { id: "certifications", label: "CERTIFICATIONS", icon: ShieldCheck, count: 5 },
+  { id: "certifications", label: "CERTIFICATIONS", icon: ShieldCheck, count: 8 },
   { id: "memberships", label: "MEMBERSHIPS", icon: User, count: 4 },
   { id: "other_activities", label: "OTHER ACTIVITIES", icon: GraduationCap, count: 4 },
 ];
@@ -581,6 +581,32 @@ const MEDIA_ENGAGEMENTS: VerifiedEngagement[] = [
 
 const EXPERT_JUDGING_ITEMS: VerifiedEngagement[] = [
   {
+    tag: "INTERNATIONAL CONFERENCE SESSION CHAIR",
+    title: "Session Chair — ICDPN-2026 (Data-Processing & Networking)",
+    host: "VŠTE Czech Republic, Slovak Univ. of Agriculture, Igor Sikorsky KPI Ukraine & CIT",
+    date: "Sep 25–26, 2026",
+    summary:
+      "Presided as official Session Chair for the International Conference on Data-Processing and Networking (ICDPN-2026) in cooperation with Springer, adjudicating scholarly presentations across distributed computing and intelligent systems.",
+    highlightPill: "Session Chair",
+    actionType: "certificate",
+    actionUrl: "/certificates/icdpn-2026-session-chair.jpg",
+    actionLabel: "Inspect Chair Certificate",
+    hasHoverReveal: false,
+  },
+  {
+    tag: "IEEE TECHNICAL PEER REVIEWER",
+    title: "Official Reviewer — 7th IEEE INDISCON 2026",
+    host: "IEEE India Council & IEEE Rajasthan Subsection · MNIT Jaipur",
+    date: "Sep 11–13, 2026",
+    summary:
+      "Served as technical peer reviewer for the 7th IEEE India Council International Subsections Conference (INDISCON 2026), evaluating technical rigor and original research contributions across advanced computing and communication tracks.",
+    highlightPill: "IEEE Reviewer",
+    actionType: "certificate",
+    actionUrl: "/certificates/ieee-indiscon-2026.jpg",
+    actionLabel: "Inspect IEEE Certificate",
+    hasHoverReveal: false,
+  },
+  {
     tag: "GLOBAL AEROSPACE MENTORSHIP",
     title: "NASA Space Apps Challenge Los Angeles 2026",
     host: "NASA Space Apps Organizing Team · Los Angeles",
@@ -593,19 +619,6 @@ const EXPERT_JUDGING_ITEMS: VerifiedEngagement[] = [
     actionLabel: "Visit Space Apps Global",
     previewImage: "/events/nasa-spaceapps-la.png",
     hasHoverReveal: true,
-  },
-  {
-    tag: "ACADEMIC PEER REVIEW LEAD",
-    title: "Conference Chair & University Paper Reviewer",
-    host: "International IEEE & Springer Research Conferences",
-    date: "2023 — Present",
-    summary:
-      "Serving as Session Chair and Technical Paper Peer Reviewer across premier international research symposiums evaluating advancements in edge computing and physical automation.",
-    highlightPill: "Peer Reviewer",
-    actionType: "modal",
-    actionUrl: "/certificates/indea-2026.png",
-    actionLabel: "Inspect Chairperson Record",
-    hasHoverReveal: false,
   },
   {
     tag: "FEATURED KEYNOTE & MENTOR",
@@ -676,6 +689,14 @@ const CONFERENCE_ARTICLES = [
 
 const CERTIFICATION_ITEMS = [
   {
+    tag: "INTERNATIONAL ACADEMIC EXCELLENCE AWARD",
+    title: "Responsible AI & Ethics Excellence Award (FUSION Awards 2026)",
+    meta: "ICDPN-2026 · Czech Republic, Slovakia & Ukraine Consortium · Sep 2026",
+    summary:
+      "Conferred Certificate of Excellence following competitive peer evaluation across 2,500+ global submissions, recognizing top 1–2% distinction for groundbreaking impact in Responsible AI and ethical framework governance.",
+    certUrl: "/certificates/fusion-awards-2026.jpg",
+  },
+  {
     tag: "EXECUTIVE CREDENTIAL",
     title: "Disruptive Strategy Innovation with Clayton Christensen",
     meta: "Harvard Business School Online · Boston, MA · 2016",
@@ -712,6 +733,20 @@ const CERTIFICATION_ITEMS = [
     summary:
       "Official citation conferred for keynote address on sustainable technological innovation in industry.",
     certUrl: "/certificates/jain-keynote.png",
+  },
+  {
+    tag: "SUSTAINABILITY CREDENTIAL",
+    title: "Sustainability and Circular Economy",
+    meta: "University of Glasgow · 2023",
+    summary:
+      "Advanced executive training in circular economy principles, sustainable industrial design, and ESG framework alignment across manufacturing ecosystems.",
+  },
+  {
+    tag: "ADVANCED IoT SPECIALIZATION",
+    title: "Industrial Internet of Things (IIoT)",
+    meta: "King's College London · 2018",
+    summary:
+      "Professional accreditation in edge computing protocols, sensor telemetry, and connected smart manufacturing network architecture.",
   },
 ];
 
@@ -881,6 +916,22 @@ const ENGINEERING_JOBS: Job[] = [
     abstract:
       'Developed thermal algorithms monitoring X-ray tube configurations. Published a recognized technical paper at the GE Patenting Forum titled "Thermal Management in Vacuum Environment using Variable Conductance Heat Pipes". Recipient of the Best Kaizen Award and certified Six-Sigma Green Belt.',
     domains: ["Thermal Algorithms", "X-Ray Systems", "Six-Sigma"],
+  },
+  {
+    year: "2000 — 2003",
+    company: "GTRE & ISRO Satellite Centre",
+    role: "Trainee Engineer — Aerospace Propulsion & Satellite Systems",
+    logoUrl: "https://unavatar.io/isro.gov.in",
+    fallback: "ISRO",
+    location: "Bangalore, India",
+    abstract:
+      "Conducted structural and thermal analysis on India's indigenous Kaveri Engine turbine discs and compressor stages for GTRE, qualifying components for Department Scientist sign-off. Built thermal algorithm POC software for ISRO scientists to validate satellite temperature control models in orbit.",
+    domains: [
+      "Kaveri Engine",
+      "ISRO Satellite Centre",
+      "Thermal POC Software",
+      "Turbine Aerodynamics",
+    ],
   },
 ];
 
@@ -1318,138 +1369,315 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 01B: THE INDUSTRY MANDATE & FIELD AGENDA */}
+      {/* SECTION 01B: ABOUT ME — EXECUTIVE PROFILE & CORE COMPETENCIES */}
       <section
         id="agenda"
         ref={agendaRef}
         className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:px-14 border-t border-border/70 scroll-mt-24"
       >
-        <SectionHeader
-          index="01"
-          kicker="Field Thesis & Strategic Agenda"
-          title="The Mandate for Deterministic AI"
-        />
+        <SectionHeader index="01" kicker="Executive Background & Track Record" title="About Me" />
 
-        <p className="font-editorial text-lg sm:text-2xl italic leading-relaxed text-foreground/85 max-w-4xl mt-6">
-          "High-reliability industrial plants and flight-critical avionics cannot rely on black-box
-          probabilities. The future of physical infrastructure demands verifiable, deterministic
-          explainability."
-        </p>
-
-        <div className="mt-8 sm:mt-10 grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6">
-          {/* CARD 01: THE CRITICAL DEFECT */}
-          <div className="relative rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-400/80 hover:shadow-xl hover:shadow-red-500/5 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-red-500 font-bold">
-                  01 · The Critical Defect
-                </span>
-                <span className="rounded-full border border-red-500/30 bg-red-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-red-500 font-bold">
-                  Vulnerability
+        {/* 1. EXECUTIVE DOSSIER: BIO + QUANTITATIVE BENTO GRID */}
+        <div className="mt-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+          {/* Left Narrative Panel */}
+          <div className="lg:col-span-7 flex flex-col justify-between rounded-2xl border border-border/80 bg-background/80 p-6 sm:p-8 backdrop-blur-md shadow-xs">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-[color:var(--gold-strong)]" />
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[color:var(--gold-strong)]">
+                  · 26+ Years Leadership
                 </span>
               </div>
 
-              <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight mt-4">
-                Unverified Autonomy in Physical Assets
-              </h4>
+              <h3 className="font-sans text-xl sm:text-2xl font-bold tracking-tight text-foreground leading-snug">
+                Transformational Data &amp; AI executive with global P&amp;L ownership across
+                mission-critical physical automation and enterprise technology.
+              </h3>
 
-              <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
-                Refineries, Chemical Plants & Supercritical Grids
-              </span>
-
-              <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
-                "Continuous process infrastructure operates under severe physical risk. Deploying
-                probabilistic generative models without deterministic safety verification introduces
-                catastrophic hardware failovers."
+              <p className="text-xs sm:text-sm text-foreground/80 leading-relaxed font-normal">
+                Held full country commercial accountability over $102M USD revenue pipelines,
+                consistently outperforming targets with double-digit growth and margin expansion
+                from 29.0% to 33.4%. BU Head directing 450+ professionals across multi-plant
+                environments, with extensive heritage spanning defense propulsion, national
+                infrastructure cybersecurity, and flight-critical avionics.
               </p>
 
-              <div className="h-px w-12 bg-red-500/50 mt-4" />
+              <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed font-normal">
+                Trusted advisor to boards and C-suite leadership on data monetization ($250M program
+                lifecycles), digital twins, MES, and responsible Explainable AI (XAI) governance
+                layers.
+              </p>
             </div>
 
-            <div className="pt-4 mt-5 border-t border-border/30 flex items-center justify-between">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-red-400/90 font-semibold">
-                ● Physical Integrity Hazard
+            {/* Embedded Scope & Reach Ribbon */}
+            <div className="mt-6 pt-4 border-t border-border/40 grid grid-cols-1 sm:grid-cols-2 gap-3 font-mono text-[11px]">
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Globe className="w-3.5 h-3.5 text-[color:var(--gold-strong)] shrink-0" />
+                <span>
+                  <strong className="text-foreground">Global Reach:</strong> US · EU · UAE · SG · IN
+                </span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground">
+                <Cpu className="w-3.5 h-3.5 text-[color:var(--gold-strong)] shrink-0" />
+                <span>
+                  <strong className="text-foreground">Core Focus:</strong> Industry X.0 &amp;
+                  Industrial AI
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Right 4-KPI Bento Grid */}
+          <div className="lg:col-span-5 grid grid-cols-2 gap-3.5">
+            <div className="rounded-2xl border border-border/80 bg-card/40 p-5 flex flex-col justify-between backdrop-blur-md shadow-xs hover:border-[color:var(--gold)]/60 transition-all">
+              <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground font-semibold">
+                P&amp;L Authority
               </span>
-              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
-                Industry Diagnosis
+              <div className="my-2">
+                <div className="font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                  $102M
+                </div>
+                <div className="font-mono text-[10px] text-[color:var(--gold-strong)] font-semibold mt-0.5">
+                  11% YoY Growth
+                </div>
+              </div>
+              <p className="text-[11px] text-muted-foreground font-light leading-snug">
+                Full commercial ownership with consistent double-digit revenue expansion.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/[0.04] p-5 flex flex-col justify-between backdrop-blur-md shadow-xs hover:border-[color:var(--gold)] transition-all">
+              <span className="font-mono text-[9px] uppercase tracking-widest text-[color:var(--gold-strong)] font-semibold">
+                Gross Margin
+              </span>
+              <div className="my-2">
+                <div className="font-sans text-3xl sm:text-4xl font-black text-[color:var(--gold-strong)] tracking-tight">
+                  33.4%
+                </div>
+                <div className="font-mono text-[10px] text-muted-foreground font-semibold mt-0.5">
+                  +440 bps Increase
+                </div>
+              </div>
+              <p className="text-[11px] text-muted-foreground font-light leading-snug">
+                Expanded gross profitability from 29.0% through lean operational governance.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-card/40 p-5 flex flex-col justify-between backdrop-blur-md shadow-xs hover:border-[color:var(--gold)]/60 transition-all">
+              <span className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground font-semibold">
+                Organization
+              </span>
+              <div className="my-2">
+                <div className="font-sans text-3xl sm:text-4xl font-black text-foreground tracking-tight">
+                  450+
+                </div>
+                <div className="font-mono text-[10px] text-muted-foreground font-semibold mt-0.5">
+                  Multi-Plant Scale
+                </div>
+              </div>
+              <p className="text-[11px] text-muted-foreground font-light leading-snug">
+                Cross-functional engineering leadership across automated production sites.
+              </p>
+            </div>
+
+            <div className="rounded-2xl border border-border/80 bg-card/40 p-5 flex flex-col justify-between backdrop-blur-md shadow-xs hover:border-emerald-500/60 transition-all">
+              <span className="font-mono text-[9px] uppercase tracking-widest text-emerald-600 dark:text-emerald-400 font-semibold">
+                Retention Index
+              </span>
+              <div className="my-2">
+                <div className="font-sans text-3xl sm:text-4xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">
+                  95%
+                </div>
+                <div className="font-mono text-[10px] text-muted-foreground font-semibold mt-0.5">
+                  Up from 65% NSS
+                </div>
+              </div>
+              <p className="text-[11px] text-muted-foreground font-light leading-snug">
+                Customer satisfaction transformation via structured review dashboards.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* 2. THREE FUNCTIONAL LEADERSHIP PILLARS */}
+        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
+          {/* PILLAR 1: COMMERCIAL STEWARDSHIP */}
+          <div className="rounded-2xl border border-border/80 bg-background/80 p-6 sm:p-7 shadow-xs backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)]/70 hover:shadow-xl">
+            <div>
+              <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[color:var(--gold-strong)]">
+                  Pillar 01 · Commercial
+                </span>
+                <span className="rounded-md border border-[color:var(--gold)]/30 bg-[color:var(--gold)]/10 px-2 py-0.5 font-mono text-[9px] font-bold text-[color:var(--gold-strong)]">
+                  $102M P&amp;L
+                </span>
+              </div>
+
+              <h4 className="font-sans text-lg font-bold text-foreground mt-4 leading-snug">
+                P&amp;L Ownership &amp; Portfolio Growth
+              </h4>
+
+              <p className="mt-2.5 text-xs sm:text-[13px] text-muted-foreground leading-relaxed">
+                Direct accountability for market revenue expansion, gross margins, and strategic
+                CAPEX/OPEX capital deployment across industrial automation.
+              </p>
+
+              <div className="mt-5 space-y-2.5 border-t border-border/40 pt-4">
+                <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    $250M Program Lifecycle
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Architected connected enterprise solutions, data monetization, and IoT
+                    platforms.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    Global Capability Centers
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Spearheaded offshore/onsite GCC delivery models across 6 international
+                    geographies.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    Margin Optimization
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Delivered 11% YoY top-line growth while elevating margins to 33.4%.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-6 pt-3.5 border-t border-border/40 flex items-center justify-between text-muted-foreground font-mono text-[9px] uppercase tracking-wider">
+              <span>Financial Governance</span>
+              <span className="text-[color:var(--gold-strong)] font-semibold">
+                ● Commercial Authority
               </span>
             </div>
           </div>
 
-          {/* CARD 02: THE ORIGINAL INTERVENTION */}
-          <div className="relative rounded-2xl border border-[color:var(--gold)]/60 bg-gradient-to-b from-background via-[color:var(--gold)]/5 to-background p-5 sm:p-7 shadow-md transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-2xl hover:shadow-[color:var(--gold)]/10 flex flex-col justify-between">
+          {/* PILLAR 2: DATA STRATEGY & ENTERPRISE AI */}
+          <div className="rounded-2xl border border-[color:var(--gold)]/50 bg-gradient-to-b from-background via-[color:var(--gold)]/[0.03] to-background p-6 sm:p-7 shadow-xs backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-[color:var(--gold)] hover:shadow-xl">
             <div>
-              <div className="flex items-center justify-between gap-2 border-b border-[color:var(--gold)]/30 pb-3">
-                <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold">
-                  02 · The Original Intervention
+              <div className="flex items-center justify-between border-b border-[color:var(--gold)]/30 pb-3">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[color:var(--gold-strong)]">
+                  Pillar 02 · Data &amp; AI
                 </span>
-                <span className="rounded-full border border-[color:var(--gold)]/40 bg-[color:var(--gold)]/15 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-bold">
-                  Field Standard
+                <span className="rounded-md border border-[color:var(--gold)]/30 bg-[color:var(--gold)]/10 px-2 py-0.5 font-mono text-[9px] font-bold text-[color:var(--gold-strong)]">
+                  Doctorate (DBA)
                 </span>
               </div>
 
-              <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight mt-4">
-                Empaneled OT/IT Convergence
+              <h4 className="font-sans text-lg font-bold text-foreground mt-4 leading-snug">
+                Enterprise AI Strategy &amp; Industry X.0
               </h4>
 
-              <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
-                CERT-In National Empanelment & Proprietary AI Frameworks
-              </span>
-
-              <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
-                "Pioneered AI-driven engineering frameworks achieving 60%+ efficiency gains that
-                became the global enterprise reference standard, while securing national
-                cybersecurity authority over industrial plants."
+              <p className="mt-2.5 text-xs sm:text-[13px] text-muted-foreground leading-relaxed">
+                Pioneering AI-driven optimization, predictive analytics, digital twins, and
+                autonomous control workflows across regulated physical plants.
               </p>
 
-              <div className="h-px w-12 bg-[color:var(--gold)]/60 mt-4" />
+              <div className="mt-5 space-y-2.5 border-t border-[color:var(--gold)]/30 pt-4">
+                <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    Doctoral Research in AI (SSBM)
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    DBA research on Explainable AI (XAI) models and high-consequence risk
+                    frameworks.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    Boardroom Strategic Advisory
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Aligning AI roadmaps with risk mitigation, compliance, and enterprise value.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    60%+ Efficiency Framework
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Proprietary AI engineering methodologies exported globally across plants.
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="pt-4 mt-5 border-t border-[color:var(--gold)]/30 flex items-center justify-between">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-[color:var(--gold-strong)] font-semibold">
-                ● 60%+ Gain · CERT-In Empaneled
-              </span>
-              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
-                Validated Record
+            <div className="mt-6 pt-3.5 border-t border-[color:var(--gold)]/30 flex items-center justify-between text-muted-foreground font-mono text-[9px] uppercase tracking-wider">
+              <span>Strategic Advisory</span>
+              <span className="text-[color:var(--gold-strong)] font-semibold">
+                ● Technology Vision
               </span>
             </div>
           </div>
 
-          {/* CARD 03: THE FORWARD AGENDA */}
-          <div className="relative rounded-2xl border border-border/80 bg-background/90 p-5 sm:p-7 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/80 hover:shadow-xl hover:shadow-emerald-500/5 flex flex-col justify-between">
+          {/* PILLAR 3: OPERATIONS & CRITICAL SYSTEMS */}
+          <div className="rounded-2xl border border-border/80 bg-background/80 p-6 sm:p-7 shadow-xs backdrop-blur-md flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 hover:border-emerald-500/70 hover:shadow-xl">
             <div>
-              <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-3">
-                <span className="font-mono text-[9.5px] sm:text-[10px] uppercase tracking-widest text-emerald-600 dark:text-emerald-400 font-bold">
-                  03 · The Forward Agenda
+              <div className="flex items-center justify-between border-b border-border/40 pb-3">
+                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400">
+                  Pillar 03 · Operations
                 </span>
-                <span className="rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-bold">
-                  US & Global Scope
+                <span className="rounded-md border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 font-mono text-[9px] font-bold text-emerald-600 dark:text-emerald-400">
+                  450+ Engineers
                 </span>
               </div>
 
-              <h4 className="font-sans text-xl sm:text-2xl font-black uppercase text-foreground leading-tight mt-4">
-                Standardizing Deterministic XAI
+              <h4 className="font-sans text-lg font-bold text-foreground mt-4 leading-snug">
+                Operational Excellence &amp; Critical Systems
               </h4>
 
-              <span className="font-sans text-xs text-muted-foreground font-medium block mt-1">
-                High-Trust Human-In-The-Loop Governance Layers
-              </span>
-
-              <p className="font-editorial text-lg sm:text-xl italic text-foreground/90 mt-3.5 leading-relaxed">
-                "Establishing verifiable Explainable AI (XAI) verification layers that eliminate
-                black-box opacity across smart factory robotics, continuous automation, and flight
-                telemetry nationwide."
+              <p className="mt-2.5 text-xs sm:text-[13px] text-muted-foreground leading-relaxed">
+                Directing large-scale operational transformations, quality systems, and supply chain
+                resilience with zero safety incidents.
               </p>
 
-              <div className="h-px w-12 bg-emerald-500/50 mt-4" />
+              <div className="mt-5 space-y-2.5 border-t border-border/40 pt-4">
+                <div className="rounded-xl border-l-2 border-emerald-500 bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    Scaled Agile (SAFe RTE)
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Certified CSPO, PSM, and Release Train Engineer leading complex enterprise
+                    trains.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border-l-2 border-emerald-500 bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    National CERT-In Empanelment
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Apex cybersecurity auditing qualification for national critical infrastructure.
+                  </div>
+                </div>
+
+                <div className="rounded-xl border-l-2 border-emerald-500 bg-card/60 p-3">
+                  <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
+                    Defense &amp; Space Heritage
+                  </div>
+                  <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
+                    Kaveri Engine propulsion (GTRE) and satellite thermal modeling (ISRO).
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div className="pt-4 mt-5 border-t border-border/30 flex items-center justify-between">
-              <span className="font-mono text-[9px] uppercase tracking-wider text-emerald-600 dark:text-emerald-400 font-semibold">
-                ● Deterministic Governance
-              </span>
-              <span className="font-mono text-[9px] uppercase tracking-wider text-muted-foreground/60">
-                Action Mandate
+            <div className="mt-6 pt-3.5 border-t border-border/40 flex items-center justify-between text-muted-foreground font-mono text-[9px] uppercase tracking-wider">
+              <span>Mission-Critical Operations</span>
+              <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                ● National Delivery
               </span>
             </div>
           </div>
