@@ -365,11 +365,11 @@ interface CategoryMeta {
 
 const CATEGORIES: CategoryMeta[] = [
   { id: "industry_impact", label: "INDUSTRY IMPACT", icon: Award, count: 4 },
-  { id: "distinguished_talks", label: "DISTINGUISHED TALKS", icon: Radio, count: 6 },
-  { id: "media_links", label: "MEDIA LINKS", icon: PlayCircle, count: 3 },
-  { id: "expert_judging", label: "EXPERT JUDGING", icon: BookmarkCheck, count: 4 },
+  { id: "distinguished_talks", label: "DISTINGUISHED TALKS", icon: Radio, count: 7 },
+  { id: "media_links", label: "MEDIA LINKS", icon: PlayCircle, count: 6 },
+  { id: "expert_judging", label: "EXPERT JUDGING", icon: BookmarkCheck, count: 5 },
   { id: "patents", label: "PATENTS & IP", icon: Layers, count: 3 },
-  { id: "conference_articles", label: "CONFERENCE ARTICLES", icon: BookOpen, count: 3 },
+  { id: "conference_articles", label: "CONFERENCE ARTICLES", icon: BookOpen, count: 4 },
   { id: "journal_articles", label: "JOURNAL ARTICLES", icon: FileText, count: 1 },
   { id: "textbooks", label: "TEXT BOOKS", icon: BookOpen, count: 1 },
   { id: "certifications", label: "CERTIFICATIONS", icon: ShieldCheck, count: 8 },
@@ -444,6 +444,21 @@ type VerifiedEngagement = {
 };
 
 const DISTINGUISHED_TALKS: VerifiedEngagement[] = [
+  {
+    tag: "KEYNOTE PANEL · WOMEN IN TECH LEADERSHIP",
+    title: "Women in AI & Innovation: Industry AI Adoption & Emerging Technology Shifts",
+    host: "L&T Technology Services (LTTS WINGS & Women's Council) · Mysore & Kochi",
+    date: "Sep 24, 2026",
+    summary:
+      "Featured industry keynote speaker addressing enterprise AI adoption, responsible innovation guardrails, and workforce adaptation: 'AI is not a replacement for expertise. It is an enabler of critical thinking and domain mastery.'",
+    highlightPill: "Keynote Speaker",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/engineeringintelligence-ai-womenintech-ugcPost-7512758331548192768-ezlf/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "View Event on LinkedIn",
+    previewImage: "/events/ltts-women-in-ai.jpg",
+    hasHoverReveal: true,
+  },
   {
     tag: "ACADEMIC SYMPOSIUM KEYNOTE",
     title: "Reimagining Manufacturing with Cognitive AI",
@@ -535,6 +550,48 @@ const DISTINGUISHED_TALKS: VerifiedEngagement[] = [
 
 const MEDIA_ENGAGEMENTS: VerifiedEngagement[] = [
   {
+    tag: "EXECUTIVE PRESS RELEASE · NVIDIA & LTTS PARTNERSHIP",
+    title: "Inaugural Launch: Engineering Intelligence (EI) Lab for Manufacturing",
+    host: "L&T Technology Services & NVIDIA · Bengaluru",
+    date: "Oct 2026",
+    summary:
+      "Joined enterprise executive leadership to officially launch the NVIDIA-accelerated AI-Native Factory and EI Lab. Spearheading Industry X.0 initiatives across autonomous manufacturing, industrial robotics, supply chain intelligence, and asset reliability.",
+    highlightPill: "NVIDIA AI Lab",
+    actionType: "linkedin",
+    actionUrl:
+      "https://www.linkedin.com/posts/pressrelease-engineeringintelligence-manufacturing-ugcPost-7515354341407539200-RH01/?utm_source=social_share_send&utm_medium=ios_app&rcm=ACoAAAOBYj4B0RumuNaF4wBL-DxvKyVNISc-aXE",
+    actionLabel: "View Press Release on LinkedIn",
+    previewImage: "/events/ltts-nvidia-ei-lab.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    tag: "MAGAZINE COVER STORY · NATIONAL MEDIA PROFILE",
+    title: "Cover Feature: The Indian Achievers (Edition 804)",
+    host: "Business Talkz Magazine · October 2026 Edition",
+    date: "Oct 2026",
+    summary:
+      "Featured as the official Magazine Cover Honoree and executive profile subject, spotlighting 26+ years of leadership in Industry X.0, smart manufacturing, enterprise AI adoption, and digital transformation.",
+    highlightPill: "Cover Story Honoree",
+    actionType: "linkedin",
+    actionUrl: "https://www.linkedin.com/feed/update/urn:li:activity:7521471339921219585/",
+    actionLabel: "View Official Publication on LinkedIn",
+    previewImage: "/events/indian-achievers-cover-oct2026.jpg",
+    hasHoverReveal: true,
+  },
+  {
+    tag: "NATIONAL MEDIA FEATURE · TOP 10 CHANGEMAKER",
+    title: "India's ChangeMakers 2026 — Top 10 National Honoree",
+    host: "Business Talks Magazine · October 2026 Cohort",
+    date: "Oct 2026",
+    summary:
+      "Featured at #10 among India's Top 10 ChangeMakers selected from 100 distinguished national personalities, celebrating influential leaders driving large-scale digital transformation, industrial automation, and positive societal impact.",
+    highlightPill: "Rank #10 National",
+    actionType: "linkedin",
+    actionUrl: "https://www.businesstalkz.com/2026/10/names-of-indias-changemakers.html",
+    actionLabel: "Read Feature on Business Talks",
+    hasHoverReveal: false,
+  },
+  {
     tag: "EXECUTIVE ACADEMIC SYMPOSIUM · BSMART",
     title: "The AI-First MBA: What Should We Still Teach When AI Can Do Almost Everything?",
     host: "Business Standard BSmart Insight Talk",
@@ -580,6 +637,21 @@ const MEDIA_ENGAGEMENTS: VerifiedEngagement[] = [
 ];
 
 const EXPERT_JUDGING_ITEMS: VerifiedEngagement[] = [
+  {
+    tag: "APEX INDUSTRY JURY · NASSCOM DEEPTECH",
+    title: "Official Judge & Idea Evaluator — NASSCOM DeepTech Club (DTC)",
+    host: "NASSCOM (Apex Tech Industry Body of India) · Accelerate Cohort Demo Day",
+    date: "Oct 2026",
+    summary:
+      "Invited by NASSCOM DTC to serve as Industry Expert, Idea Evaluator, and Jury Judge representing L&T Technology Services (LTTS). Adjudicated cutting-edge Industry 4.0, advanced robotics, and intelligent automation solutions presented by shortlisted deeptech startups solving critical enterprise challenges.",
+    highlightPill: "NASSCOM Judge",
+    actionType: "linkedin",
+    actionUrl:
+      "https://media.licdn.com/dms/document/media/v2/D561FAQH8p9yI_zzSSQ/feedshare-document-pdf-analyzed/B56aE1U3jDGcAY-/0/1791896026657?e=1794441600&v=beta&t=i1ycZXzQP1U16oluwp-W1gZGrYQcI_o7zWt_guqR7wE",
+    actionLabel: "View Official NASSCOM Document",
+    previewImage: "/events/nasscom-deeptech-evaluator.jpg",
+    hasHoverReveal: true,
+  },
   {
     tag: "INTERNATIONAL CONFERENCE SESSION CHAIR",
     title: "Session Chair — ICDPN-2026 (Data-Processing & Networking)",
@@ -662,6 +734,15 @@ const PATENTS_IP_ITEMS = [
 ];
 
 const CONFERENCE_ARTICLES = [
+  {
+    tag: "SPRINGER LNNS · SCOPUS / WOS INDEXED · BEST PAPER AWARD",
+    title:
+      "AI-Driven Smart Flying Ecosystem for Sustainable Aviation Through Intelligent Passenger Services, Predictive Airport Operations and Inclusive Digital Transformation",
+    meta: "ICIST-2026 · Springer Lecture Notes in Networks and Systems (LNNS) · Scopus / Web of Science / EI Indexed",
+    summary:
+      "Conferred Best Paper Award at the International Conference on Intelligent Infrastructure and Smart Technologies (ICIST-2026). Published in Springer LNNS and globally indexed in Scopus, Web of Science, and EI Compendex, recognizing top scholarly contributions to autonomous predictive aviation telemetry.",
+    certUrl: "/certificates/icist-2026-best-paper.jpg",
+  },
   {
     tag: "SPRINGER / INTERNATIONAL CONFERENCE KEYNOTE",
     title: "Next-Generation Data Engineering & Analytics (INDEA-2026)",
@@ -825,7 +906,7 @@ const DELIVERY_JOBS: Job[] = [
     location: "Bangalore, India · On-site",
     abstract:
       "Directing the Global Delivery Unit for Industry X.0, Robotics, MES, and advanced Digital Manufacturing Services across North America, Europe, and India.",
-    domains: ["Industry X.0", "Robotics", "MES", "Digital Manufacturing"],
+    domains: ["NVIDIA EI Lab", "Industry X.0", "Robotics", "MES", "Digital Manufacturing"],
   },
   {
     year: "2022 — 2026",
@@ -1585,7 +1666,7 @@ function Index() {
           <div className="flex items-center gap-2">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[11px] font-semibold text-[color:var(--gold-strong)] uppercase tracking-wider">
-              Fortune 500 Executive Partner
+              Cover Honoree: The Indian Achievers '26
             </span>
           </div>
         </div>
@@ -1778,7 +1859,14 @@ function Index() {
                     <div className="pt-4 mt-4 border-t border-border/30">
                       <button
                         type="button"
-                        onClick={() => setSelectedCert({ title: item.title, url: item.certUrl! })}
+                        onClick={() =>
+                          setSelectedCert({
+                            title: item.tag.includes("ICIST")
+                              ? "ICIST-2026 · Best Paper Certificate (Springer LNNS)"
+                              : item.title,
+                            url: item.certUrl!,
+                          })
+                        }
                         className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-3.5 py-1.5 font-mono text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30"
                       >
                         <FileText className="w-3.5 h-3.5" />
@@ -2185,53 +2273,33 @@ function Index() {
           onClick={() => setSelectedCert(null)}
         >
           <div
-            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden"
+            className="relative max-w-4xl w-full bg-card border border-border/80 rounded-2xl p-4 sm:p-6 shadow-2xl overflow-hidden flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between pb-3 border-b border-border/60">
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[color:var(--gold-strong)] font-bold truncate">
+            {/* Header: min-w-0 allows title truncation; shrink-0 keeps button locked in place */}
+            <div className="flex items-center justify-between gap-4 pb-3 border-b border-border/60 min-w-0">
+              <div className="min-w-0 flex-1 overflow-hidden">
+                <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[color:var(--gold-strong)] font-bold truncate block">
                   {selectedCert.title || "Verified Record Attestation"}
                 </span>
-                {selectedCert.url.includes("cxo-powerlist") && (
-                  <span className="hidden sm:inline-flex items-center rounded-md border border-amber-400/50 bg-amber-400/10 px-2 py-0.5 font-mono text-[9px] text-amber-300">
-                    ● Honoree Highlighted (Row 6, Col 3)
-                  </span>
-                )}
               </div>
+
               <button
                 type="button"
                 onClick={() => setSelectedCert(null)}
-                className="text-muted-foreground hover:text-foreground font-mono text-xs uppercase tracking-widest px-2.5 py-1 rounded bg-background/60 border border-border transition-colors cursor-pointer shrink-0"
+                className="shrink-0 text-muted-foreground hover:text-foreground font-mono text-xs uppercase tracking-widest px-3 py-1.5 rounded-lg bg-background/80 hover:bg-background border border-border transition-colors cursor-pointer"
               >
                 Close [ESC]
               </button>
             </div>
 
+            {/* Certificate Image Frame */}
             <div className="mt-4 max-h-[75vh] overflow-y-auto rounded-xl border border-border/40 bg-black/50 flex items-center justify-center p-2 relative">
-              <div className="relative inline-block">
-                <img
-                  src={selectedCert.url}
-                  alt={selectedCert.title}
-                  className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
-                />
-
-                {selectedCert.url.includes("cxo-powerlist") && (
-                  <div
-                    className="absolute rounded border-2 border-amber-400 shadow-[0_0_20px_rgba(251,191,36,0.9)] pointer-events-none animate-pulse"
-                    style={{
-                      left: "23.4%",
-                      top: "86.8%",
-                      width: "10.8%",
-                      height: "12.2%",
-                    }}
-                  >
-                    <span className="absolute -top-6 left-1/2 -translate-x-1/2 whitespace-nowrap bg-amber-400 text-black font-sans text-[10px] font-extrabold px-1.5 py-0.5 rounded shadow-lg uppercase tracking-tight">
-                      Dr. Sandhya Haridas
-                    </span>
-                  </div>
-                )}
-              </div>
+              <img
+                src={selectedCert.url}
+                alt={selectedCert.title}
+                className="w-full h-auto max-h-[70vh] object-contain rounded-lg"
+              />
             </div>
           </div>
         </div>
