@@ -3,39 +3,26 @@ import type { LucideIcon } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import {
   BookOpen,
-  Briefcase,
-  MapPin,
-  ShieldAlert,
   GraduationCap,
   Award,
   Linkedin,
   Mail,
   ArrowUpRight,
   Radio,
-  ExternalLink,
   ArrowUp,
-  Sparkles,
-  Terminal,
   Activity,
   Layers,
-  Home,
   Trophy,
   History,
-  Send,
   User,
   Globe,
   FileText,
   PlayCircle,
-  Share2,
   BookmarkCheck,
-  CheckCircle2,
   Maximize2,
-  Calendar,
   ShieldCheck,
   Cpu,
   Orbit,
-  AlertTriangle,
-  Compass,
 } from "lucide-react";
 import portraitImg from "@/assets/portrait.jpg";
 
@@ -76,10 +63,10 @@ const EXECUTIVE_PROOFS = [
   },
   {
     domain: "GLOBAL SPACE MENTORSHIP",
-    code: "NASA.LA26",
-    title: "NASA Space Apps 2026 Mentor",
+    code: "NASA.26",
+    title: "NASA Space Apps Galactic Mentor",
     quote:
-      "Selected technical mentor guiding elite cohorts on mission telemetry blockers using open NASA datasets.",
+      "Certified Galactic Local Mentor guiding engineering cohorts on Earth and space mission challenges.",
     tag: "Space Apps '26",
     logoUrl: "https://unavatar.io/nasa.gov",
     fallback: "NA",
@@ -191,7 +178,7 @@ function ExecutiveHUD({ onSelectFocus }: ExecutiveBadgeProps) {
         </div>
 
         <span className="font-mono text-[8px] uppercase tracking-widest text-muted-foreground/70 font-semibold">
-          Verified Field Record ({activeIdx + 1}/5)
+          Executive Highlight ({activeIdx + 1}/5)
         </span>
       </div>
     </div>
@@ -259,7 +246,7 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
           <div className="h-px w-16 bg-[color:var(--gold)]/60 my-1" />
 
           <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground font-light">
-            Independently audited attestation benchmarking contributions across Distributed Control
+            Independently audited recognition benchmarking contributions across Distributed Control
             Systems (DCS), safety instrumented architecture, and OT cybersecurity governance.
           </p>
         </div>
@@ -295,7 +282,7 @@ function PowerListCard({ onInspect }: { onInspect: () => void }) {
               : "text-muted-foreground"
           }`}
         >
-          {isHovered ? "● Dr. Sandhya Haridas Attestation" : "Hover to Preview Roster"}
+          {isHovered ? "● Dr. Sandhya Haridas Honoree" : "Hover to Preview Roster"}
         </span>
       </div>
     </div>
@@ -312,9 +299,9 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Authoritative body of work by Dr. Sandhya Haridas — Architect of safe industrial AI, national CERT-In OT cybersecurity infrastructure, and flight-critical avionics.",
+          "Executive leadership portfolio of Dr. Sandhya Haridas — Architect of safe industrial AI, national CERT-In OT cybersecurity infrastructure, and flight-critical avionics.",
       },
-      { property: "og:title", content: "Dr. Sandhya Haridas — Field Authority & Record" },
+      { property: "og:title", content: "Dr. Sandhya Haridas — Executive Leadership Portfolio" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -322,9 +309,9 @@ export const Route = createFileRoute("/")({
 });
 
 const NAV_ITEMS = [
-  { id: "agenda", label: "Mandate", icon: Compass },
-  { id: "identity", label: "Authority", icon: User },
-  { id: "accolades", label: "Evidence", icon: Trophy },
+  { id: "agenda", label: "About Me", icon: User },
+  { id: "identity", label: "Profile", icon: Trophy },
+  { id: "accolades", label: "Impact", icon: Award },
   { id: "timeline", label: "Trajectory", icon: History },
   { id: "credentials", label: "Research", icon: GraduationCap },
 ];
@@ -342,7 +329,6 @@ type Job = {
   domains: string[];
 };
 
-// 11 Formal Evidentiary Categories Structure
 type CategoryKey =
   | "industry_impact"
   | "distinguished_talks"
@@ -374,7 +360,7 @@ const CATEGORIES: CategoryMeta[] = [
   { id: "textbooks", label: "TEXT BOOKS", icon: BookOpen, count: 1 },
   { id: "certifications", label: "CERTIFICATIONS", icon: ShieldCheck, count: 8 },
   { id: "memberships", label: "MEMBERSHIPS", icon: User, count: 4 },
-  { id: "other_activities", label: "OTHER ACTIVITIES", icon: GraduationCap, count: 4 },
+  { id: "other_activities", label: "MENTORSHIP & COMMUNITY", icon: GraduationCap, count: 4 },
 ];
 
 const ENTERPRISE_AWARDS = [
@@ -653,6 +639,19 @@ const EXPERT_JUDGING_ITEMS: VerifiedEngagement[] = [
     hasHoverReveal: true,
   },
   {
+    tag: "GLOBAL SPACE MENTORSHIP · GALACTIC LOCAL MENTOR",
+    title: "Galactic Local Mentor — 2026 NASA Space Apps Challenge",
+    host: "NASA Space Apps Challenge · Certified by Dr. Marc Kuchner (Program Scientist)",
+    date: "Nov 14–15, 2026",
+    summary:
+      "Recognized as Galactic Local Mentor for the 2026 NASA Space Apps Challenge, guiding multidisciplinary engineering cohorts in solving Earth and space mission challenges using open NASA telemetry and planetary datasets.",
+    highlightPill: "NASA Mentor '26",
+    actionType: "certificate",
+    actionUrl: "/certificates/nasa-spaceapps-2026-mentor.jpg",
+    actionLabel: "Inspect NASA Certificate",
+    hasHoverReveal: false,
+  },
+  {
     tag: "INTERNATIONAL CONFERENCE SESSION CHAIR",
     title: "Session Chair — ICDPN-2026 (Data-Processing & Networking)",
     host: "VŠTE Czech Republic, Slovak Univ. of Agriculture, Igor Sikorsky KPI Ukraine & CIT",
@@ -677,20 +676,6 @@ const EXPERT_JUDGING_ITEMS: VerifiedEngagement[] = [
     actionUrl: "/certificates/ieee-indiscon-2026.jpg",
     actionLabel: "Inspect IEEE Certificate",
     hasHoverReveal: false,
-  },
-  {
-    tag: "GLOBAL AEROSPACE MENTORSHIP",
-    title: "NASA Space Apps Challenge Los Angeles 2026",
-    host: "NASA Space Apps Organizing Team · Los Angeles",
-    date: "Oct 2026",
-    summary:
-      "Selected as Official Technical Mentor to guide high-intensity multidisciplinary engineering teams troubleshooting blockers and designing solutions using NASA open telemetry datasets.",
-    highlightPill: "NASA Mentor",
-    actionType: "linkedin",
-    actionUrl: "https://www.spaceappschallenge.org/",
-    actionLabel: "Visit Space Apps Global",
-    previewImage: "/events/nasa-spaceapps-la.png",
-    hasHoverReveal: true,
   },
   {
     tag: "FEATURED KEYNOTE & MENTOR",
@@ -864,12 +849,13 @@ const MEMBERSHIP_ITEMS = [
 
 const VOLUNTEERING = [
   {
-    role: "Official Technical Mentor — Space Apps 2026",
-    organization: "NASA Space Apps Challenge Los Angeles",
-    period: "Oct 2026",
-    domain: "Aerospace & Mission Data",
+    role: "Galactic Local Mentor — 2026 NASA Space Apps Challenge",
+    organization: "NASA Space Apps Challenge (Program Scientist: Dr. Marc Kuchner)",
+    period: "Nov 14–15, 2026",
+    domain: "Aerospace & Mission Mentorship",
     logoUrl: "https://unavatar.io/nasa.gov",
-    body: "Advising multidisciplinary engineering teams on utilizing NASA open data architecture to overcome high-consequence space and planetary mission challenges.",
+    certUrl: "/certificates/nasa-spaceapps-2026-mentor.jpg",
+    body: "Mentored engineering teams on utilizing NASA open data architectures to address high-consequence Earth and space mission challenges.",
   },
   {
     role: "Director of Operations & Keynote Speaker",
@@ -1125,7 +1111,7 @@ function EngagementCard({
               : ""
           }`}
         >
-          {isReveal ? "Hover to Preview" : "Verified Record"}
+          {isReveal ? "Hover to Preview" : "Verified Credential"}
         </span>
       </div>
     </div>
@@ -1325,16 +1311,16 @@ function Index() {
                 <text
                   className="font-mono text-[8.5px]"
                   fill="oklch(0.35 0.05 260)"
-                  letterSpacing="3.6"
+                  letterSpacing="3.4"
                 >
                   <textPath href="#sealPath">
-                    EXTRAORDINARY ABILITY · INDUSTRIAL AI · OT/IT CONVERGENCE · CRITICAL SYSTEMS ·
+                    GLOBAL EXECUTIVE · INDUSTRIAL AI · OT/IT SYSTEMS ·
                   </textPath>
                 </text>
               </svg>
               <div className="absolute inset-3 sm:inset-3.5 flex flex-col items-center justify-center rounded-full bg-background/95 backdrop-blur-md md:inset-7 shadow-lg">
                 <span className="font-mono text-[6.5px] sm:text-[7px] md:text-[8px] uppercase tracking-[0.25em] text-muted-foreground">
-                  USCIS
+                  GLOBAL
                 </span>
                 <span className="font-editorial text-lg sm:text-xl md:text-2xl italic leading-none text-foreground my-0.5">
                   Top 1%
@@ -1357,7 +1343,7 @@ function Index() {
 
         <div className="mt-10 sm:mt-12 text-center">
           <div className="font-mono text-[10px] uppercase tracking-[0.4em] text-muted-foreground">
-            Extraordinary Ability Evidentiary Record · 01
+            Executive Leadership Portfolio · 01
           </div>
           <h1 className="mt-3 sm:mt-4 font-sans-display text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.9] tracking-tight text-foreground uppercase">
             Dr. Sandhya{" "}
@@ -1436,13 +1422,10 @@ function Index() {
                   <Orbit className="h-3.5 w-3.5 text-[color:var(--gold-strong)]" />
                 </div>
                 <div className="mt-2 sm:mt-3 font-sans text-2xl sm:text-4xl font-black text-foreground tracking-tight">
-                  LA
-                  <span className="font-editorial italic font-normal text-lg sm:text-xl text-[color:var(--gold-strong)]">
-                    '26
-                  </span>
+                  2026
                 </div>
                 <div className="mt-1 font-sans text-xs text-muted-foreground font-medium">
-                  Space Apps Technical Mentor
+                  Galactic Local Mentor
                 </div>
               </div>
             </div>
@@ -1542,7 +1525,7 @@ function Index() {
               <div className="space-y-2.5 pt-2">
                 <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
                   <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
-                    $102M P&amp;L Accountability
+                    $97.2M P&amp;L Accountability
                   </div>
                   <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
                     Led full country operations, delivering 11% YoY revenue growth and margin
@@ -1552,7 +1535,7 @@ function Index() {
 
                 <div className="rounded-xl border-l-2 border-[color:var(--gold-strong)] bg-card/60 p-3">
                   <div className="font-mono text-[10px] font-bold uppercase tracking-wide text-foreground">
-                    450+ Team Leadership
+                    350+ Team Leadership
                   </div>
                   <div className="text-xs text-muted-foreground mt-0.5 leading-snug">
                     Steered multi-plant operations and global cross-functional engineering units
@@ -1672,7 +1655,7 @@ function Index() {
         </div>
       </section>
 
-      {/* SECTION 02: FORMAL 11-CATEGORY EVIDENTIARY REPOSITORY */}
+      {/* SECTION 02: ACCREDITATIONS, AWARDS & IMPACT */}
       <section
         id="accolades"
         className="relative z-10 border-t border-border/70 bg-card/20 backdrop-blur-sm scroll-mt-24"
@@ -1680,8 +1663,8 @@ function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20 md:px-14">
           <SectionHeader
             index="02"
-            kicker="Verifiable Industry Footprint & Accreditations"
-            title="Evidence of Record"
+            kicker="Global Footprint, Awards & Accreditations"
+            title="Accreditations & Impact"
           />
 
           {/* 11-Category Interactive Navigation */}
@@ -2009,9 +1992,9 @@ function Index() {
             </div>
           )}
 
-          {/* Tab 11: OTHER ACTIVITIES */}
+          {/* Tab 11: MENTORSHIP & COMMUNITY */}
           {activeCategory === "other_activities" && (
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5 sm:gap-6 animate-fadeIn">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-5 sm:gap-6 animate-fadeIn">
               {VOLUNTEERING.map((vol) => (
                 <div
                   key={vol.organization}
@@ -2044,6 +2027,19 @@ function Index() {
                     </p>
                     <div className="h-px w-12 bg-[color:var(--gold)]/50 mt-4" />
                   </div>
+
+                  {vol.certUrl && (
+                    <div className="pt-4 mt-4 border-t border-border/30">
+                      <button
+                        type="button"
+                        onClick={() => setSelectedCert({ title: vol.role, url: vol.certUrl! })}
+                        className="inline-flex items-center gap-2 rounded-xl bg-[color:var(--gold)]/10 hover:bg-[color:var(--gold)]/25 px-3.5 py-1.5 font-mono text-xs font-semibold text-[color:var(--gold-strong)] transition-all cursor-pointer border border-[color:var(--gold)]/30"
+                      >
+                        <FileText className="w-3.5 h-3.5" />
+                        <span>Inspect NASA Certificate</span>
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -2092,7 +2088,7 @@ function Index() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 py-20 sm:py-24 md:px-14">
           <SectionHeader
             index="04"
-            kicker="Doctoral Rigor &amp; Strategy Frameworks"
+            kicker="Doctoral Rigor & Strategy Frameworks"
             title="Academic Research"
           />
 
@@ -2230,13 +2226,13 @@ function Index() {
           <div className="flex flex-col gap-1 items-center md:items-start text-center md:text-left">
             <span>© 2026 · Dr. Sandhya Haridas</span>
             <span className="text-[8px] text-muted-foreground/50 tracking-widest">
-              Field Authority Record · Critical Systems &amp; Industrial AI Architecture
+              Executive Leadership Portfolio · Critical Systems &amp; Industrial AI Architecture
             </span>
           </div>
 
           <div className="flex items-center gap-6 text-[11px] font-mono text-muted-foreground tracking-widest lowercase">
             <a
-              href="https://www.linkedin.com/feed/update/urn:li:share:7468164467697238016/"
+              href="https://www.linkedin.com/in/dr-sandhya-haridas-13a84217/"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 hover:text-foreground transition-colors group"
@@ -2280,7 +2276,7 @@ function Index() {
             <div className="flex items-center justify-between gap-4 pb-3 border-b border-border/60 min-w-0">
               <div className="min-w-0 flex-1 overflow-hidden">
                 <span className="font-mono text-[10px] sm:text-xs uppercase tracking-widest text-[color:var(--gold-strong)] font-bold truncate block">
-                  {selectedCert.title || "Verified Record Attestation"}
+                  {selectedCert.title || "Verified Credential"}
                 </span>
               </div>
 
